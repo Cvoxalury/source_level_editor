@@ -26,7 +26,7 @@ SLE comes with offline help file, level_editor.chm. It is build similar to World
 Using the Help menu in the editor opens that file; it can also be opened in Windows directly.
 It contains the Setup Guide and User's Guide on most of new features and basic options and toolbars overview.
 
-The online version will be hosted on SLE's repo's internal wiki.
+The online version is hosted on <a href="https://github.com/Cvoxalury/source_level_editor/wiki">SLE's repo's internal wiki</a>.
 
 ### 3. Supported games
 
