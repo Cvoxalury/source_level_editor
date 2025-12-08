@@ -33,3 +33,26 @@
 src/.vs/source_level_editor/v14/.suo
 *.db
 *.opendb
+src/hammer/Release/Hammer.res
+
+# Build files
+src/fgdlib/Release
+src/hammer/Release
+src/hammer/Debug
+src/hammer/Hammer___Win32_Debug
+src/hammer/Hammer___Win32_Release
+src/hammer/.vs
+src/hammer_launcher/Release
+src/hammer_launcher/Debug
+src/hammer_launcher/Hammer___Win32_Debug
+src/hammer_launcher/Hammer___Win32_Release
+src/hammer_launcher/.vs
+src/raytrace/Debug
+src/raytrace/Release
+src/vgui2/matsys_controls/Debug
+src/vgui2/matsys_controls/Release
+src/vgui2/vgui_controls/Debug
+src/vgui2/vgui_controls/Release
+src/_compiled_bin/level_editor.pdb
+src/_compiled_bin/level_editor_dll.pdb
+src/raytrace/Release/raytrace.log
