@@ -78,7 +78,7 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">false</GenerateManifest>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PostBuildEventUseInBuild>
-    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
@@ -191,6 +191,8 @@ if EXIST ..\_compiled_bin\.\$(TargetFileName) for /f "delims=" %%A in ('attrib "
 set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
 if "%valveTmpIsReadOnlyLetter%"=="R" del /q "$(TargetDir)"$(TargetFileName)
 if ERRORLEVEL 1 exit /b 1
+
+
 </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -276,8 +278,7 @@ goto BuildEventOK
 echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***
 del /q "$(TargetDir)$(TargetFileName)"
 exit 1
-:BuildEventOK
-</Command>
+:BuildEventOK</Command>
     </PostBuildEvent>
     <CustomBuildStep>
     </CustomBuildStep>
@@ -367,6 +368,7 @@ if ERRORLEVEL 1 exit /b 1
 copy "$(TargetDir)$(TargetFileName)" "..\_compiled_bin\.\$(TargetFileName)"
 if ERRORLEVEL 1 goto BuildEventFailed
 copy "$(TargetDir)$(TargetName).pdb" ..\_compiled_bin\.\$(TargetName).pdb
+if ERRORLEVEL 1 goto BuildEventFailed
 goto BuildEventOK
 :BuildEventFailed
 echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***
