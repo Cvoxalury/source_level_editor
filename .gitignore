@@ -32,3 +32,4 @@
 *.app
 src/.vs/source_level_editor/v14/.suo
 *.db
+*.opendb
