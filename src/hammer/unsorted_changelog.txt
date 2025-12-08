@@ -1,0 +1,95 @@
+unsorted list of changes and additions in Source Level Editor
+
+- assigned F1-4 hotkeys for cycling through render modes when the active view is 3d. I. e. F1 = switch 3d view to Wireframe, F2 = Flat, F3 = Textured, F4 = Textured Shaded.
+
+- restored the "project sculpting" function for displacements - stamping/extruding vertices with a camera space heightmap stamp. The vertices are extruded perpendicular to the face place, and the stamp is always parallel to the screen. The TGA heightmap is loaded from file. It's meant to be displayed on the stamp, but this part currently does not work.
+
+- the colour of the background void in 3d view can be customised in View -> Background color..., and it's saved in the registry, so new maps will remember this setting. 
+
+- Also, the editor can now display the skybox texture instead of the void. This is controlled with a new button on the Map Operations panel. The texture name is pulled from the Map Properties. If it's a new (blank) map, then it's the default sky_day01_01. When this option is active, it also hides skybox brushes from view (but they're not excluded from the map - they'll still compile). 
+
+- Framerate is no longer locked for 3d view and VGUI model browser's preview.
+
+- same as how there's a button to hide Nodraw faces in 3d view, there's now a button to hide other Tool textures (areaportals, clips, hint, skip, trigger, occluder...), to not have them obstruct the view without having to disable these brushes in the visgroups tree or hide them. They're merely hidden from rendering - they'll compile as usual.
+
+- grass no longer flickers in Textured Shaded view, in fact, it doesn't affect UnlitGeneric materials anymore.
+
+- a few new "Check map for errors" cases are being added. For example, the errors dialogue will report if you have a displacement tied to a brush entity (func_detail or trigger_once, etc), and let you find it.
+
+- restored "Logical view" mode which shows entity connections in a grid-like scheme.
+
+- removed a bunch of obsolete, unused, or frankly unnecessary elements. For example, "Disp Draw Walkable" button, "Texture Group" drop-down above "Current texture" bar, buttons for Undo/Redo, buttons for Save/Load Window State, buttons for copy/paste/cut operations.
+
+- set the editor to not write crash minidumps by default. You can still generate dumps with -writeminidumps launch option. But you'll very likely never make use of them, and this'll save you quite a few megabytes on the hard drive in the long run.
+
+- restored playing a hardcoded midi file when starting the editor. It's disabled by default, but will play if you lauch it with -playstartmidi parameter.
+
+- the entire thing has been renamed as Source Level Editor. The exe and dll are "level_editor", the registry settings are kept in "Source Level Editor" folder. This means, this updated version will not overlap with regular Hammer, and its settings will not interfere with the old program's settings.
+
+- when opening a map file, you can now select "All" file types to display (not filtering out just vmfs), for whatever reason you may need.
+
+- Disabled "Export/Export as" menu items - they didn't do anything special.
+
+- you can now access the Sound Browser without having to create or load a level first.
+
+- can also access the "Prefab factory" dialogue *with* a level opened. (in old Hammer, it can only be opened right after starting the program, before loading any levels).
+
+- A bunch of hotkeys have been created or reassigned from old/unused/deprecated functions. Such as, Ctrl+Shift+C now works for "Go To Coordinates", and Q and E move the camera on Z axis (in addition to WASD. So Q moves it up and E - down, in the camera space.) N shows/hides nodraw faces, and T shows/hides tool textures.
+
+- Because the Materials configuration options didn't actually mean anything anymore, this tab is removed from Tools->Options, to make them less cluttered.
+
+- In Auto Visgroups, Nodes are now counted as part of Point Entities "family", so if you hide Point Entities, Nodes get hidden too (this isn't so in old Hammer. Hiding Point Entities did not automatically hide Nodes from view)
+
+- Also in Auto Visgroups, "Lights" used to only include entities with "lights_" in the name (spot, dynamic). Now it also includes plain "light" entities. 
+
+- A new Auto Visgroup was added for func_detail_blocker brush entities.
+
+- Removed "Lighting Preview" option from 3d render modes, because so far it's severly unstable and almost always unusable.
+
+- Hammer will no longer keep albedo.tga and normal.tga in your mod's folder after trying to use the aforementioned Lighting Preview. They're auto-deleted now.
+
+- Cloning (shift-dragging) an env_cubemap now un-assigns brush faces from the new entity, making a "clean" env_cubemap.
+
+- It is now possible to quickly build chain of path_corner, path_track or rope entities in 3d view, by having a first entity selected, and placing a new one while holding down SHIFT. This is similar to cloning, but doesn't require moving the original entity. This is useful in 3d view, in uneven landscapes or for placing these chains across large spaces. When you're cloning an entity, you're limited to moving it in one plane at a time within screen space. This approach is much quicker.
+
+- Moving objects in 3d view (toggled with X) is now more predictable and reliable - it's been tweaked for lesser chance of it improperly interpreting in which direction you're trying to move it.
+
+- When moving objects in 3d view, it is now impossible to mis-click past the currently selected object and switch the selection to something else, unless it's outside the objects bounding box. In practical terms, this means it's far safer to use it to move and rotate entities, and you can keep hold of them even through transparent brushes, underground, behind props, etc. They will only lose selection if you press Escape, delete them, or intentionally click outside their bounding box.
+
+- ropes are now rendered in black curves instead of red-to-green.
+
+- the Texture Browser now excludes from its search the following folders: console\, engine\, models\, particle\, shadertest\, vgui\, voice\, vr\. Old Hammer excluded models\ only.
+
+- 3d view can now render surfaces with bumpmaps, although the effect is subtle. This also enables Phong on models, and masks envmap specularity based on the bumpmap.
+
+- All model entities that worked with Angles, now have two new buttons - Random Yaw and Fixup Angles. The first lets you randomly rotate the object on Z axis in world space, including objects in groups (each gets their own random yaw). The second button rounds down miniscule angles which often occur after rotating an object several times on different axii. This helps keep vmf filesize down, and ensures better consistency.
+
+- The VGUI model browser is now destroyed and recreated each time you open it, instead of being shown/hidden in the background when you "close" it. This cures the glitch when model browser sometimes freezes up completely, at the cost of a bit slower operation and loading model lists every time it's opened.
+
+- Clicking on "Edit" button next to FGD files listed in the game configuration, lets you open them in your default text editor. In old Hammer, it was always Notepad. Now it'll ask the system what your default program is - like Notepad++ or other. After you made your changes, you can apply them in the editor without having to restart it.
+
+- The 2d views background has been made just a little bit brighter (very dark grey instead of black). 
+
+- The Entity Tool axis helpers in 2d view are now orange instead of green.
+
+- When loading a portal file, the vis leaves preview colour is less aggressive blue, easier on the eyes.
+
+- By pressing O you can see a printout of current camera coordinates and angles in 3d view. In old Hammer, the printout showed current framerate and camera pos. Now it's easy to use the angles to calibrate various entity settings, such as light_environment pitch and yaw (especially coupled with real-time skybox preview).
+
+- Old Hammer had hardcoded minimum time of showing its loading splash image, in 500 msec (meaning it could never load faster than this). This is now down to 50. 
+
+- Removed numerous unused/broken/reduntant menu options, such as File - Convert WAD to VMT, View - HDR (unused), Map - Entity Gallery, View - Draw Materials Opaque, and selecting view modes in View tab. 
+
+- Removed Auto Visgroup for "control clips". This was an obsolete clip type from way back in HL2 development, now it served no purpose.
+
+- Removed Auto Visgroups for "Fog" and "Black". 
+
+- In Game Configuration, removed dropdown lists for "Map Format" and "Texture Format". There only was one compatible format for each anyway. 
+
+- In 3D View, models with eyes will no longer track the camera. 
+
+- 2d view can be panned by holding down MMB and moving the mouse
+
+- Texture Browser can now be used without having to load or create map document
+
+- When using skybox texture preview, the 3d view will take fog values from an env_fog_controller if there is one present on the map. If there are several, the one with Master spawnflag will be used. Currently this only works right in 3d Textured view but not 3d Textured Shaded view.

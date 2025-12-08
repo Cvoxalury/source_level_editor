@@ -1,0 +1,1996 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="particlebrowser.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="vtffile.cpp">
+      <Filter>Source Files\Hammer-2013</Filter>
+    </ClCompile>
+    <ClCompile Include="ArchDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Box3D.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DispDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditGroups.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPathDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPathNodeDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditPrefabDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityHelpDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityReportDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceEdit_DispPage.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceEdit_MaterialPage.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceEditSheet.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="GotoBrushDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="hammerbar.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAnimationDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MapCheckDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDiffDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MapInfoDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="NewKeyValue.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="NewVisGroupDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="PasteSpecialDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplaceTexDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="RunMapCfgDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="RunMapExpertDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenePreviewDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ScaleVerticesDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchReplaceDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectEntityDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectModeDlgBar.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="StrDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBar.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="texturebrowser.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="TorusDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectProperties.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Entity.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Flags.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Groups.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Input.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Model.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="OP_Output.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDecal.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDisp.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapcylinder.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapclass.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAxisHandle.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAnimator.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAlignedBox.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEntity.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapErrorsDlg.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapFace.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapFrustum.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGroup.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapHelper.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapInstance.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapKeyFrame.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLight.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLightCone.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLine.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapOverlay.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapoverlaytrans.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapPath.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapplayerhullhandle.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapPoint.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSideList.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSolid.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapQuadBounds.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapPointHandle.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSprite.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapStudioModel.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSphere.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapsweptplayerhull.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="MapWorld.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\disp_common.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\disp_powerinfo.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispManager.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispMapImageFilter.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispPaint.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispSew.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispShore.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="DispSubdiv.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\builddisp.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBase.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBlock.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolCamera.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolAxisHandle.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool3D.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolClipper.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolCordon.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolDecal.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolDisplace.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolEntity.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolMagnify.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolManager.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolMaterial.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolOverlay.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolPickAngles.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolPickEntity.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolPickFace.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolPointHandle.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolSelection.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolSphere.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolSprinkle.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="toolswepthull.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolVertexEdit.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadSave_MAP.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadSave_RMF.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapdoc.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="ManifestDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabsDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Render3DMS.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render2D.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="mapviewlogical.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MapView3D.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="mapview2dbase.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MapView2D.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MapView.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="entitysprinkledlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailObjects.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyTexture.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SculptOptions.cpp">
+      <Filter>Source Files\Displacements</Filter>
+    </ClCompile>
+    <ClCompile Include="StockSolids.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="cordonlist.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureSystem.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureConverter.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureWindow.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBox.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTView3D.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTView2D.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTGeneral.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTConfigs.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTBuild.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTColor.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionProperties.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="mapspotlight.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapworldtext.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapdirectionvisualizer.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapornament.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapsunhelper.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonContext.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSpriteBeam.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="beamdraw.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="OPTTextures.cpp">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClCompile>
+    <ClCompile Include="SmoothingGroupsDlg.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUtils.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildNum.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\ChunkFile.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="CullTreeNode.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MDIClientWnd.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewerSettings.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="materialproxyfactory_wc.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateArchAndTorus.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="EditGameConfigs.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicDialogWnd.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ShellMessageWnd.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="dlglistmanage.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="WADTexture.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="gamepalette.cpp">
+      <Filter>Source Files\Materialsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="lprvwindow.cpp">
+      <Filter>Source Files\Viewports and Render\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="lpreview_thread.cpp">
+      <Filter>Source Files\Viewports and Render\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="bsplightingthread.cpp">
+      <Filter>Source Files\Viewports and Render\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="bsplighting.cpp">
+      <Filter>Source Files\Viewports and Render\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="AngleBox.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="AnchorMgr.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoSelCombo.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundBox.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Brushops.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="clipcode.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\ConfigManager.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="EditGameClass.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityConnection.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="events.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="FileChangeWatcher.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\tier0\afxmem_override.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\bone_setup.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\CollisionUtils.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\debug_dll_check.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\filesystem_helpers.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\filesystem_init.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterControl.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="FilteredComboBox.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupList.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="gameconfig.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="hammer.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="hammer_mathlib.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="HammerScene.cpp">
+      <Filter>Source Files\Sound and Choreo</Filter>
+    </ClCompile>
+    <ClCompile Include="HammerVGui.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="HelperFactory.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="History.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="IconComboBox.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\interpolatortypes.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="keybinds.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\KeyFrame\keyframe.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="ListBoxEx.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="MakePrefabLibrary.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Manifest.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\tier0\memoverride.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageWnd.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelBrowser.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="NewDocType.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Noise.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBar.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPage.cpp">
+      <Filter>Source Files\Dialogs\Object Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="osver.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefabs.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab3D.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessWnd.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="RichEditCtrlEx.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\rope_physics.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="RunCommands.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="RunMap.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveInfo.cpp">
+      <Filter>Source Files\Map Doc, Saving and Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\common\scriplib.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\simple_physics.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundBrowser.cpp">
+      <Filter>Source Files\Sound and Choreo</Filter>
+    </ClCompile>
+    <ClCompile Include="soundsystem.cpp">
+      <Filter>Source Files\Sound and Choreo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\SourceAppInfo.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Axes2.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SSolid.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\studio.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="StudioModel.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="tablet.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetNameCombo.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleWnd.cpp">
+      <Filter>Source Files\Viewports and Render</Filter>
+    </ClCompile>
+    <ClCompile Include="treelist.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\vgui_controls\vgui_controls.cpp">
+      <Filter>Source Files\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="VGuiWnd.cpp">
+      <Filter>Source Files\Shell and Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="VisGroup.cpp">
+      <Filter>Source Files\Dialog UI Elements</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public\mathlib\amd3dx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveItemList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnchorMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AngleBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArchDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\arraystack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axes2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier0\basetypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoSelCombo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\bone_setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Box3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrushOps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BSPFILE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\bspflags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsplighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\builddisp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildNum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\bumpvects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ChunkFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clipcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\cmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CollisionUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ConfigManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\const.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlBarIDs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CullTreeNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomMessages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\disp_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispMapImageFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispPaint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispSew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispShore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DispSubdiv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dispview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicDialogWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditGameClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditGameConfigs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditGroups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPathDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPathNodeDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditPrefabDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\fgdlib\EntityDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityHelpDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityReportDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Error3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceEdit_DispPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceEdit_MaterialPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceEditSheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileChangeWatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FilteredComboBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\fgdlib\GDClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GotoBrushDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hammer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hammer_mathlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hammerbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerVGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\fgdlib\HelperInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="History.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ibsplighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ibsplightingthread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IconComboBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IEditorTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IHammer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\fgdlib\InputOutput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ivraddll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\KeyFrame\keyframe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListBoxEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManifestDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAlignedBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAnimationDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAnimator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAtom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAxisHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapCheckDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapcylinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDecal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDiffDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDisp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapErrorsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapFrustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapInfoDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapKeyFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLightCone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapOverlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapoverlaytrans.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapplayerhullhandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapPointHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapQuadBounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSideList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapStudioModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapsweptplayerhull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapView2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapview2dbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapview3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapviewlogical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="materialproxyfactory_wc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\mathlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MDIClientWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCheckListBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NewDocType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NewKeyValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NewVisGroupDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Flags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Groups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OP_Output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="optbuild.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTConfigs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTGeneral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTView2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTView3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="osver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PakDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PakFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PakViewDirec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PakViewFiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PasteSpecialDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMenus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefab3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefabs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="progdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Render2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Render3DMS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplaceTexDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RichEditCtrlEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RunCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RunMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RunMapCfgDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RunMapExpertDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScaleVerticesDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenePreviewDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SculptOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchReplaceDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectEntityDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Selection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectModeDlgBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellMessageWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmoothingGroupMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soundsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Splash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSolid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBarIDs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StockSolids.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StrDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\studio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="subdiv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StudioModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetNameCombo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texturebrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\tokenreader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolAxisHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolClipper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolCordon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDecal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tooldefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDisplace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolMagnify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolOverlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolPickAngles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolPickEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolPickFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolPointHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolSelection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="toolswepthull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="torusdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\utlbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\utllinkedlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\utlmemory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\utlrbtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\tier1\utlvector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\vector2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\vector4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VGuiWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewerSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\vmatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\mathlib\vplane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\wadtypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wndTex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\worldsize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsplightingthread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tablet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="treelist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolSprinkle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entitysprinkledlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cordonlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\jigglebones.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="particlebrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolVertexEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\dme_controls\particlesystempanelv2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vtffile.h">
+      <Filter>Source Files\Hammer-2013</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Source Files\Hammer-2013</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_resize.h">
+      <Filter>Source Files\Hammer-2013</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod\fmod.h">
+      <Filter>Source Files\Hammer-2013\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod\fmod.hpp">
+      <Filter>Source Files\Hammer-2013\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod\fmod_common.h">
+      <Filter>Source Files\Hammer-2013\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod\fmod_errors.h">
+      <Filter>Source Files\Hammer-2013\fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPTTextures.h">
+      <Filter>Source Files\Dialogs\Editor Config</Filter>
+    </ClInclude>
+    <ClInclude Include="SmoothingGroupsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dlglistmanage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lpreview_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapdirectionvisualizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapornament.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapspotlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapsunhelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapSpriteBeam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapworldtext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamepalette.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wadtexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="toolclipper3point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="beamdraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keybinds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prefabsdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\lib\public\bitmap.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\choreoobjects.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\dmxloader.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\fgdlib.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\mathlib.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\matsys_controls.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\raytrace.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\steam_api.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\tier0.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\tier1.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\tier2.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\tier3.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\vgui_controls.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\vstdlib.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\particles.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\afx_idi_.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bmp00002.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\camera.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crosshair.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crosshair.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cubechec.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cur00001.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cur00002.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cursor2.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cursor1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\cursor3.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dispedit.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\entity.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\eyedropper.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\eyedropper.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="facepaint.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\forgemap.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ForgeDoc.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Forge.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\gizmoaxis.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\gizmorotate.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\gizmoscale.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\gizmotranslate.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\handclos.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\handcurs.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00004.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00003.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00002.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\idr_manifest.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\input.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\input_grey.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\inputbad.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\inputbad_grey.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\magnify.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\manifest2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\manifest.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\mapedit256.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\mapedit.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\mapdoc_n.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\newsplash.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ouput.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\output_grey.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\outputbad.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\outputbad_grey.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\paktypes.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\set_u.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\smartclick.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\texturew.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\undoredo.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\treeroot.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\visgroup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{82a8d182-c741-4126-b97e-b7c7b7aa5d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{39348192-ac54-4701-a5fe-f3b6439738d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{70c3bf3e-cef9-44d8-b5d6-557de3b16d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{694f6f7c-9395-4806-9037-454c68d21db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{9274bd09-b538-4f17-8cfb-259b0419490f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{27881203-96f6-47ad-804d-5a8f3ce8cfd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materialsystem">
+      <UniqueIdentifier>{f1c3d2d1-5b25-49ef-8edc-790b4583e1ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map Classes">
+      <UniqueIdentifier>{699a5605-79f4-4660-9288-7506bb6ab8d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{11195061-72fb-4b03-b244-c4f7d614c26b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Displacements">
+      <UniqueIdentifier>{9a2c3da3-a8c7-4565-b157-f61cb354c1d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs\Object Properties">
+      <UniqueIdentifier>{2e391917-a117-432d-8fcc-2f8f0a9b6b18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Viewports and Render">
+      <UniqueIdentifier>{17275227-fa63-4e97-8453-463f9af91b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs\Editor Config">
+      <UniqueIdentifier>{21293efb-74aa-4fe5-b740-b7f30be31693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map Doc, Saving and Loading">
+      <UniqueIdentifier>{04877d60-7f38-45f3-b2e0-81f14fb650ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shell and Framework">
+      <UniqueIdentifier>{eb81b3c3-a28a-4430-b44f-f42b503fa4b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hammer-2013">
+      <UniqueIdentifier>{b65bb3ce-78b9-4ed3-a8cf-0532ffe7d035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hammer-2013\fmod">
+      <UniqueIdentifier>{0baee6cf-e8c8-4ce2-95ad-07697689f588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Viewports and Render\Lighting">
+      <UniqueIdentifier>{c654a69f-f2b3-4282-82ed-2b2f8275f44c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{769218bc-c185-4e7f-a0b8-42bdcb1104cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Public">
+      <UniqueIdentifier>{de378af3-376d-4e60-a529-e235ab97c048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialog UI Elements">
+      <UniqueIdentifier>{e26344fe-dc78-4938-91f2-8a701775d67f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound and Choreo">
+      <UniqueIdentifier>{9df6a231-c3e5-4043-904e-0e20c5ea3a54}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\cube.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar256.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_grid_selection.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_main.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_map.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_undoredo.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar_visibility.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_bmi.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_bs.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_cow.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_css.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_dc.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_ep1.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_ep2.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_hl1.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_hl2.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_hla.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_lc.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_of.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_portal.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_portal2.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_sep30.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_space.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sle_splash_tf2.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\loading.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\new_sle_icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hammer.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\public\tier0\pointeroverride.asm">
+      <Filter>Source Files\Public</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

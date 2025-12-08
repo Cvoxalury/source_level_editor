@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommand>F:\Steam\steamapps\common\Half-Life 2\bin\level_editor.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>-game 1 -allowdebug</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>F:\Steam\steamapps\common\Half-Life 2\bin</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">
+    <LocalDebuggerCommand>F:\Steam\steamapps\common\Half-Life 2\bin\level_editor.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>-game 1 -allowdebug</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>F:\Steam\steamapps\common\Half-Life 2\bin</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Shift|Win32'">
+    <LocalDebuggerCommand>S:\SteamLibrary\steamapps\common\Portal 2\bin\level_editor.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>-game "S:\SteamLibrary\steamapps\common\Portal 2\portal2_dlc2" -allowdebug</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>S:\SteamLibrary\steamapps\common\Portal 2\bin</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommand>F:\Steam\steamapps\common\Half-Life 2\bin\level_editor.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>-game "H:\sourcemods\darkinterval" -allowdebug</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>F:\Steam\steamapps\common\Half-Life 2\bin</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Shift|Win32'">
+    <LocalDebuggerCommand>S:\SteamLibrary\steamapps\common\Portal 2\bin\level_editor.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>-game "S:\SteamLibrary\steamapps\common\Portal 2\portal2_dlc2" -allowdebug</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>S:\SteamLibrary\steamapps\common\Portal 2\bin</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ShowAllFiles>false</ShowAllFiles>
+  </PropertyGroup>
+</Project>

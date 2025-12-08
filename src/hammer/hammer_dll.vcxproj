@@ -1,0 +1,1147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release-Manifest|Win32">
+      <Configuration>Release-Manifest</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>level_editor_dll</ProjectName>
+    <ProjectGuid>{8917EAD6-89F8-D8EE-8243-629A206C95D8}</ProjectGuid>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <TargetName>level_editor_dll</TargetName>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <TargetName>level_editor_dll</TargetName>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <TargetName>level_editor_dll</TargetName>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\.\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\.\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
+    <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\devtools\vstools;$(ExecutablePath);$(Path)</ExecutablePath>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreBuildEventUseInBuild>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PostBuildEventUseInBuild>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\.\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">.\Release\.\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\.\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">.\Release\.\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">.dll</TargetExt>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreBuildEventUseInBuild>
+    <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">true</PreBuildEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">true</PreLinkEventUseInBuild>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">false</GenerateManifest>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">false</PostBuildEventUseInBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
+    <ExcludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
+    <ExcludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command>
+if EXIST ..\_compiled_bin\.\$(TargetFileName) for /f "delims=" %%A in ('attrib "..\_compiled_bin\.\$(TargetFileName)"') do set valveTmpIsReadOnly="%%A"
+set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
+if "%valveTmpIsReadOnlyLetter%"=="R" del /q "$(TargetDir)"$(TargetFileName)
+if ERRORLEVEL 1 exit /b 1
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalOptions>/Zm200 /Gw /Zc:inline /EHa</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\common;..\public;..\public\dme_controls;..\public\tier0;..\public\wintab\include;..\public\tier1;..\common\shaderdll;..\common\iostream;..\dx9sdk\include;..\engine;..\game\shared;..\utils\common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;_EXTERNAL_DLL_EXT=.dll;SOURCE1=1;ISOLATION_AWARE_ENABLED=1;DARKINTERVAL;SLE</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>Hammer___Win32_Debug/hammer.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/</ProgramDataBaseFileName>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <BrowseInformation>false</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>;4316</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <BrowseInformationFile>$(IntDir)/</BrowseInformationFile>
+      <ErrorReporting>Prompt</ErrorReporting>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>1033</Culture>
+    </ResourceCompile>
+    <PreLinkEvent>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalOptions> /ignore:4221 ..\lib\public\ftol3.obj</AdditionalOptions>
+      <AdditionalDependencies>shell32.lib;user32.lib;advapi32.lib;gdi32.lib;comdlg32.lib;ole32.lib;winmm.lib;rpcrt4.lib;..\public\wintab\lib\i386\wntab32x.lib</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <OutputFile>$(OutDir)\level_editor_dll.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\lib\common\.;..\lib\public\.;..\public\.;..\public\dme_controls</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc;libcd;libcmt;libcpmt;libcpmt1</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)/$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>
+      </BaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkErrorReporting>PromptImmediately</LinkErrorReporting>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Manifest>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Manifest>
+    <Xdcmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Xdcmake>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(OutDir)/hammer_dll.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>Publishing to _compiled_bin directory.</Message>
+      <Command>if not exist "..\_compiled_bin\." mkdir "..\_compiled_bin\."
+copy "$(TargetDir)$(TargetFileName)" "..\_compiled_bin\.\$(TargetFileName)"
+if ERRORLEVEL 1 goto BuildEventFailed
+copy "$(TargetDir)$(TargetName).pdb" ..\_compiled_bin\.\$(TargetName).pdb
+if ERRORLEVEL 1 goto BuildEventFailed
+goto BuildEventOK
+:BuildEventFailed
+echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***
+del /q "$(TargetDir)$(TargetFileName)"
+exit 1
+:BuildEventOK
+</Command>
+    </PostBuildEvent>
+    <CustomBuildStep>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command>
+if EXIST ..\_compiled_bin\.\$(TargetFileName) for /f "delims=" %%A in ('attrib "..\_compiled_bin\.\$(TargetFileName)"') do set valveTmpIsReadOnly="%%A"
+set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
+if "%valveTmpIsReadOnlyLetter%"=="R" del /q "$(TargetDir)"$(TargetFileName)
+if ERRORLEVEL 1 exit /b 1
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalOptions>/Zm200 /Zo /Oy- /Gw /Zc:inline /EHa</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\common;..\public\dme_controls;..\public;..\public\tier0;..\public\wintab\include;..\public\tier1;..\common\shaderdll;..\common\iostream;..\dx9sdk\include;..\engine;..\game\shared;..\utils\common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;_EXTERNAL_DLL_EXT=.dll;SOURCE1=1;DARKINTERVAL;SLE</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>Hammer___Win32_Release/hammer.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/</ProgramDataBaseFileName>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <BrowseInformation>false</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>;4316</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <BrowseInformationFile>$(IntDir)/</BrowseInformationFile>
+      <ErrorReporting>Prompt</ErrorReporting>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>1033</Culture>
+    </ResourceCompile>
+    <PreLinkEvent>
+    </PreLinkEvent>
+    <Link>
+      <AdditionalOptions> /ignore:4221 ..\lib\public\ftol3.obj</AdditionalOptions>
+      <AdditionalDependencies>shell32.lib;user32.lib;advapi32.lib;gdi32.lib;comdlg32.lib;ole32.lib;winmm.lib;rpcrt4.lib;..\public\wintab\lib\i386\wntab32x.lib;..\lib\public\particles.lib;..\lib\public\matsys_controls.lib</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <OutputFile>$(OutDir)\level_editor_dll.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\lib\common\.;..\lib\public\.;..\public\.;..\public\dme_controls</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc;libcd;libcmtd;libcpmtd;libcpmtd0;libcpmtd1</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)/$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <BaseAddress>
+      </BaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkErrorReporting>PromptImmediately</LinkErrorReporting>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Manifest>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Manifest>
+    <Xdcmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Xdcmake>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(OutDir)/hammer_dll.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>Publishing to _compiled_bin directory.</Message>
+      <Command>if not exist "..\_compiled_bin\." mkdir "..\_compiled_bin\."
+copy "$(TargetDir)$(TargetFileName)" "..\_compiled_bin\.\$(TargetFileName)"
+if ERRORLEVEL 1 goto BuildEventFailed
+copy "$(TargetDir)$(TargetName).pdb" ..\_compiled_bin\.\$(TargetName).pdb
+if ERRORLEVEL 1 goto BuildEventFailed
+goto BuildEventOK
+:BuildEventFailed
+echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***
+del /q "$(TargetDir)$(TargetFileName)"
+exit 1
+:BuildEventOK
+</Command>
+    </PostBuildEvent>
+    <CustomBuildStep>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">
+    <PreBuildEvent>
+      <Command>
+if EXIST ..\_compiled_bin\.\$(TargetFileName) for /f "delims=" %%A in ('attrib "..\_compiled_bin\.\$(TargetFileName)"') do set valveTmpIsReadOnly="%%A"
+set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%
+if "%valveTmpIsReadOnlyLetter%"=="R" del /q "$(TargetDir)"$(TargetFileName)
+if ERRORLEVEL 1 exit /b 1
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalOptions>/Zm200 /Zo /Oy- /Gw /Zc:inline /EHa</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\common;..\public\dme_controls;..\public;..\public\tier0;..\public\wintab\include;..\public\tier1;..\common\shaderdll;..\common\iostream;..\dx9sdk\include;..\engine;..\game\shared;..\utils\common</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;_EXTERNAL_DLL_EXT=.dll;SOURCE1=1;DARKINTERVAL;SLE;SLE_MANIFEST</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>Hammer___Win32_Release/hammer.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/</ProgramDataBaseFileName>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <BrowseInformation>false</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <UseFullPaths>true</UseFullPaths>
+      <DisableSpecificWarnings>;4316</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <BrowseInformationFile>$(IntDir)/</BrowseInformationFile>
+      <ErrorReporting>Prompt</ErrorReporting>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>1033</Culture>
+    </ResourceCompile>
+    <PreLinkEvent />
+    <Link>
+      <AdditionalOptions> /ignore:4221 ..\lib\public\ftol3.obj</AdditionalOptions>
+      <AdditionalDependencies>shell32.lib;user32.lib;advapi32.lib;gdi32.lib;comdlg32.lib;ole32.lib;winmm.lib;rpcrt4.lib;..\public\wintab\lib\i386\wntab32x.lib;..\lib\public\particles.lib;..\lib\public\matsys_controls.lib</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <OutputFile>$(OutDir)\level_editor_dll.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>..\lib\common\.;..\lib\public\.;..\public\.;..\public\dme_controls</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc;libcd;libcmtd;libcpmtd;libcpmtd0;libcpmtd1</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)/$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <BaseAddress>
+      </BaseAddress>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkErrorReporting>PromptImmediately</LinkErrorReporting>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+    <Manifest>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Manifest>
+    <Xdcmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Xdcmake>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(OutDir)/hammer_dll.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Message>Publishing to _compiled_bin directory.</Message>
+      <Command>if not exist "..\_compiled_bin\." mkdir "..\_compiled_bin\."
+copy "$(TargetDir)$(TargetFileName)" "..\_compiled_bin\.\$(TargetFileName)"
+if ERRORLEVEL 1 goto BuildEventFailed
+copy "$(TargetDir)$(TargetName).pdb" ..\_compiled_bin\.\$(TargetName).pdb
+goto BuildEventOK
+:BuildEventFailed
+echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***
+del /q "$(TargetDir)$(TargetFileName)"
+exit 1
+:BuildEventOK
+</Command>
+    </PostBuildEvent>
+    <CustomBuildStep />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Library Include="..\lib\public\bitmap.lib" />
+    <Library Include="..\lib\public\choreoobjects.lib" />
+    <Library Include="..\lib\public\dmxloader.lib" />
+    <Library Include="..\lib\public\fgdlib.lib" />
+    <Library Include="..\lib\public\mathlib.lib" />
+    <Library Include="..\lib\public\matsys_controls.lib" />
+    <Library Include="..\lib\public\particles.lib" />
+    <Library Include="..\lib\public\raytrace.lib" />
+    <Library Include="..\lib\public\steam_api.lib" />
+    <Library Include="..\lib\public\tier0.lib" />
+    <Library Include="..\lib\public\tier1.lib" />
+    <Library Include="..\lib\public\tier2.lib" />
+    <Library Include="..\lib\public\tier3.lib" />
+    <Library Include="..\lib\public\vgui_controls.lib" />
+    <Library Include="..\lib\public\vstdlib.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public\dme_controls\particlesystempanelv2.h" />
+    <ClInclude Include="..\public\jigglebones.h" />
+    <ClInclude Include="..\public\mathlib\amd3dx.h" />
+    <ClInclude Include="..\public\arraystack.h" />
+    <ClInclude Include="..\public\tier0\basetypes.h" />
+    <ClInclude Include="..\public\bone_setup.h" />
+    <ClInclude Include="..\public\BSPFILE.H" />
+    <ClInclude Include="..\public\bspflags.h" />
+    <ClInclude Include="beamdraw.h" />
+    <ClInclude Include="BuildNum.h" />
+    <ClInclude Include="..\public\mathlib\bumpvects.h" />
+    <ClInclude Include="..\public\cmodel.h" />
+    <ClInclude Include="..\common\ConfigManager.h" />
+    <ClInclude Include="..\public\const.h" />
+    <ClInclude Include="ButtonContext.h" />
+    <ClInclude Include="cordonlist.h" />
+    <ClInclude Include="dispview.h" />
+    <ClInclude Include="..\public\fgdlib\EntityDefs.h" />
+    <ClInclude Include="..\public\filesystem.h" />
+    <ClInclude Include="dlglistmanage.h" />
+    <ClInclude Include="entitysprinkledlg.h" />
+    <ClInclude Include="FilteredComboBox.h" />
+    <ClInclude Include="..\public\fgdlib\GDClass.h" />
+    <ClInclude Include="fmod\fmod.h" />
+    <ClInclude Include="fmod\fmod.hpp" />
+    <ClInclude Include="fmod\fmod_common.h" />
+    <ClInclude Include="fmod\fmod_errors.h" />
+    <ClInclude Include="gamepalette.h" />
+    <ClInclude Include="hammerbar.h" />
+    <ClInclude Include="HelperFactory.h" />
+    <ClInclude Include="..\public\fgdlib\HelperInfo.h" />
+    <ClInclude Include="ibsplightingthread.h" />
+    <ClInclude Include="..\public\IHammer.h" />
+    <ClInclude Include="..\public\fgdlib\InputOutput.h" />
+    <ClInclude Include="..\public\tier1\interface.h" />
+    <ClInclude Include="keybinds.h" />
+    <ClInclude Include="lpreview_thread.h" />
+    <ClInclude Include="MapSpriteBeam.h" />
+    <ClInclude Include="mapdirectionvisualizer.h" />
+    <ClInclude Include="MapHelper.h" />
+    <ClInclude Include="mapornament.h" />
+    <ClInclude Include="mapspotlight.h" />
+    <ClInclude Include="MapSprite.h" />
+    <ClInclude Include="..\public\mathlib\mathlib.h" />
+    <ClInclude Include="..\public\NTree.h" />
+    <ClInclude Include="mapsunhelper.h" />
+    <ClInclude Include="mapworldtext.h" />
+    <ClInclude Include="OPTColor.h" />
+    <ClInclude Include="OPTTextures.h" />
+    <ClInclude Include="osver.h" />
+    <ClInclude Include="particlebrowser.h" />
+    <ClInclude Include="prefabsdlg.h" />
+    <ClInclude Include="Render.h" />
+    <ClInclude Include="Selection.h" />
+    <ClInclude Include="SelectModeDlgBar.h" />
+    <ClInclude Include="ShellMessageWnd.h" />
+    <ClInclude Include="SmoothingGroupMgr.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="..\public\studio.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="stb_image_resize.h" />
+    <ClInclude Include="subdiv.h" />
+    <ClInclude Include="tablet.h" />
+    <ClInclude Include="TextureSystem.h" />
+    <ClInclude Include="..\public\tier1\tokenreader.h" />
+    <ClInclude Include="..\public\tier1\utlbuffer.h" />
+    <ClInclude Include="..\public\tier1\utllinkedlist.h" />
+    <ClInclude Include="..\public\tier1\utlmemory.h" />
+    <ClInclude Include="..\public\tier1\utlrbtree.h" />
+    <ClInclude Include="..\public\tier1\utlvector.h" />
+    <ClInclude Include="..\public\mathlib\vector.h" />
+    <ClInclude Include="..\public\mathlib\vector2d.h" />
+    <ClInclude Include="..\public\mathlib\vector4d.h" />
+    <ClInclude Include="..\public\mathlib\vmatrix.h" />
+    <ClInclude Include="..\public\mathlib\vplane.h" />
+    <ClInclude Include="..\public\wadtypes.h" />
+    <ClInclude Include="..\public\worldsize.h" />
+    <ClInclude Include="ActiveItemList.h" />
+    <ClInclude Include="AnchorMgr.h" />
+    <ClInclude Include="AngleBox.h" />
+    <ClInclude Include="AutoSelCombo.h" />
+    <ClInclude Include="Axes2.h" />
+    <ClInclude Include="BlockArray.h" />
+    <ClInclude Include="BoundBox.h" />
+    <ClInclude Include="BrushOps.h" />
+    <ClInclude Include="bsplighting.h" />
+    <ClInclude Include="bsplightingthread.h" />
+    <ClInclude Include="..\public\builddisp.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="..\public\ChunkFile.h" />
+    <ClInclude Include="clipcode.h" />
+    <ClInclude Include="..\public\CollisionUtils.h" />
+    <ClInclude Include="ControlBarIDs.h" />
+    <ClInclude Include="CullTreeNode.h" />
+    <ClInclude Include="CustomMessages.h" />
+    <ClInclude Include="DetailObjects.h" />
+    <ClInclude Include="..\public\disp_common.h" />
+    <ClInclude Include="DispManager.h" />
+    <ClInclude Include="DispMapImageFilter.h" />
+    <ClInclude Include="DispPaint.h" />
+    <ClInclude Include="DispSew.h" />
+    <ClInclude Include="DispShore.h" />
+    <ClInclude Include="DispSubdiv.h" />
+    <ClInclude Include="DynamicDialogWnd.h" />
+    <ClInclude Include="EditGameClass.h" />
+    <ClInclude Include="EditGameConfigs.h" />
+    <ClInclude Include="EditGroups.h" />
+    <ClInclude Include="EntityConnection.h" />
+    <ClInclude Include="Error3d.h" />
+    <ClInclude Include="FaceEdit_DispPage.h" />
+    <ClInclude Include="FaceEdit_MaterialPage.h" />
+    <ClInclude Include="FaceEditSheet.h" />
+    <ClInclude Include="FileChangeWatcher.h" />
+    <ClInclude Include="FilterControl.h" />
+    <ClInclude Include="gameconfig.h" />
+    <ClInclude Include="Gizmo.h" />
+    <ClInclude Include="GlobalFunctions.h" />
+    <ClInclude Include="GroupList.h" />
+    <ClInclude Include="hammer.h" />
+    <ClInclude Include="hammer_mathlib.h" />
+    <ClInclude Include="HammerScene.h" />
+    <ClInclude Include="HammerVGui.h" />
+    <ClInclude Include="History.h" />
+    <ClInclude Include="ibsplighting.h" />
+    <ClInclude Include="IconComboBox.h" />
+    <ClInclude Include="..\public\ivraddll.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="..\public\KeyFrame\keyframe.h" />
+    <ClInclude Include="ListBoxEx.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Manifest.h" />
+    <ClInclude Include="ManifestDialog.h" />
+    <ClInclude Include="MapDefs.h" />
+    <ClInclude Include="MapErrorsDlg.h" />
+    <ClInclude Include="MapInfoDlg.h" />
+    <ClInclude Include="MapPath.h" />
+    <ClInclude Include="MapView.h" />
+    <ClInclude Include="MapView2D.h" />
+    <ClInclude Include="mapview2dbase.h" />
+    <ClInclude Include="mapview3d.h" />
+    <ClInclude Include="mapviewlogical.h" />
+    <ClInclude Include="materialproxyfactory_wc.h" />
+    <ClInclude Include="MDIClientWnd.h" />
+    <ClInclude Include="MessageWnd.h" />
+    <ClInclude Include="ModelBrowser.h" />
+    <ClInclude Include="ModelFactory.h" />
+    <ClInclude Include="MyCheckListBox.h" />
+    <ClInclude Include="NewDocType.h" />
+    <ClInclude Include="NewKeyValue.h" />
+    <ClInclude Include="NewVisGroupDlg.h" />
+    <ClInclude Include="ObjectBar.h" />
+    <ClInclude Include="ObjectPage.h" />
+    <ClInclude Include="ObjectProperties.h" />
+    <ClInclude Include="OP_Entity.h" />
+    <ClInclude Include="OP_Flags.h" />
+    <ClInclude Include="OP_Groups.h" />
+    <ClInclude Include="OP_Input.h" />
+    <ClInclude Include="OP_Model.h" />
+    <ClInclude Include="OP_Output.h" />
+    <ClInclude Include="optbuild.h" />
+    <ClInclude Include="OPTConfigs.h" />
+    <ClInclude Include="OPTGeneral.h" />
+    <ClInclude Include="OptionProperties.h" />
+    <ClInclude Include="Options.h" />
+    <ClInclude Include="OPTView2D.h" />
+    <ClInclude Include="OPTView3D.h" />
+    <ClInclude Include="PakDoc.h" />
+    <ClInclude Include="PakFrame.h" />
+    <ClInclude Include="PakViewDirec.h" />
+    <ClInclude Include="PakViewFiles.h" />
+    <ClInclude Include="PopupMenus.h" />
+    <ClInclude Include="Prefab3d.h" />
+    <ClInclude Include="Prefabs.h" />
+    <ClInclude Include="ProcessWnd.h" />
+    <ClInclude Include="progdlg.h" />
+    <ClInclude Include="Render2D.h" />
+    <ClInclude Include="Render3DMS.h" />
+    <ClInclude Include="RenderUtils.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RichEditCtrlEx.h" />
+    <ClInclude Include="RunCommands.h" />
+    <ClInclude Include="RunMap.h" />
+    <ClInclude Include="SaveInfo.h" />
+    <ClInclude Include="ScenePreviewDlg.h" />
+    <ClInclude Include="SearchBox.h" />
+    <ClInclude Include="Shell.h" />
+    <ClInclude Include="SoundBrowser.h" />
+    <ClInclude Include="soundsystem.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="SSolid.h" />
+    <ClInclude Include="StatusBarIDs.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StockSolids.h" />
+    <ClInclude Include="StudioModel.h" />
+    <ClInclude Include="TargetNameCombo.h" />
+    <ClInclude Include="TextureBar.h" />
+    <ClInclude Include="TextureBox.h" />
+    <ClInclude Include="texturebrowser.h" />
+    <ClInclude Include="TextureConverter.h" />
+    <ClInclude Include="TextureWindow.h" />
+    <ClInclude Include="TitleWnd.h" />
+    <ClInclude Include="toolclipper3point.h" />
+    <ClInclude Include="Tooldefs.h" />
+    <ClInclude Include="ToolMagnify.h" />
+    <ClInclude Include="ToolSprinkle.h" />
+    <ClInclude Include="treelist.h" />
+    <ClInclude Include="VGuiWnd.h" />
+    <ClInclude Include="ViewerSettings.h" />
+    <ClInclude Include="VisGroup.h" />
+    <ClInclude Include="vtffile.h" />
+    <ClInclude Include="wadtexture.h" />
+    <ClInclude Include="wndTex.h" />
+    <ClInclude Include="ArchDlg.h" />
+    <ClInclude Include="DispDlg.h" />
+    <ClInclude Include="EditPathDlg.h" />
+    <ClInclude Include="EditPathNodeDlg.h" />
+    <ClInclude Include="EditPrefabDlg.h" />
+    <ClInclude Include="EntityHelpDlg.h" />
+    <ClInclude Include="EntityReportDlg.h" />
+    <ClInclude Include="GotoBrushDlg.h" />
+    <ClInclude Include="MapAnimationDlg.h" />
+    <ClInclude Include="MapCheckDlg.h" />
+    <ClInclude Include="MapDiffDlg.h" />
+    <ClInclude Include="SmoothingGroupsDlg.h" />
+    <ClInclude Include="PasteSpecialDlg.h" />
+    <ClInclude Include="ReplaceTexDlg.h" />
+    <ClInclude Include="RunMapCfgDlg.h" />
+    <ClInclude Include="RunMapExpertDlg.h" />
+    <ClInclude Include="ScaleVerticesDlg.h" />
+    <ClInclude Include="SculptOptions.h" />
+    <ClInclude Include="SearchReplaceDlg.h" />
+    <ClInclude Include="SelectEntityDlg.h" />
+    <ClInclude Include="StrDlg.h" />
+    <ClInclude Include="torusdlg.h" />
+    <ClInclude Include="TransformDlg.h" />
+    <ClInclude Include="MapAlignedBox.h" />
+    <ClInclude Include="MapAnimator.h" />
+    <ClInclude Include="MapAtom.h" />
+    <ClInclude Include="MapAxisHandle.h" />
+    <ClInclude Include="mapclass.h" />
+    <ClInclude Include="mapcylinder.h" />
+    <ClInclude Include="MapDecal.h" />
+    <ClInclude Include="MapDisp.h" />
+    <ClInclude Include="mapdoc.h" />
+    <ClInclude Include="MapEntity.h" />
+    <ClInclude Include="MapFace.h" />
+    <ClInclude Include="MapFrustum.h" />
+    <ClInclude Include="MapGroup.h" />
+    <ClInclude Include="MapInstance.h" />
+    <ClInclude Include="MapKeyFrame.h" />
+    <ClInclude Include="MapLight.h" />
+    <ClInclude Include="MapLightCone.h" />
+    <ClInclude Include="MapLine.h" />
+    <ClInclude Include="MapOverlay.h" />
+    <ClInclude Include="mapoverlaytrans.h" />
+    <ClInclude Include="mapplayerhullhandle.h" />
+    <ClInclude Include="MapPoint.h" />
+    <ClInclude Include="MapPointHandle.h" />
+    <ClInclude Include="MapQuadBounds.h" />
+    <ClInclude Include="MapSideList.h" />
+    <ClInclude Include="MapSolid.h" />
+    <ClInclude Include="MapSphere.h" />
+    <ClInclude Include="MapStudioModel.h" />
+    <ClInclude Include="mapsweptplayerhull.h" />
+    <ClInclude Include="MapWorld.h" />
+    <ClInclude Include="DummyTexture.h" />
+    <ClInclude Include="IEditorTexture.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Box3D.h" />
+    <ClInclude Include="Tool3D.h" />
+    <ClInclude Include="ToolAxisHandle.h" />
+    <ClInclude Include="ToolBlock.h" />
+    <ClInclude Include="ToolCamera.h" />
+    <ClInclude Include="ToolClipper.h" />
+    <ClInclude Include="ToolCordon.h" />
+    <ClInclude Include="ToolDecal.h" />
+    <ClInclude Include="ToolDisplace.h" />
+    <ClInclude Include="ToolEntity.h" />
+    <ClInclude Include="ToolInterface.h" />
+    <ClInclude Include="ToolManager.h" />
+    <ClInclude Include="ToolMaterial.h" />
+    <ClInclude Include="ToolVertexEdit.h" />
+    <ClInclude Include="ToolOverlay.h" />
+    <ClInclude Include="ToolPickAngles.h" />
+    <ClInclude Include="ToolPickEntity.h" />
+    <ClInclude Include="ToolPickFace.h" />
+    <ClInclude Include="ToolPointHandle.h" />
+    <ClInclude Include="ToolSelection.h" />
+    <ClInclude Include="ToolSphere.h" />
+    <ClInclude Include="toolswepthull.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\public\tier0\afxmem_override.cpp" />
+    <ClCompile Include="AnchorMgr.cpp" />
+    <ClCompile Include="AngleBox.cpp" />
+    <ClCompile Include="AutoSelCombo.cpp" />
+    <ClCompile Include="Axes2.cpp" />
+    <ClCompile Include="..\public\bone_setup.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="beamdraw.cpp" />
+    <ClCompile Include="BoundBox.cpp" />
+    <ClCompile Include="Brushops.cpp" />
+    <ClCompile Include="bsplighting.cpp" />
+    <ClCompile Include="bsplightingthread.cpp" />
+    <ClCompile Include="..\public\builddisp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="BuildNum.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ButtonContext.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="..\public\ChunkFile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="clipcode.cpp" />
+    <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="..\public\CollisionUtils.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\common\ConfigManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="cordonlist.cpp" />
+    <ClCompile Include="CreateArchAndTorus.cpp" />
+    <ClCompile Include="CullTreeNode.cpp" />
+    <ClCompile Include="..\common\debug_dll_check.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DetailObjects.cpp" />
+    <ClCompile Include="..\public\disp_common.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\public\disp_powerinfo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DispManager.cpp" />
+    <ClCompile Include="DispMapImageFilter.cpp" />
+    <ClCompile Include="DispPaint.cpp" />
+    <ClCompile Include="DispSew.cpp" />
+    <ClCompile Include="DispShore.cpp" />
+    <ClCompile Include="DispSubdiv.cpp" />
+    <ClCompile Include="dlglistmanage.cpp" />
+    <ClCompile Include="DynamicDialogWnd.cpp" />
+    <ClCompile Include="EditGameClass.cpp" />
+    <ClCompile Include="EditGameConfigs.cpp" />
+    <ClCompile Include="EntityConnection.cpp" />
+    <ClCompile Include="entitysprinkledlg.cpp" />
+    <ClCompile Include="events.cpp" />
+    <ClCompile Include="FileChangeWatcher.cpp" />
+    <ClCompile Include="..\public\filesystem_helpers.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\public\filesystem_init.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="FilteredComboBox.cpp" />
+    <ClCompile Include="gameconfig.cpp" />
+    <ClCompile Include="gamepalette.cpp" />
+    <ClCompile Include="Gizmo.cpp" />
+    <ClCompile Include="GroupList.cpp" />
+    <ClCompile Include="hammer.cpp" />
+    <ClCompile Include="hammer_mathlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="HammerScene.cpp" />
+    <ClCompile Include="HammerVGui.cpp" />
+    <ClCompile Include="HelperFactory.cpp" />
+    <ClCompile Include="History.cpp" />
+    <ClCompile Include="IconComboBox.cpp" />
+    <ClCompile Include="..\public\interpolatortypes.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="keybinds.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="..\public\KeyFrame\keyframe.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ListBoxEx.cpp" />
+    <ClCompile Include="LoadSave_MAP.cpp" />
+    <ClCompile Include="LoadSave_RMF.cpp" />
+    <ClCompile Include="lpreview_thread.cpp" />
+    <ClCompile Include="lprvwindow.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MakePrefabLibrary.cpp" />
+    <ClCompile Include="Manifest.cpp" />
+    <ClCompile Include="ManifestDialog.cpp" />
+    <ClCompile Include="mapdirectionvisualizer.cpp" />
+    <ClCompile Include="Mapdoc.cpp" />
+    <ClCompile Include="mapornament.cpp" />
+    <ClCompile Include="MapPath.cpp" />
+    <ClCompile Include="mapspotlight.cpp" />
+    <ClCompile Include="MapSpriteBeam.cpp" />
+    <ClCompile Include="mapsunhelper.cpp" />
+    <ClCompile Include="MapView.cpp" />
+    <ClCompile Include="MapView2D.cpp" />
+    <ClCompile Include="mapview2dbase.cpp" />
+    <ClCompile Include="MapView3D.cpp" />
+    <ClCompile Include="mapviewlogical.cpp" />
+    <ClCompile Include="mapworldtext.cpp" />
+    <ClCompile Include="materialproxyfactory_wc.cpp" />
+    <ClCompile Include="MDIClientWnd.cpp" />
+    <ClCompile Include="..\public\tier0\memoverride.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_WIN32;_DEBUG;DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;NO_MEMOVERRIDE_NEW_DELETE;_EXTERNAL_DLL_EXT=.dll;_DLL_EXT=.dll;SOURCE1=1</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;_WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;NO_MEMOVERRIDE_NEW_DELETE;_EXTERNAL_DLL_EXT=.dll;_DLL_EXT=.dll;SOURCE1=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">WIN32;_WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;%(PreprocessorDefinitions);COMPILER_MSVC32;COMPILER_MSVC32;COMPILER_MSVC;_DLL_EXT=.dll;DLLNAME=level_editor_dll;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;VERSION_SAFE_STEAM_API_INTERFACES;NO_WARN_MBCS_MFC_DEPRECATION;NO_MEMOVERRIDE_NEW_DELETE;_EXTERNAL_DLL_EXT=.dll;_DLL_EXT=.dll;SOURCE1=1</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="MessageWnd.cpp" />
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="ModelBrowser.cpp" />
+    <ClCompile Include="Noise.cpp" />
+    <ClCompile Include="ObjectBar.cpp" />
+    <ClCompile Include="OPTColor.cpp" />
+    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="OPTTextures.cpp" />
+    <ClCompile Include="osver.cpp" />
+    <ClCompile Include="particlebrowser.cpp" />
+    <ClCompile Include="Prefab3D.cpp" />
+    <ClCompile Include="Prefabs.cpp" />
+    <ClCompile Include="PrefabsDlg.cpp" />
+    <ClCompile Include="ProcessWnd.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Render2D.cpp" />
+    <ClCompile Include="Render3DMS.cpp" />
+    <ClCompile Include="RenderUtils.cpp" />
+    <ClCompile Include="RichEditCtrlEx.cpp" />
+    <ClCompile Include="..\public\rope_physics.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="RunCommands.cpp" />
+    <ClCompile Include="RunMap.cpp" />
+    <ClCompile Include="SaveInfo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ScenePreviewDlg.cpp" />
+    <ClCompile Include="..\utils\common\scriplib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp" />
+    <ClCompile Include="..\public\simple_physics.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SoundBrowser.cpp" />
+    <ClCompile Include="soundsystem.cpp" />
+    <ClCompile Include="..\common\SourceAppInfo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SSolid.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StockSolids.cpp" />
+    <ClCompile Include="..\public\studio.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StudioModel.cpp" />
+    <ClCompile Include="tablet.cpp" />
+    <ClCompile Include="TargetNameCombo.cpp" />
+    <ClCompile Include="TextureBox.cpp" />
+    <ClCompile Include="TextureConverter.cpp" />
+    <ClCompile Include="TextureWindow.cpp" />
+    <ClCompile Include="TitleWnd.cpp" />
+    <ClCompile Include="..\public\vgui_controls\vgui_controls.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ToolMagnify.cpp" />
+    <ClCompile Include="ToolSprinkle.cpp" />
+    <ClCompile Include="treelist.cpp" />
+    <ClCompile Include="VGuiWnd.cpp" />
+    <ClCompile Include="ViewerSettings.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="VisGroup.cpp" />
+    <ClCompile Include="ArchDlg.cpp" />
+    <ClCompile Include="DispDlg.cpp" />
+    <ClCompile Include="EditGroups.cpp" />
+    <ClCompile Include="EditPathDlg.cpp" />
+    <ClCompile Include="EditPathNodeDlg.cpp" />
+    <ClCompile Include="EditPrefabDlg.cpp" />
+    <ClCompile Include="EntityHelpDlg.cpp" />
+    <ClCompile Include="EntityReportDlg.cpp" />
+    <ClCompile Include="FaceEdit_DispPage.cpp" />
+    <ClCompile Include="FaceEdit_MaterialPage.cpp" />
+    <ClCompile Include="FaceEditSheet.cpp" />
+    <ClCompile Include="FilterControl.cpp" />
+    <ClCompile Include="GotoBrushDlg.cpp" />
+    <ClCompile Include="hammerbar.cpp" />
+    <ClCompile Include="MapAnimationDlg.cpp" />
+    <ClCompile Include="MapCheckDlg.cpp" />
+    <ClCompile Include="MapDiffDlg.cpp" />
+    <ClCompile Include="MapErrorsDlg.cpp" />
+    <ClCompile Include="MapInfoDlg.cpp" />
+    <ClCompile Include="SmoothingGroupsDlg.cpp" />
+    <ClCompile Include="NewDocType.cpp" />
+    <ClCompile Include="NewKeyValue.cpp" />
+    <ClCompile Include="NewVisGroupDlg.cpp" />
+    <ClCompile Include="ObjectPage.cpp" />
+    <ClCompile Include="ObjectProperties.cpp" />
+    <ClCompile Include="OP_Entity.cpp" />
+    <ClCompile Include="OP_Flags.cpp" />
+    <ClCompile Include="OP_Groups.cpp" />
+    <ClCompile Include="OP_Input.cpp" />
+    <ClCompile Include="OP_Model.cpp" />
+    <ClCompile Include="OP_Output.cpp" />
+    <ClCompile Include="OPTBuild.cpp" />
+    <ClCompile Include="OPTConfigs.cpp" />
+    <ClCompile Include="OPTGeneral.cpp" />
+    <ClCompile Include="OptionProperties.cpp" />
+    <ClCompile Include="OPTView2D.cpp" />
+    <ClCompile Include="OPTView3D.cpp" />
+    <ClCompile Include="PasteSpecialDlg.cpp" />
+    <ClCompile Include="ProgDlg.cpp" />
+    <ClCompile Include="ReplaceTexDlg.cpp" />
+    <ClCompile Include="RunMapCfgDlg.cpp" />
+    <ClCompile Include="RunMapExpertDlg.cpp" />
+    <ClCompile Include="ScaleVerticesDlg.cpp" />
+    <ClCompile Include="SculptOptions.cpp" />
+    <ClCompile Include="SearchReplaceDlg.cpp" />
+    <ClCompile Include="SelectEntityDlg.cpp" />
+    <ClCompile Include="SelectModeDlgBar.cpp" />
+    <ClCompile Include="StrDlg.cpp" />
+    <ClCompile Include="TextureBar.cpp" />
+    <ClCompile Include="texturebrowser.cpp" />
+    <ClCompile Include="TorusDlg.cpp" />
+    <ClCompile Include="TransformDlg.cpp" />
+    <ClCompile Include="MapAlignedBox.cpp" />
+    <ClCompile Include="MapAnimator.cpp" />
+    <ClCompile Include="MapAxisHandle.cpp" />
+    <ClCompile Include="Mapclass.cpp" />
+    <ClCompile Include="mapcylinder.cpp" />
+    <ClCompile Include="MapDecal.cpp" />
+    <ClCompile Include="MapDisp.cpp" />
+    <ClCompile Include="MapEntity.cpp" />
+    <ClCompile Include="MapFace.cpp" />
+    <ClCompile Include="MapFrustum.cpp" />
+    <ClCompile Include="MapGroup.cpp" />
+    <ClCompile Include="MapHelper.cpp" />
+    <ClCompile Include="MapInstance.cpp" />
+    <ClCompile Include="MapKeyFrame.cpp" />
+    <ClCompile Include="MapLight.cpp" />
+    <ClCompile Include="MapLightCone.cpp" />
+    <ClCompile Include="MapLine.cpp" />
+    <ClCompile Include="MapOverlay.cpp" />
+    <ClCompile Include="mapoverlaytrans.cpp" />
+    <ClCompile Include="mapplayerhullhandle.cpp" />
+    <ClCompile Include="MapPoint.cpp" />
+    <ClCompile Include="MapPointHandle.cpp" />
+    <ClCompile Include="MapQuadBounds.cpp" />
+    <ClCompile Include="MapSideList.cpp" />
+    <ClCompile Include="MapSolid.cpp" />
+    <ClCompile Include="MapSphere.cpp" />
+    <ClCompile Include="MapSprite.cpp" />
+    <ClCompile Include="MapStudioModel.cpp" />
+    <ClCompile Include="mapsweptplayerhull.cpp" />
+    <ClCompile Include="MapWorld.cpp" />
+    <ClCompile Include="Shell.cpp" />
+    <ClCompile Include="ShellMessageWnd.cpp" />
+    <ClCompile Include="DummyTexture.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureSystem.cpp" />
+    <ClCompile Include="Box3D.cpp" />
+    <ClCompile Include="Tool3D.cpp" />
+    <ClCompile Include="ToolAxisHandle.cpp" />
+    <ClCompile Include="ToolBase.cpp" />
+    <ClCompile Include="ToolBlock.cpp" />
+    <ClCompile Include="ToolCamera.cpp" />
+    <ClCompile Include="ToolClipper.cpp" />
+    <ClCompile Include="ToolCordon.cpp" />
+    <ClCompile Include="ToolDecal.cpp" />
+    <ClCompile Include="ToolDisplace.cpp" />
+    <ClCompile Include="ToolEntity.cpp" />
+    <ClCompile Include="ToolManager.cpp" />
+    <ClCompile Include="ToolMaterial.cpp" />
+    <ClCompile Include="ToolVertexEdit.cpp" />
+    <ClCompile Include="ToolOverlay.cpp" />
+    <ClCompile Include="ToolPickAngles.cpp" />
+    <ClCompile Include="ToolPickEntity.cpp" />
+    <ClCompile Include="ToolPickFace.cpp" />
+    <ClCompile Include="ToolPointHandle.cpp" />
+    <ClCompile Include="ToolSelection.cpp" />
+    <ClCompile Include="ToolSphere.cpp" />
+    <ClCompile Include="toolswepthull.cpp" />
+    <ClCompile Include="vtffile.cpp" />
+    <ClCompile Include="WADTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hammer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\public\tier0\pointeroverride.asm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling pointeroverride.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCInstallDir)bin\ml.exe" /safeseh /c /Cp /Zi /Fo"$(IntDir)\%(Filename).obj" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\%(Filename).obj</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling pointeroverride.asm</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">Compiling pointeroverride.asm</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(VCInstallDir)bin\ml.exe" /safeseh /c /Cp /Zi /Fo"$(IntDir)\%(Filename).obj" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">"$(VCInstallDir)bin\ml.exe" /safeseh /c /Cp /Zi /Fo"$(IntDir)\%(Filename).obj" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\%(Filename).obj</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release-Manifest|Win32'">$(IntDir)\%(Filename).obj</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\afx_idi_.ico" />
+    <None Include="res\bmp00002.bmp" />
+    <None Include="res\camera.ico" />
+    <None Include="res\crosshair.cur" />
+    <None Include="res\crosshair.ico" />
+    <None Include="res\cubechec.bmp" />
+    <None Include="res\cur00001.cur" />
+    <None Include="res\cur00002.cur" />
+    <None Include="res\cursor1.cur" />
+    <None Include="res\cursor2.cur" />
+    <None Include="res\cursor3.cur" />
+    <None Include="res\dispedit.bmp" />
+    <None Include="res\entity.cur" />
+    <None Include="res\eyedropper.cur" />
+    <None Include="res\eyedropper.ico" />
+    <None Include="facepaint.cur" />
+    <None Include="res\Forge.ico" />
+    <None Include="res\ForgeDoc.ico" />
+    <None Include="res\forgemap.bmp" />
+    <None Include="res\gizmoaxis.bmp" />
+    <None Include="res\gizmorotate.bmp" />
+    <None Include="res\gizmoscale.bmp" />
+    <None Include="res\gizmotranslate.bmp" />
+    <None Include="res\handclos.cur" />
+    <None Include="res\handcurs.cur" />
+    <None Include="res\ico00001.ico" />
+    <None Include="res\ico00002.ico" />
+    <None Include="res\ico00003.ico" />
+    <None Include="res\ico00004.ico" />
+    <None Include="res\icon1.ico" />
+    <None Include="res\idr_manifest.ico" />
+    <None Include="res\input.ico" />
+    <None Include="res\input_grey.ico" />
+    <None Include="res\inputbad.ico" />
+    <None Include="res\inputbad_grey.ico" />
+    <None Include="res\magnify.cur" />
+    <None Include="res\manifest.bmp" />
+    <None Include="res\manifest2.bmp" />
+    <None Include="res\mapdoc_n.bmp" />
+    <None Include="res\mapedit.bmp" />
+    <None Include="res\mapedit256.bmp" />
+    <None Include="res\newsplash.BMP" />
+    <None Include="res\ouput.ico" />
+    <None Include="res\output_grey.ico" />
+    <None Include="res\outputbad.ico" />
+    <None Include="res\outputbad_grey.ico" />
+    <None Include="res\paktypes.bmp" />
+    <None Include="res\set_u.bmp" />
+    <None Include="res\smartclick.cur" />
+    <None Include="res\texturew.ico" />
+    <None Include="res\treeroot.bmp" />
+    <None Include="res\undoredo.bmp" />
+    <None Include="res\visgroup.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\cube.bmp" />
+    <Image Include="res\loading.bmp" />
+    <Image Include="res\new_sle_icon.ico" />
+    <Image Include="res\sle_splash.BMP" />
+    <Image Include="res\sle_splash_bmi.BMP" />
+    <Image Include="res\sle_splash_bs.BMP" />
+    <Image Include="res\sle_splash_cow.BMP" />
+    <Image Include="res\sle_splash_css.BMP" />
+    <Image Include="res\sle_splash_dc.BMP" />
+    <Image Include="res\sle_splash_ep1.BMP" />
+    <Image Include="res\sle_splash_ep2.BMP" />
+    <Image Include="res\sle_splash_hl1.BMP" />
+    <Image Include="res\sle_splash_hl2.BMP" />
+    <Image Include="res\sle_splash_hla.BMP" />
+    <Image Include="res\sle_splash_lc.BMP" />
+    <Image Include="res\sle_splash_of.BMP" />
+    <Image Include="res\sle_splash_portal.BMP" />
+    <Image Include="res\sle_splash_portal2.BMP" />
+    <Image Include="res\sle_splash_sep30.BMP" />
+    <Image Include="res\sle_splash_space.BMP" />
+    <Image Include="res\sle_splash_tf2.BMP" />
+    <Image Include="res\toolbar256.bmp" />
+    <Image Include="res\toolbar_grid_selection.bmp" />
+    <Image Include="res\toolbar_main.bmp" />
+    <Image Include="res\toolbar_map.bmp" />
+    <Image Include="res\toolbar_undoredo.bmp" />
+    <Image Include="res\toolbar_visibility.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

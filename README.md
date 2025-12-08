@@ -4,9 +4,11 @@ This is the repository of "SLE" - the Source Level Editor, my custom fork of Ham
 
 ![sle_splash](https://github.com/user-attachments/assets/30cc2ee3-15da-401b-9f0d-9226e0e09567)
 
-The current version is 2.104.
+The current version is 2.108.
 
 In the Releases you'll find two versions: the regular and "nomanifest". You will most likely want the regular one. "Nomanifest" means its menus, buttons and dialogues follow the classic Win 9x visual theme, without smooth corners or Aero effects.
+
+For building the source code, see BUILDING.md. 
 
 ### 0. Nature and state of the project
 
