@@ -57,3 +57,4 @@ src/_compiled_bin/level_editor.pdb
 src/_compiled_bin/level_editor_dll.pdb
 src/raytrace/Release/raytrace.log
 src/ipch
+*.user
