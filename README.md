@@ -4,7 +4,7 @@ This is the repository of "SLE" - the Source Level Editor, my custom fork of Ham
 
 ![sle_splash](https://github.com/user-attachments/assets/30cc2ee3-15da-401b-9f0d-9226e0e09567)
 
-The current version is 2.108.
+The current version is 2.117.
 
 In the Releases you'll find two versions: the regular and "nomanifest". You will most likely want the regular one. "Nomanifest" means its menus, buttons and dialogues follow the classic Win 9x visual theme, without smooth corners or Aero effects.
 
@@ -83,6 +83,12 @@ As the name suggests, it's the core Source 1 games: Half-Life 2, Portal, CS:S, T
 * Overlays keep/update face assignment when using Clipper Tool on their solids;
 
 * Limited support for HL1 mapping: can save brushwork, entities and texture coordinates (but cannot load from WADs or use non-power of 2 textures);
+
+* Background images: TGA artwork can be viewed inside the editor in 2D and/or 3D Views, resized, rotated, made translucent;
+
+* Displacements and models can be exported to .SMD (optionally with model collisions) directly from the editor;
+
+* 3-Point Clipper can achieve clipping at any angle in both 2D and 3D Views;
 
 The entire list of changes and features can be found at:
 https://docs.google.com/spreadsheets/d/1uqCHjbjhXvRDr77jTaQFajo1EvFPy297ZsINmf5sF90
