@@ -36,6 +36,9 @@ typedef enum
 	scCascadingRecursive = 0x100,	// Select all entities attached to outputs of this entity, recursively
 	scSelectAll = 0x200,
 	scSaveChanges = 0x400,		// changing the selection causes changes made in the properties dialog be saved
+#ifdef SLE //// SLE NEW - allow selecting w/o children, for the worldspawn
+	scNoChildren = 0x800,
+#endif
 };
 
 

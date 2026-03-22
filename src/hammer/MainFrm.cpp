@@ -103,6 +103,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_COMMAND(ID_VIEW_OPAQUE_MATERIALS, OnOpaqueMaterials)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_OPAQUE_MATERIALS, OnUpdateOpaqueMaterials)
 #ifdef SLE //// SLE NEW - preview normal maps, diffuse, specular...
+	ON_COMMAND(ID_VIEW_SHOW_ILLUMPOS, OnShowIllumPos) //// SLE NEW - show illum position
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SHOW_ILLUMPOS, OnUpdateShowIllumPos)
 	ON_COMMAND(ID_VIEW_SHOW_DIFFUSE, OnShowDiffuse)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SHOW_DIFFUSE, OnUpdateShowDiffuse)
 	ON_COMMAND(ID_VIEW_SHOW_NORMALMAPS, OnShowNormalMaps)
@@ -319,6 +321,16 @@ void CMainFrame::OnOpaqueMaterials()
 	MaterialSystemInterface()->OverrideConfig( MaterialSystemConfig(), false );
 }
 #ifdef SLE //// SLE NEW - preview normal maps, diffuse, specular...
+void CMainFrame::OnUpdateShowIllumPos(CCmdUI *pCmdUI) //// SLE NEW - show illum position
+{
+	pCmdUI->SetCheck(Options.view3d.bShowIllumPosition);
+}
+
+void CMainFrame::OnShowIllumPos()
+{
+	Options.view3d.bShowIllumPosition = !Options.view3d.bShowIllumPosition;
+}
+
 void CMainFrame::OnUpdateShowDiffuse(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(MaterialSystemConfig().bShowDiffuse);
@@ -756,7 +768,7 @@ void CMainFrame::DockControlBarRightOf(CControlBar* Bar, CControlBar* RightOf) /
 	CRect rect;
 	DWORD dw;
 	UINT n;
-
+	
 	// get MFC to adjust the dimensions of all docked ToolBars
 	// so that GetWindowRect will be accurate
 	RecalcLayout();

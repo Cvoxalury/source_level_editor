@@ -1780,7 +1780,9 @@ void CRender::SetRenderMode(EditorRenderMode_t eRenderMode, bool bForce)
 		{
 			const char *faceShaderName = m_pCurrentMaterial->GetShaderName();
 			const char *faceTextureName = m_pCurrentMaterial->GetName();
-			if (V_strcmp(faceTextureName, "skybox") == 0) bDoShading = false;
+		if( Q_stristr(faceShaderName, "UnlitGeneric")) bDoShading = false;
+		if (Q_stristr(faceShaderName, "UnlitTwoTexture")) bDoShading = false;
+		if (Q_stristr(faceShaderName, "Sky")) bDoShading = false;
 			if (m_pCurrentMaterial->GetMaterialVarFlag(MATERIAL_VAR_DECAL)) bDoShading = false;
 		}
 		if ( bDoShading )

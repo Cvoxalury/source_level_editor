@@ -1301,6 +1301,17 @@ void COP_Entity::RefreshKVListValues( const char *pOnlyThisVar )
 								pValue = pTestValue;
 						}
 					}
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded					
+					else if ( eType == ivSoundchoices )
+					{
+						if ( pUnformattedValue )
+						{
+							const char *pTestValue = pVar->ItemStringForValue( pUnformattedValue );
+							if ( pTestValue )
+								pValue = pTestValue;
+						}
+					}
+#endif
 #ifdef SLE //// SLE NEW - boolean type, ported from 2015
 					else if (eType == ivBoolean)
 					{
@@ -2053,6 +2064,13 @@ void COP_Entity::CreateSmartControls(GDinputvariable *pVar, CUtlVector<const cha
 			CreateSmartControls_BrowseScripts( pVar, ctrlrect, hControlFont );
 		}
 #endif
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded
+		else if ( ( eType == ivSoundchoices ) )
+		{
+			CreateSmartControls_BrowseAndPlayButtons( pVar, ctrlrect, hControlFont, false ); // no browse button - choices are hardcoded
+			CreateSmartControls_Choices( pVar, ctrlrect, hControlFont );
+		}
+#endif
 	}
 
 	m_pSmartControl->ShowWindow(SW_SHOW);
@@ -2204,7 +2222,11 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 	//
 	// If this is a choices field, give combo box text choices from GameData variable
 	//
-	if (pVar->GetType() == ivChoices)
+	if (pVar->GetType() == ivChoices		
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded	
+		|| pVar->GetType() == ivSoundchoices
+#endif
+		)
 	{
 		for (int i = 0; i < pVar->GetChoiceCount(); i++)
 		{
@@ -2323,6 +2345,12 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 			{
 				p = pVar->ItemStringForValue(pszValue);
 			}
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded				
+			else if (pVar->GetType() == ivSoundchoices)
+			{
+				p = pVar->ItemStringForValue(pszValue);
+			}
+#endif
 #ifdef SLE //// SLE NEW - boolean type, ported from 2015
 			else if (pVar->GetType() == ivBoolean)
 			{
@@ -2431,7 +2459,11 @@ void COP_Entity::CreateSmartControls_BasicEditControl( GDinputvariable *pVar, CR
 	m_SmartControls.AddToTail(pEdit);
 }
 
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+void COP_Entity::CreateSmartControls_BrowseAndPlayButtons(GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont, bool createBrowse)
+#else
 void COP_Entity::CreateSmartControls_BrowseAndPlayButtons(GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont)
+#endif
 {
 	CRect ButtonRect = ctrlrect;
 
@@ -2445,16 +2477,24 @@ void COP_Entity::CreateSmartControls_BrowseAndPlayButtons(GDinputvariable *pVar,
 		message = ( HMENU )IDC_BROWSE_INSTANCE;
 	}
 
-	CButton *pButton = new CButton;
-	pButton->CreateEx(0, "Button", "Browse...", WS_TABSTOP | WS_CHILD | WS_VISIBLE,
-		ButtonRect.left, ButtonRect.top, ButtonRect.Width(), ButtonRect.Height(),
-		GetSafeHwnd(), message);
-	pButton->SendMessage(WM_SETFONT, ( WPARAM )hControlFont);
-	m_pSmartBrowseButton = pButton;
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+	if ( createBrowse )
+#endif
+	{
+		CButton *pButton = new CButton;
+		pButton->CreateEx(0, "Button", "Browse...", WS_TABSTOP | WS_CHILD | WS_VISIBLE,
+			ButtonRect.left, ButtonRect.top, ButtonRect.Width(), ButtonRect.Height(),
+			GetSafeHwnd(), message);
+		pButton->SendMessage(WM_SETFONT, ( WPARAM )hControlFont);
+		m_pSmartBrowseButton = pButton;
+		m_SmartControls.AddToTail(pButton);
+	}
 
-	m_SmartControls.AddToTail(pButton);
-
-	if ( pVar->GetType() == ivSound || pVar->GetType() == ivScene )
+	if ( pVar->GetType() == ivSound || pVar->GetType() == ivScene
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded
+		|| pVar->GetType() == ivSoundchoices
+#endif
+		)
 	{
 		ButtonRect.left = ButtonRect.right + 8;
 		ButtonRect.right = ButtonRect.left + 54;
@@ -2468,7 +2508,7 @@ void COP_Entity::CreateSmartControls_BrowseAndPlayButtons(GDinputvariable *pVar,
 		m_SmartControls.AddToTail(pButton);
 
 #ifdef SLE	//// SLE NEW - stop sound button for object properties
-		if ( pVar->GetType() == ivSound )
+		if ( pVar->GetType() == ivSound || pVar->GetType() == ivSoundchoices )
 		{
 			ButtonRect.left = ButtonRect.right + 8;
 			ButtonRect.right = ButtonRect.left + 54;
@@ -2482,7 +2522,27 @@ void COP_Entity::CreateSmartControls_BrowseAndPlayButtons(GDinputvariable *pVar,
 			m_SmartControls.AddToTail(pStopButton);
 		}
 #endif
+	}	
+#ifdef SLE //// SLE NEW - allow Marking for model field
+	if ( pVar->GetType() == ivStudioModel && !strcmp(pVar->GetName(), "model") ) // filter only "model" keyvalues, ignore things like gib models
+	{
+		//
+		// Create a "Mark" button for finding target entities.
+		//
+		ButtonRect.left = ButtonRect.right + 8;
+		ButtonRect.right = ButtonRect.left + 54;
+		
+		CButton *pButton = new CButton;
+		pButton->CreateEx(0, "Button", "Mark", WS_TABSTOP | WS_CHILD | WS_VISIBLE, 
+			ButtonRect.left, ButtonRect.top, ButtonRect.Width(), ButtonRect.Height(),
+			GetSafeHwnd(), (HMENU)IDC_MARK);
+		pButton->SendMessage(WM_SETFONT, (WPARAM)hControlFont);
+
+		ButtonRect.left += ButtonRect.Width() + 4;
+
+		m_SmartControls.AddToTail(pButton);
 	}
+#endif
 }
 #ifdef SLE //// SLE NEW - more data types
 void COP_Entity::CreateSmartControls_BrowseScripts(GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont)
@@ -2510,10 +2570,10 @@ void COP_Entity::CreateSmartControls_BrowseScripts(GDinputvariable *pVar, CRect 
 	else if ( pVar->GetType() == ivScriptList )
 	{
 		CButton *pButton = new CButton;
-		pButton->CreateEx(0, "Button", "Manage...", WS_TABSTOP | WS_CHILD | WS_VISIBLE, 
-			ButtonRect.left, ButtonRect.top, ButtonRect.Width(), ButtonRect.Height(), 
-			GetSafeHwnd(), (HMENU)IDC_PLAY_SOUND);
-		pButton->SendMessage(WM_SETFONT, (WPARAM)hControlFont);
+		pButton->CreateEx(0, "Button", "Manage...", WS_TABSTOP | WS_CHILD | WS_VISIBLE,
+			ButtonRect.left, ButtonRect.top, ButtonRect.Width(), ButtonRect.Height(),
+			GetSafeHwnd(), ( HMENU )IDC_PLAY_SOUND);
+		pButton->SendMessage(WM_SETFONT, ( WPARAM )hControlFont);
 
 		m_SmartControls.AddToTail(pButton);
 	}
@@ -3595,7 +3655,11 @@ void COP_Entity::InternalOnChangeSmartcontrol( const char *szValue )
 	
 	CString strValue = szValue;
 
-	if (pVar->GetType() == ivChoices) 
+	if (pVar->GetType() == ivChoices
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded		
+		|| pVar->GetType() == ivSoundchoices
+#endif
+		) 
 	{
 		//
 		// If a choicelist, change buffer to the string value of what we chose.
@@ -3724,47 +3788,51 @@ void COP_Entity::OnChangeSmartcontrolSel(void)
 	if ( !m_pDisplayClass )
 		return;
 
-	GDinputvariable * pVar = GetVariableAt( iSel );
+	GDinputvariable * pVar = GetVariableAt(iSel);
 	if ( pVar == NULL )
 	{
 		return;
 	}
 
-	if ((pVar->GetType() != ivTargetSrc) &&
-		(pVar->GetType() != ivTargetDest) &&
-		(pVar->GetType() != ivTargetNameOrClass) &&
-		(pVar->GetType() != ivChoices) &&
-		(pVar->GetType() != ivNPCClass) &&
-		(pVar->GetType() != ivFilterClass) &&
-		(pVar->GetType() != ivPointEntityClass)
+	if ( ( pVar->GetType() != ivTargetSrc ) &&
+		( pVar->GetType() != ivTargetDest ) &&
+		( pVar->GetType() != ivTargetNameOrClass ) &&
+		( pVar->GetType() != ivChoices ) &&
+		( pVar->GetType() != ivNPCClass ) &&
+		( pVar->GetType() != ivFilterClass ) &&
+		( pVar->GetType() != ivPointEntityClass )
 #ifdef SLE //// SLE NEW - more data types
 	//	&& (pVar->GetType() != ivSoundscape) //// SLE NEW - soundscape browser
-		&& (pVar->GetType() != ivActbusy)
-		&& (pVar->GetType() != ivBoolean)
+		&& ( pVar->GetType() != ivActbusy )
+		&& ( pVar->GetType() != ivBoolean )
+		&& ( pVar->GetType() != ivSoundchoices ) // for button sounds which are a choices list but hardcoded		
 #endif
 		)
 	{
 		return;
 	}
 
-	CComboBox *pCombo = (CComboBox *)m_pSmartControl;
+	CComboBox *pCombo = ( CComboBox * )m_pSmartControl;
 
-	char szBuf[128];
+	char szBuf[ 128 ];
 
 	// get current selection
 	int iSmartsel = pCombo->GetCurSel();
-	if (iSmartsel != LB_ERR)
+	if ( iSmartsel != LB_ERR )
 	{
 		// found a selection - now get the text
 		pCombo->GetLBText(iSmartsel, szBuf);
-	}
-	else
+	} else
 	{
 		// just get the text from the combo box (no selection)
 		pCombo->GetWindowText(szBuf, 128);
 	}
 
-	if (pVar->GetType() == ivChoices)
+	if ( pVar->GetType() == ivChoices
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded		
+		|| pVar->GetType() == ivSoundchoices
+#endif
+		)
 	{
 		const char *pszValue = pVar->ItemValueForString(szBuf);
 		if (pszValue != NULL)
@@ -3826,7 +3894,11 @@ void COP_Entity::SetFlagsPage( COP_Flags *pFlagsPage )
 //-----------------------------------------------------------------------------
 void COP_Entity::OnPlaySound(void)
 {
-	if ( m_eEditType != ivSound && m_eEditType != ivScene )
+	if ( m_eEditType != ivSound && m_eEditType != ivScene		
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded
+		&& m_eEditType != ivSoundchoices
+#endif
+		)
 		return;
 
 	// Get the name of the sound or VCD.
@@ -3840,6 +3912,18 @@ void COP_Entity::OnPlaySound(void)
 	if ( m_eEditType == ivScene )
 		filename = StripDirPrefix( szCurrentSound, "scenes" );
 
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded
+	// Just like the game, this list will have hardcoded index : soundname connections,
+	// and play them by supplying the g_Sounds with the soundname
+	if ( m_eEditType == ivSoundchoices )
+	{
+		// because soundchoices are used for sounds, locked sounds and unlocked sounds, use the key name
+		CString curKey;
+		GetCurKey(curKey);
+		filename.Format("Buttons.snd%s", m_kv.GetValue( curKey ));
+	}
+#endif
+
 	// Now play the sound..
 	SoundType_t type;
 	int nIndex;
@@ -3849,7 +3933,11 @@ void COP_Entity::OnPlaySound(void)
 #ifdef SLE //// SLE NEW - stop sound button for object properties
 void COP_Entity::OnStopSound(void)
 {
-	if (m_eEditType != ivSound )
+	if (m_eEditType != ivSound 
+#ifdef SLE //// SLE NEW - for button sounds which are a choices list but hardcoded
+		&& m_eEditType != ivSoundchoices
+#endif
+		)
 		return;
 	g_Sounds.StopSound();
 }
@@ -4355,11 +4443,18 @@ void COP_Entity::OnKillfocusKey(void)
 	SetCurVarListSelection( GetKeyValueRowByShortName( newkv.m_Key ) );
 	OnSelchangeKeyvalues();
 }
-
+#ifdef SLE //// SLE NEW - allow Marking for model field
 //-----------------------------------------------------------------------------
-// Does the dirty marking deed
+// Purpose: Marks all entities with the matching keyvalue.
+// Input:	szTargetName - the string to check against
+//			bClear - bool, clear selection or add to it
+//			bNameOrClass - bool, is the keyvalue for the name or class
+//			bModel - bool, is the keyvalue for the studiomodel
 //-----------------------------------------------------------------------------
+void COP_Entity::PerformMark( const char *szTargetName, bool bClear, bool bNameOrClass, bool bModel )
+#else
 void COP_Entity::PerformMark( const char *szTargetName, bool bClear, bool bNameOrClass )
+#endif
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 
@@ -4368,38 +4463,75 @@ void COP_Entity::PerformMark( const char *szTargetName, bool bClear, bool bNameO
 		if (szTargetName[0] != '\0')
 		{
 			CMapEntityList Found;
-			
-			pDoc->FindEntitiesByName(Found, szTargetName, false);
-			if ((Found.Count() == 0) && bNameOrClass)
+#ifdef SLE //// SLE NEW - allow Marking for model field
+			if ( bModel )
 			{
-				pDoc->FindEntitiesByClassName(Found, szTargetName, false);
-			}
-
-			if (Found.Count() != 0)
-			{
-				CMapObjectList Select;
-				FOR_EACH_OBJ( Found, pos )
+				// Check all visible entities and select those that have the same model.
+				// Currently this only works for the "model" keyvalue i. e. the studiomodel of the entity,
+				// not things like gib models for shooters.
+				pDoc->FindEntitiesByKeyValue(Found, "model", szTargetName, true);
+				if ( Found.Count() != 0 )
 				{
-					CMapEntity *pEntity = Found.Element(pos);
-					Select.AddToTail(pEntity);
-				}
+					CMapObjectList Select;
+					FOR_EACH_OBJ(Found, pos)
+					{
+						CMapEntity *pEntity = Found.Element(pos);
+						Select.AddToTail(pEntity);
+					}
 
-				if ( bClear )
-				{
-					// clear & safe previous selection
-					pDoc->SelectObjectList(&Select);
+					if ( bClear )
+					{
+						// clear & safe previous selection
+						pDoc->SelectObjectList(&Select);
+					} 
+					else
+					{
+						// don't save changes and add object to selection
+						pDoc->SelectObjectList(&Select, scSelect);
+					}
+
+					pDoc->Center2DViewsOnSelection();
 				}
 				else
 				{
-					// don't save changes and add object to selection
-					pDoc->SelectObjectList(&Select, scSelect );
+					MessageBox("No entities were found with that model.", "No entities found", MB_ICONINFORMATION | MB_OK);
 				}
-				
-				pDoc->Center2DViewsOnSelection();
 			}
 			else
+#endif
 			{
-				MessageBox("No entities were found with that targetname.", "No entities found", MB_ICONINFORMATION | MB_OK);
+				pDoc->FindEntitiesByName(Found, szTargetName, false);
+				if ( ( Found.Count() == 0 ) && bNameOrClass )
+				{
+					pDoc->FindEntitiesByClassName(Found, szTargetName, false);
+				}
+
+				if ( Found.Count() != 0 )
+				{
+					CMapObjectList Select;
+					FOR_EACH_OBJ(Found, pos)
+					{
+						CMapEntity *pEntity = Found.Element(pos);
+						Select.AddToTail(pEntity);
+					}
+
+					if ( bClear )
+					{
+						// clear & safe previous selection
+						pDoc->SelectObjectList(&Select);
+					} 
+					else
+					{
+						// don't save changes and add object to selection
+						pDoc->SelectObjectList(&Select, scSelect);
+					}
+
+					pDoc->Center2DViewsOnSelection();
+				} 
+				else
+				{
+					MessageBox("No entities were found with that targetname.", "No entities found", MB_ICONINFORMATION | MB_OK);
+				}
 			}
 		}
 	}
@@ -4426,8 +4558,16 @@ void COP_Entity::OnMark(void)
 	{
 		bNameOrClass = true;
 	}
-
+#ifdef SLE //// SLE NEW - allow Marking for model field
+	bool bModel = false;
+	if (pVar && (pVar->GetType() == ivStudioModel))
+	{
+		bModel = true;
+	}
+	PerformMark( szTargetName, true, bNameOrClass, bModel );
+#else
 	PerformMark( szTargetName, true, bNameOrClass );
+#endif
 }
 
 //-----------------------------------------------------------------------------

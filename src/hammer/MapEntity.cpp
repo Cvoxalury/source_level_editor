@@ -18,6 +18,7 @@
 #include "MapEntity.h"
 #include "MapAnimator.h"
 #include "MapSolid.h"
+#include "MapStudioModel.h"
 #include "MapView2D.h" // dvs FIXME: For HitTest2D implementation
 #include "MapViewLogical.h"
 #include "MapWorld.h"
@@ -195,7 +196,13 @@ CMapEntity::CMapEntity(void) : flags(0)
 //-----------------------------------------------------------------------------
 CMapEntity::~CMapEntity(void)
 {
-	SignalChanged();
+#ifdef SLE // don't signal changes if we're closing the document
+	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+	if (pDoc && !pDoc->IsLoading())
+#endif
+	{
+		SignalChanged();
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1407,7 +1414,7 @@ void CMapEntity::SetKeyValue(LPCSTR pszKey, LPCSTR pszValue)
 void CMapEntity::OnPreClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList)
 {
 	CMapClass::OnPreClone(pClone, pWorld, OriginalList, NewList);
-#ifdef SLE //// SLE UNDONE: this also happens in the clone function instead, so cloning path1 creates path3, then path5, etc; instead of doing name+1 it does name+1+1.
+#ifndef SLE //// SLE UNDONE: this also happens in the clone function instead, so cloning path1 creates path3, then path5, etc; instead of doing name+1 it does name+1+1.
 	if (OriginalList.Count() == 1)
 	{
 		// dvs: TODO: make this FGD-driven instead of hardcoded, see also MapKeyFrame.cpp
@@ -1452,7 +1459,13 @@ void CMapEntity::OnClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObjectL
 
 	if (OriginalList.Count() == 1)
 	{
+#ifdef SLE //// SLE CHANGE - move the naming-pointing from MapKeyFrame to here so it doesn't happen twice for 
+		if (ShouldDoSequentialNaming() //// SLE NEW - fgd-driven sequential naming
+			|| !stricmp(GetClassName(), "path_corner") || !stricmp(GetClassName(), "path_track")
+			|| !stricmp(GetClassName(), "keyframe_rope") || !stricmp(GetClassName(), "move_rope"))
+#else
 		if (!stricmp(GetClassName(), "path_corner") || !stricmp(GetClassName(), "path_track"))
+#endif
 		{
 			// dvs: TODO: make this FGD-driven instead of hardcoded, see also MapKeyFrame.cpp
 			// dvs: TODO: use letters of the alphabet between adjacent numbers, ie path2a path2b, etc.
@@ -1461,15 +1474,75 @@ void CMapEntity::OnClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObjectL
 			if (!pNewEntity)
 				return;
 
-			// Point the clone at what we were pointing at.
-			const char *pszNext = GetKeyValue("target");
-			if (pszNext)
+#ifdef SLE //// SLE CHANGE - move the naming-pointing from MapKeyFrame to here so it doesn't happen twice 
+#if 0
+			if ( ShouldDoSequentialNaming() ) //// SLE NEW - fgd-driven sequential naming
 			{
-				pNewEntity->SetKeyValue("target", pszNext);
-			}
+				const char *namingBase = GetSequentialNamingBase();
+						
+				// Point the clone at what we were pointing at.
+				const char *pszNext = GetKeyValue(namingBase);
+				if (pszNext)
+				{
+					pNewEntity->SetKeyValue(namingBase, pszNext);
+				//	CString str;
+				//	str.Format("GetSequentialNamingBase() %s for MapClass %s\n", namingBase, GetClassName());
+				//	AfxMessageBox(str);
+				}
+				else
+				{
+				//	CString str;
+				//	str.Format("No GetSequentialNamingBase() for MapClass %s\n", GetClassName());
+				//	AfxMessageBox(str);
+				}
 
-			// Point this path corner at the clone.
-			SetKeyValue("target", pNewEntity->GetKeyValue("targetname"));
+				// Point this path corner at the clone.
+				SetKeyValue(namingBase, pNewEntity->GetKeyValue("targetname"));
+			}
+			else // this may also happen if no level_editor.fgd was loaded (which we're okay with)
+#endif // disabled for now
+#endif
+			{
+			//	CString str;
+			//	str.Format("MapClass %s should not use sequential naming\n", GetClassName());
+			//	AfxMessageBox(str);
+#ifdef SLE
+				if ( !stricmp(GetClassName(), "path_corner") || !stricmp(GetClassName(), "path_track") )
+				{
+					// Point the clone at what we were pointing at.
+					const char *pszNext = GetKeyValue("target");
+					if ( pszNext )
+					{
+						pNewEntity->SetKeyValue("target", pszNext);
+					}
+
+					// Point this path corner at the clone.
+					SetKeyValue("target", pNewEntity->GetKeyValue("targetname"));
+				}
+				else if ( !stricmp(GetClassName(), "keyframe_rope") || !stricmp(GetClassName(), "move_rope") )
+				{
+					// Point the clone at what we were pointing at.
+					const char *pszNext = GetKeyValue("NextKey");
+					if ( pszNext )
+					{
+						pNewEntity->SetKeyValue("NextKey", pszNext);
+					}
+
+					// Point this path corner at the clone.
+					SetKeyValue("NextKey", pNewEntity->GetKeyValue("targetname"));
+				}
+#else
+				// Point the clone at what we were pointing at.
+				const char *pszNext = GetKeyValue("target");
+				if ( pszNext )
+				{
+					pNewEntity->SetKeyValue("target", pszNext);
+				}
+
+				// Point this path corner at the clone.
+				SetKeyValue("target", pNewEntity->GetKeyValue("targetname"));
+#endif
+			}
 		}
 	}
 
@@ -2549,7 +2622,20 @@ bool CMapEntity::ShouldSnapToHalfGrid()
 {
 	return (GetClass() && GetClass()->ShouldSnapToHalfGrid());
 }
+#ifdef SLE 
+//// SLE NEW - fgd-driven sequential naming. This is used by paths and keyframes to add a number to their targetname.
+bool CMapEntity::ShouldDoSequentialNaming()
+{
+	return (GetClass() && GetClass()->ShouldDoSequentialNaming());
+}
 
+const char* CMapEntity::GetSequentialNamingBase()
+{ 
+	if( !GetClass()) return "";
+	else return GetClass()->GetSequentialNamingBase(); 
+}
+
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: Returns the integer value of the nodeid key of this entity.
 //-----------------------------------------------------------------------------
@@ -2778,5 +2864,23 @@ void CMapEntity::UpdateSkyCameraVariables()
 			pWorld->SetSkyCameraScale(atof(GetKeyValue("scale")));
 		}
 	}
+}
+#endif
+#ifdef SLE //// SLE TODO: SMD Export
+bool CMapEntity::SaveSMD(ExportSMDInfo_s *pInfo, bool onlyCollision)
+{
+	if (!IsSelected())
+	{
+		return true;
+	}
+
+	CMapStudioModel *model = GetChildOfType((CMapStudioModel*)NULL);
+
+	if (model != NULL)
+	{
+		return model->SaveSMD(pInfo, onlyCollision);
+	}
+	
+	return TRUE;
 }
 #endif

@@ -38,6 +38,12 @@ public:
 
 	bool ShouldRenderLast() override { return true; }
 	bool IsVisualElement() override { return true; }
+	virtual bool IsClutter(void) const { return true; }
+#ifdef HAMMER2013_PORT_CORDONS
+	virtual bool CanBeCulledByCordon() const { return false; }
+#else
+	virtual bool IsCulledByCordon(const Vector &vecMins, const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
+#endif
 	const char* GetDescription() override { return "Spotlight"; }
 	void OnParentKeyChanged( const char* szKey, const char* szValue ) override;
 

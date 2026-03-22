@@ -434,6 +434,8 @@ exit 1
     <ClInclude Include="..\public\tier1\interface.h" />
     <ClInclude Include="keybinds.h" />
     <ClInclude Include="lpreview_thread.h" />
+    <ClInclude Include="mapimagepanel.h" />
+    <ClInclude Include="maprotationdistancevisualizer.h" />
     <ClInclude Include="MapSpriteBeam.h" />
     <ClInclude Include="mapdirectionvisualizer.h" />
     <ClInclude Include="MapHelper.h" />
@@ -822,8 +824,10 @@ exit 1
     <ClCompile Include="ManifestDialog.cpp" />
     <ClCompile Include="mapdirectionvisualizer.cpp" />
     <ClCompile Include="Mapdoc.cpp" />
+    <ClCompile Include="mapimagepanel.cpp" />
     <ClCompile Include="mapornament.cpp" />
     <ClCompile Include="MapPath.cpp" />
+    <ClCompile Include="maprotationdistancevisualizer.cpp" />
     <ClCompile Include="mapspotlight.cpp" />
     <ClCompile Include="MapSpriteBeam.cpp" />
     <ClCompile Include="mapsunhelper.cpp" />

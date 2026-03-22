@@ -75,6 +75,7 @@ public:
 			|| IsMoveClass() 
 			|| IsKeyFrameClass() 
 			|| IsLogical()) return false;
+		/*
 		if ( ClassNameMatches("scripted")
 			|| ClassNameMatches("light")
 			|| ClassNameMatches("point")
@@ -84,6 +85,7 @@ public:
 			|| ClassNameMatches("info")
 			|| ClassNameMatches("logic")
 			|| IsPlaceholder()) return false;
+		*/
 		return true;
 	}
 	//// SLE NEW - hide certain classes in light preview. Hardcoded list...
@@ -158,6 +160,9 @@ public:
 #ifdef SLE //// SLE CHANGE - allow saving the map as a commentary txt file (or potentially in the future, mapadd)
 	int SerializeCommentaryTXT(std::fstream&, BOOL);
 #endif
+#ifdef SLE //// SLE TODO: SMD Export
+	bool SaveSMD(ExportSMDInfo_s *pInfo, bool onlyCollision);
+#endif
 	virtual void PostloadWorld(CMapWorld *pWorld);
 	virtual ChunkFileResult_t SaveEditorData(CChunkFile *pFile);
 
@@ -174,6 +179,10 @@ public:
 	void GetLogicalConnectionPosition( LogicalConnection_t i, Vector2D &vecPosition );
 	
 	virtual bool ShouldSnapToHalfGrid();
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+	virtual bool ShouldDoSequentialNaming();	
+	virtual const char* GetSequentialNamingBase();
+#endif
 
 	virtual void SetOrigin(Vector& o);
 	virtual void CalcBounds(BOOL bFullUpdate = FALSE);

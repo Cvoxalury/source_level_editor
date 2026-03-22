@@ -767,3 +767,13 @@ void CEditGameClass::SetSpawnFlags(unsigned long nSpawnFlags)
 	V_snprintf( szValue, sizeof( szValue ), "%lu", nSpawnFlags );
 	SetKeyValue("spawnflags", nSpawnFlags);
 }
+#ifdef SLE
+//--------------------------------------------------------------------
+// Purpose: //// SLE NEW - method to check spawnflags like in the game code
+//--------------------------------------------------------------------
+bool CEditGameClass::HasSpawnFlags(int flags)
+{
+	unsigned long nSpawnFlags = GetSpawnFlags();
+	return (nSpawnFlags & flags);
+}
+#endif

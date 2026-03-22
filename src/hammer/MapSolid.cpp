@@ -2029,7 +2029,7 @@ bool CMapSolid::SaveSMD(ExportSMDInfo_s *pInfo)
 	CSSolid *pStrucSolid = new CSSolid;
 	pStrucSolid->Attach(this);
 	pStrucSolid->Convert(true, true);
-	pStrucSolid->SerializeSMD(pInfo->fp, pInfo->nObject++);
+	pStrucSolid->SerializeSMD(pInfo);
 	delete pStrucSolid;
 
 	// Serialize displacements
@@ -2042,6 +2042,13 @@ bool CMapSolid::SaveSMD(ExportSMDInfo_s *pInfo)
 			CMapDisp *pDisp = EditDispMgr()->GetDisp(hDisp);
 			if (!pDisp->SaveSMD(pInfo))
 				return FALSE;
+		}
+		else
+		{
+		//	if (!pMapFace->SaveSMD(pInfo))
+		//	{
+		//		return FALSE:
+		//	}
 		}
 	}
 

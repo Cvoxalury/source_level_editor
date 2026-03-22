@@ -80,6 +80,10 @@ class CMapStudioModel : public CMapHelper
 		int SerializeRMF(std::fstream &File, BOOL bRMF);
 		int SerializeMAP(std::fstream &File, BOOL bRMF);
 
+#ifdef SLE //// SLE TODO: SMD Export
+		bool SaveSMD(ExportSMDInfo_s *pInfo, bool onlyCollision);
+#endif
+
 		static void SetRenderDistance(float fRenderDistance);
 		static void EnableAnimation(BOOL bEnable);
 
@@ -88,7 +92,9 @@ class CMapStudioModel : public CMapHelper
 		bool ShouldRenderLast();
 
 		const char* GetDescription() { return("Studio model"); }
-
+#ifdef SLE_USE_HAMMER_LPREVIEW //// taken from Hammer-2013
+		void AddShadowingTriangles(CUtlVector<Vector>& tri_list);
+#endif
 		int GetFrame(void);
 		void SetFrame(int nFrame);
 
@@ -160,6 +166,7 @@ class CMapStudioModel : public CMapHelper
 		float m_Scale;						//// SLE NEW: preview model scale
 		Color m_ModelRenderColor;			//// SLE NEW: preview model rendercolor
 		int m_sequenceFrameFromSlider;
+		bool m_disableShadows;				//// SLE NEW: shadow control for light preview
 #endif
 };
 

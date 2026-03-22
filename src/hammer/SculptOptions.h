@@ -13,7 +13,6 @@
 #include "disppaint.h"
 #include "afxwin.h"
 #include "IHammer.h"
-
 #ifdef SLE //// SLE NEW - ported from Hammer-2013, STB image loading
 //#define SLE_USE_STB
 #endif

@@ -185,7 +185,8 @@ public:
 	//// SLE NEW - expose attachment positions
 	void GetAttachmentPosition(Vector &attachmentPos, int attachmentIndex);
 	void GetAttachmentPosition(Vector &attachmentPos, char *attachmentName);
-
+	//// SLE NEW - show illum position
+	void GetIllumPosition(Vector &illumPos);
 	int SetBodygroups(int iValue);
 #endif
 	int SetBodygroup( int iGroup, int iValue );
@@ -200,12 +201,20 @@ public:
 	void Set3dSkybox(bool is3dskybox); //// SLE NEW: 3d skybox preview
 #endif
 	bool IsTranslucent();
-	
+#ifdef SLE_USE_HAMMER_LPREVIEW // moved to public so it can be accessed by AddShadowingTriangles
+	CStudioHdr				*GetStudioHdr() const;
+	studiohwdata_t*			GetHardwareData();
+#endif
+#ifdef SLE //// return MDL Handle so MapStudioModel can have access to the collision
+	MDLHandle_t				GetMDLHandle() { return m_MDLHandle; }
+#endif
 private:
 	CStudioHdr				*m_pStudioHdr;
+#ifndef SLE_USE_HAMMER_LPREVIEW
 	CStudioHdr				*GetStudioHdr() const;
-	studiohdr_t*			GetStudioRenderHdr() const;
 	studiohwdata_t*			GetHardwareData();
+#endif
+	studiohdr_t*			GetStudioRenderHdr() const;
 
 	// entity settings
 	Vector					m_origin;

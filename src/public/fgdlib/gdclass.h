@@ -101,7 +101,10 @@ class GDclass
 #if 1 //def SLE // extend class for fgd
 		inline bool IsExtendClass(void) { return( m_bExtend ); }
 #endif
-
+#if 1 //def SLE //// SLE NEW - fgd-driven sequential naming
+		inline bool ShouldDoSequentialNaming() { return m_bSequentialNaming; }
+		inline const char *GetSequentialNamingBase(void) { return(m_szSequentialNamingBase); }
+#endif
 		inline bool ShouldSnapToHalfGrid() { return m_bHalfGridSnap; }
 
 		inline void SetNPCClass(bool bNPC) { m_bNPC = bNPC; }
@@ -147,7 +150,9 @@ class GDclass
 		bool ParseSize(TokenReader &tr);
 		bool ParseSpecifiers(TokenReader &tr);
 		bool ParseVariables(TokenReader &tr);
-
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+		bool ParseSequentialNaming(TokenReader &tr);
+#endif
 		color32 m_rgbColor;					// Color of entity.
 
 		bool m_bBase;						// Base only - not available to user.
@@ -162,6 +167,10 @@ class GDclass
 
 #if 1 //def SLE // extend class for fgd
 		bool m_bExtend;
+#endif
+#if 1 //def SLE //// SLE NEW - fgd-driven sequential naming
+		bool m_bSequentialNaming;
+		char *m_szSequentialNamingBase;
 #endif
 
 		bool m_bGotSize;					// Just for loading.

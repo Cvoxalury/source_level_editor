@@ -22,7 +22,9 @@
 #include "Options.h"
 #include "WorldSize.h"
 #include "mapdisp.h"
-
+#ifdef SLE //// SLE NEW - SMD export
+#include "mapdoc.h"
+#endif
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
@@ -1657,6 +1659,8 @@ void CSSolid::SerializeDXF(FILE *stream, int nObject)
 		CSSFace &face = m_Faces[i];
 		PINT pVerts = CreatePointIndexList(face);
 
+
+
 		for(int v = 0; v < face.nEdges; v++)
 			pVerts[v]++;
 
@@ -1677,8 +1681,8 @@ void CSSolid::SerializeDXF(FILE *stream, int nObject)
 // 
 // save to .SMD
 //
-void CSSolid::SerializeSMD(FILE *stream, int nObject)
+void CSSolid::SerializeSMD(ExportSMDInfo_s *pInfo)
 {
-	
+
 }
 #endif

@@ -1297,7 +1297,7 @@ void CFaceEditDispPage::UpdatePower( CMapDisp *pDisp )
 	int power = atoi( strPower );
 	
 #ifdef SLE //// SLE CHANGE - allow power 1 displacements for ancient maps
-	if( power < 1 ) { power = 1; }
+	if( power < 0 ) { power = 0; }
 #else
 	if( power < 2 ) { power = 2; }
 #endif
@@ -1353,7 +1353,19 @@ void CFaceEditDispPage::OnSpinUpDown( NMHDR *pNMHDR, LRESULT *pResult )
 			int power = atoi(strPower);
 			power += ( -pNMUpDown->iDelta );
 #ifdef SLE //// SLE CHANGE - allow power 1 displacements for ancient maps
-			if ( power < 2 )
+			if (power == 0 )
+			{
+				if (GetMainWnd()->MessageBox("Power of 0 displacements are only supported with custom VBSP; support in SLE is included for experimental reasons.\nProceed anyway?",
+					"Attention", MB_YESNO | MB_ICONQUESTION) == IDYES)
+				{
+					power = 0; // todo: investigate power 0 too
+				}
+				else
+				{
+					power = 1;
+				}
+			}
+			else if ( power == 1 )
 			{
 				if ( GetMainWnd()->MessageBox("Power of 1 displacements are only supported with custom VBSP; support in SLE is included for legacy reasons.\nProceed anyway?", 
 					"Attention", MB_YESNO | MB_ICONQUESTION) == IDYES )

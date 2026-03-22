@@ -546,7 +546,7 @@ bool CSelection::SelectObject(CMapClass *pObj, int cmd)
 			if ( bAlreadySelected )
 				return false;
 			
-			m_SelectionList.AddToTail(pObj);
+			m_SelectionList.AddToTail(pObj);			
 			pObj->SetSelectionState(SELECT_NORMAL);
 		}
 		else if ( (cmd & scUnselect) && bAlreadySelected )

@@ -13,6 +13,7 @@
 #include "MapStudioModel.h"
 #ifdef SLE //// needed for the sky camera access
 #include "mapworld.h"
+#include "vphysics_interface.h" // needed for dumping collision into SMD
 #endif
 #include "Render2D.h"
 #include "Render3D.h"
@@ -23,8 +24,10 @@
 #include "Material.h"
 #include "Options.h"
 #include "camera.h"
-//#include "hammer.h"
-
+#ifdef SLE_USE_HAMMER_LPREVIEW //// taken from Hammer-2013
+#include "istudiorender.h"
+#include "optimize.h"
+#endif
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
@@ -237,6 +240,7 @@ CMapClass *CMapStudioModel::CopyFrom(CMapClass *pObject, bool bUpdateDependencie
 	m_BodyGroup = pFrom->m_BodyGroup; //// SLE NEW: preview bodygroups
 	m_Scale = pFrom->m_Scale; //// SLE NEW: preview model scale
 	m_ModelRenderColor = pFrom->m_ModelRenderColor; //// SLE NEW: preview model rendercolor
+	m_disableShadows = pFrom->m_disableShadows; //// SLE NEW: shadow control for light preview
 #endif
 
 	return(this);
@@ -298,8 +302,11 @@ void CMapStudioModel::Initialize(void)
 	m_BodyGroup = 0; //// SLE NEW: preview bodygroups
 	m_Scale = 1.0f; //// SLE NEW: preview model scale
 	m_ModelRenderColor.SetColor(255, 255, 255, 255); //// SLE NEW: preview model rendercolor
-
+	m_disableShadows = false; //// SLE NEW: shadow control for light preview
 	m_sequenceFrameFromSlider = 0;
+	
+	if( m_pStudioModel) m_pStudioModel->SetBodygroups(m_BodyGroup);
+	if( m_pStudioModel) m_pStudioModel->SetModelScale(m_Scale);
 #endif
 }
 
@@ -394,6 +401,14 @@ void CMapStudioModel::OnParentKeyChanged(const char* szKey, const char* szValue)
 		}
 
 		SetFrame(m_sequenceFrameFromSlider);
+	}
+	else if ( !stricmp(szKey, "disableshadows") ) //// SLE NEW: shadow control for light preview
+	{
+		if( atoi(szValue) == 0)
+			m_disableShadows = false;
+		else
+			m_disableShadows = true;
+		PostUpdate(Notify_Changed);
 	}
 #endif
 }
@@ -998,6 +1013,22 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 #endif
 	{
 		DrawBasisVectors( pRender, m_Origin, vecAngles );
+#ifdef SLE //// SLE NEW - show illum position
+		if ( Options.view3d.bShowIllumPosition )
+		{
+			Vector illumPos;
+			m_pStudioModel->GetIllumPosition(illumPos);
+
+			Vector vecViewPoint;
+			pRender->GetCamera()->GetViewPoint(vecViewPoint);
+			float flDist = ( illumPos - vecViewPoint ).Length();
+			float size = flDist * 0.04f;
+			if ( size < 2 ) size = 2;
+			if ( size > 32 ) size = 32;
+			pRender->PushRenderMode(RENDER_MODE_FLAT_NOZ);
+			pRender->RenderSphere(m_Origin + illumPos, size, 16, 16, 255, 255, 50);
+		}
+#endif
 	}
 
 	pRender->PopRenderMode();
@@ -1230,5 +1261,263 @@ int CMapStudioModel::GetTriangleCount(void)
 		return 0;
 	}
 	return m_pStudioModel->GetTriangleCount();
+}
+#endif
+
+#ifdef SLE_USE_HAMMER_LPREVIEW //// taken from Hammer-2013 and adapted
+
+extern IStudioDataCache* g_pStudioDataCache;
+const vertexFileHeader_t* mstudiomodel_t::CacheVertexData( void *pModelData )
+{
+	return g_pStudioDataCache->CacheVertexData( (studiohdr_t*)pModelData );
+}
+
+void CMapStudioModel::AddShadowingTriangles( CUtlVector<Vector>& tri_list )
+{
+	// don't do it for entities with disabled shadows
+//	if ( m_disableShadows)
+//		return;
+
+	// todo: filter by distance from camera, and perhaps use LODs
+	if ( m_pStudioModel != NULL && ShouldAppearInRaytracedLightingPreview() )
+	{
+		Vector origin;
+		QAngle angles;
+		GetOrigin( origin );
+		GetRenderAngles( angles );
+
+		VMatrix transform;
+		transform.SetupMatrixOrgAngles( origin, angles );
+	//	if ( m_bExtraRotation )
+	//		RotateAroundAxis( transform, 90, 2 );
+		const studiohdr_t* pHdr = m_pStudioModel->GetStudioHdr()->GetRenderHdr();
+		int shadowLod = m_pStudioModel->GetHardwareData()->m_NumLODs;
+		studiomeshdata_t *pStudioMeshes = m_pStudioModel->GetHardwareData()->m_pLODs[shadowLod - 1].m_pMeshData;
+		for ( int i = 0; i < pHdr->numbodyparts; ++i )
+		{
+			mstudiobodyparts_t* pBodypart = pHdr->pBodypart( i );
+			for ( int j = 0; j < pBodypart->nummodels; ++j )
+			{
+				const mstudiomodel_t* pModel = pBodypart->pModel( j );
+				for ( int k = 0; k < pModel->nummeshes; ++k )
+				{
+					mstudiomesh_t *pMesh = pModel->pMesh( k );
+					const mstudio_meshvertexdata_t* vertData = pMesh->GetVertexData( const_cast<studiohdr_t*>( pHdr ) );
+					studiomeshdata_t *pMeshData = &pStudioMeshes[pMesh->meshid];
+					if ( pMeshData->m_NumGroup == 0 )
+						continue;
+
+					for ( int stripGroupID = 0; stripGroupID < pMeshData->m_NumGroup; stripGroupID++ )
+					{
+						studiomeshgroup_t *pMeshGroup = &pMeshData->m_pMeshGroup[stripGroupID];
+						for ( int stripID = 0; stripID < pMeshGroup->m_NumStrips; stripID++ )
+						{
+							OptimizedModel::StripHeader_t *pStripData = &pMeshGroup->m_pStripData[stripID];
+
+							if ( pStripData->flags & OptimizedModel::STRIP_IS_TRILIST )
+							{
+								for ( int i = 0; i < pStripData->numIndices; i += 3 )
+								{
+									int idx = pStripData->indexOffset + i;
+
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx ) ) ) );
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx + 1 ) ) ) );
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx + 2 ) ) ) );
+								}
+							}
+							else
+							{
+								Assert( pStripData->flags & OptimizedModel::STRIP_IS_TRISTRIP );
+								for (int i = 0; i < pStripData->numIndices - 2; ++i)
+								{
+									int idx = pStripData->indexOffset + i;
+									bool ccw = (i & 0x1) == 0;
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx ) ) ) );
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx + 1 + ccw ) ) ) );
+									tri_list.AddToTail( transform.VMul4x3( *vertData->Position( pMeshGroup->MeshIndex( idx + 2 - ccw ) ) ) );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#endif
+#ifdef SLE //// SLE TODO: SMD Export
+bool CMapStudioModel::SaveSMD(ExportSMDInfo_s *pInfo, bool onlyCollision)
+{
+	Vector origin;
+	QAngle angles;
+	GetOrigin(origin);
+	GetRenderAngles(angles);
+
+	VMatrix transform;
+	transform.SetupMatrixOrgAngles(origin, angles);
+
+	const studiohdr_t* pHdr = m_pStudioModel->GetStudioHdr()->GetRenderHdr();
+	int lod = Options.view3d.nLOD == -1 ? 0 : Options.view3d.nLOD;
+
+	// look up materials, once per model	
+	// todo - use g_pStudioRender->GetMaterialList or g_pStudioRender->GetMaterialListFromBodyAndSkin
+
+	//this exports the collision - turn it into its own function later
+	if (onlyCollision)
+	{
+		AfxMessageBox("exporting only collision");
+		vcollide_t *pCollide = g_pMDLCache->GetVCollide(m_pStudioModel->GetMDLHandle());
+		Vector *physicsVerts;
+		int vertCount = g_pPhysicsCollision->CreateDebugMesh(pCollide->solids[0], &physicsVerts);
+		int triCount = vertCount / 3;
+		int vert = 0;
+		VMatrix tmp = SetupMatrixOrgAngles(origin, angles);
+		int i;
+		for (i = 0; i < vertCount; i++)
+		{
+			physicsVerts[i] = tmp.VMul4x3(physicsVerts[i]);
+		}
+		for (i = 0; i < triCount; i++)
+		{
+			fprintf(pInfo->fp, "%s\n", "physbox");
+			// 2-1-0 because need to flip the triangles
+			CString str1, str2, str3;
+			str1.Format("0 %f %f %f %f %f %f %f %f 0\n",
+				physicsVerts[vert][0], physicsVerts[vert][1], physicsVerts[vert][2], 0.0, 0.0, 0.0, 0, 0);
+			vert++;
+			str2.Format("0 %f %f %f %f %f %f %f %f 0\n",
+				physicsVerts[vert][0], physicsVerts[vert][1], physicsVerts[vert][2], 0.0, 0.0, 0.0, 0, 0);
+			vert++;
+			str3.Format("0 %f %f %f %f %f %f %f %f 0\n",
+				physicsVerts[vert][0], physicsVerts[vert][1], physicsVerts[vert][2], 0.0, 0.0, 0.0, 0, 0);
+			vert++;
+
+			// need to flip it around or the model gets turned inside out
+			fprintf(pInfo->fp, str3);
+			fprintf(pInfo->fp, str2);
+			fprintf(pInfo->fp, str1);
+		}
+		return true;
+	}
+
+	studiohwdata_t *pHardwareData = m_pStudioModel->GetHardwareData();
+	if (!pHardwareData)
+		return false; 
+
+	studiomeshdata_t *pStudioMeshes = pHardwareData->m_pLODs[lod].m_pMeshData;
+		
+	for ( int i = 0; i < pHdr->numbodyparts; ++i )
+	{
+		mstudiobodyparts_t* pBodypart = pHdr->pBodypart(i);
+		for ( int j = 0; j < pBodypart->nummodels; ++j )
+		{
+			const mstudiomodel_t* pModel = pBodypart->pModel(j);
+			for ( int k = 0; k < pModel->nummeshes; ++k )
+			{
+				mstudiomesh_t *pMesh = pModel->pMesh(k);
+				const mstudio_meshvertexdata_t* vertData = pMesh->GetVertexData(const_cast< studiohdr_t* >( pHdr ));
+				studiomeshdata_t *pMeshData = &pStudioMeshes[ pMesh->meshid ];
+				if ( pMeshData->m_NumGroup == 0 )
+					continue;
+				
+				for ( int stripGroupID = 0; stripGroupID < pMeshData->m_NumGroup; stripGroupID++ )
+				{
+					studiomeshgroup_t *pMeshGroup = &pMeshData->m_pMeshGroup[ stripGroupID ];
+					for ( int stripID = 0; stripID < pMeshGroup->m_NumStrips; stripID++ )
+					{
+						OptimizedModel::StripHeader_t *pStripData = &pMeshGroup->m_pStripData[ stripID ];
+
+						if ( pStripData->flags & OptimizedModel::STRIP_IS_TRILIST )
+						{
+							for ( int i = 0; i < pStripData->numIndices; i += 3 )
+							{
+								int idx = pStripData->indexOffset + i;
+								
+								// Get the vert positions and normals
+								Vector pos1, pos2, pos3, normal1, normal2, normal3;
+								// the order should be reversed or the model comes out flipped inside out
+								pos1 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx + 2)));
+								pos2 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx + 1)));
+								pos3 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx)));
+								
+								normal1 = transform.VMul4x3(*vertData->Normal(pMeshGroup->MeshIndex(idx + 2)));
+								normal2 = transform.VMul4x3(*vertData->Normal(pMeshGroup->MeshIndex(idx + 1)));
+								normal3 = transform.VMul4x3(*vertData->Normal(pMeshGroup->MeshIndex(idx)));
+																																								
+								mstudiovertex_t *pVertices = vertData->Vertex(i);
+							//	normal = pVertices->m_vecNormal;		
+
+								Vector2D uv1 = Vector2D(0,0);
+								Vector2D uv2 = Vector2D(0, 0);
+								Vector2D uv3 = Vector2D(0, 0);
+
+								// get the texture coords for each vert in order
+								uv1[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 2))->m_vecTexCoord[0];
+								uv1[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 2))->m_vecTexCoord[1];
+								uv2[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 1))->m_vecTexCoord[0];
+								uv2[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 1))->m_vecTexCoord[1];
+								uv3[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx))->m_vecTexCoord[0];
+								uv3[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx))->m_vecTexCoord[1];
+								
+								m_pStudioModel->GetStudioHdr()->numtextures();
+
+								// get the texture name
+								// note, currently only using the current LOD. This may change in the future
+								char texture[260];								
+								Q_snprintf(texture, sizeof(texture), "%s", pHardwareData->m_pLODs[lod].ppMaterials[k]->GetName());
+								// cut off the last part, since the full path includes models/<model dir>
+								Q_FileBase(texture, texture, sizeof(texture));
+																
+								// Y UV is negative because it needs to be flipped
+								fprintf(pInfo->fp, "%s\n", texture);
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos1[ 0 ], pos1[ 1 ], pos1[ 2 ], 
+									normal1[0], normal1[1], normal1[2], uv1[ 0 ], -uv1[ 1 ]);
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos2[ 0 ], pos2[ 1 ], pos2[ 2 ], 
+									normal2[0], normal2[1], normal2[2], uv2[ 0 ], -uv2[ 1 ]);
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos3[ 0 ], pos3[ 1 ], pos3[ 2 ], 
+									normal3[0], normal3[1], normal3[2], uv3[ 0 ], -uv3[ 1 ]);
+							}
+						} 
+						else
+						{
+							Assert(pStripData->flags & OptimizedModel::STRIP_IS_TRISTRIP);
+							for ( int i = 0; i < pStripData->numIndices - 2; ++i )
+							{
+								int idx = pStripData->indexOffset + i;
+								bool ccw = ( i & 0x1 ) == 0;
+
+								Vector pos1, pos2, pos3, normal;
+								pos1 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx)));
+								pos2 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx + 1 + ccw)));
+								pos3 = transform.VMul4x3(*vertData->Position(pMeshGroup->MeshIndex(idx + 2 - ccw)));
+
+								Vector2D uv1 = Vector2D(0, 0);
+								Vector2D uv2 = Vector2D(0, 0);
+								Vector2D uv3 = Vector2D(0, 0);
+
+								// get the texture coords for each vert in order
+								uv1[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx))->m_vecTexCoord[0];
+								uv1[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx))->m_vecTexCoord[1];
+								uv2[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 1 + ccw))->m_vecTexCoord[0];
+								uv2[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 1 + ccw))->m_vecTexCoord[1];
+								uv3[0] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 2 - ccw))->m_vecTexCoord[0];
+								uv3[1] = vertData->Vertex(pMeshGroup->MeshIndex(idx + 2 - ccw))->m_vecTexCoord[1];
+
+								fprintf(pInfo->fp, "%s\n", "test");
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos1[ 0 ], pos1[ 1 ], pos1[ 2 ], 
+									0.0, 0.0, 0.0, uv1[ 0 ], -uv1[ 1 ]);
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos2[ 0 ], pos2[ 1 ], pos2[ 2 ], 
+									0.0, 0.0, 0.0, uv2[ 0 ], -uv2[ 1 ]);
+								fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos3[ 0 ], pos3[ 1 ], pos3[ 2 ], 
+									0.0, 0.0, 0.0, uv3[ 0 ], -uv3[ 1 ]);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return true;
 }
 #endif

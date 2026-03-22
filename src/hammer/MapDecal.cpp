@@ -12,6 +12,9 @@
 #include "MapFace.h"
 #include "MapSolid.h"
 #include "MapWorld.h"
+#ifdef SLE //// SLE NEW - render overlays in 2d
+#include "Render2D.h"
+#endif
 #include "Render3D.h"
 #include "TextureSystem.h"
 
@@ -151,6 +154,25 @@ int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces)
 
 		if ((fDistance <= 16.0f) && (fDistance >= -0.0001))
 		{
+#ifdef SLE //// SLE CHANGE - disable decaling nodraw, skybox, toolbrushes
+			if (!pFace || !pFace->GetTexture())
+				continue;
+
+			if (pFace->GetTexture()->HasVariable("%compilenodraw"))
+				continue;
+
+			if (!V_strncmp(pFace->GetTexture()->GetFileName(), "tools/", 6)) // if it's anything from the tools folder, then...
+			{
+				if (/*!V_strncmp(m_pTexture->GetFileName(), "tools/toolsskybox", 17)*/
+					m_pTexture->HasVariable("%compilesky") || m_pTexture->HasVariable("%compile2Dsky")
+					) // if it's a skybox, count it as sky texture only...
+					continue;
+
+				if (V_strncmp(pFace->GetTexture()->GetFileName(), "tools/toolsblack", 16) // and if it's not black, white, or nodraw, count it as a tool texture.
+					&& V_strncmp(pFace->GetTexture()->GetFileName(), "tools/toolswhite", 16))
+					continue;
+			}
+#endif
 			if (ppFaces != NULL )
 			{
 				ppFaces[nDecalFaces] = pFace;
@@ -479,6 +501,66 @@ void CMapDecal::RebuildDecalFaces(void)
 // Purpose: 
 // Input  : pRender - 
 //-----------------------------------------------------------------------------
+#ifdef SLE //// SLE NEW - render overlays in 2d
+void CMapDecal::Render2D(CRender2D *pRender)
+{
+	// render as any unselected entity
+	if (GetSelectionState() == SELECT_NONE)
+	{
+		BaseClass::Render2D(pRender);
+		return;
+	}
+	//
+	// Determine whether we need to render in one or two passes. If we are selected,
+	// and rendering in flat or textured mode, we need to render using two passes.
+	//
+	int nPasses = 1;
+	int nStart = 1;
+	SelectionState_t eSelectionState = GetSelectionState();
+	EditorRenderMode_t eDefaultRenderMode = pRender->GetDefaultRenderMode();
+	if ((eSelectionState != SELECT_NONE) && (eDefaultRenderMode != RENDER_MODE_WIREFRAME))
+	{
+		nPasses = 2;
+	}
+
+	if (eSelectionState == SELECT_MODIFY)
+	{
+		nStart = 2;
+	}
+
+//	pRender->RenderEnable(RENDER_POLYGON_OFFSET_FILL, true);
+
+	for (int nPass = nStart; nPass <= nPasses; nPass++)
+	{
+		//
+		// Render the second pass in wireframe.
+		//
+
+		if (nPass == 1)
+		{
+			pRender->PushRenderMode(RENDER_MODE_TEXTURED);
+		}
+		else
+		{
+			pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+		}
+
+		FOR_EACH_OBJ(m_Faces, pos)
+		{
+			DecalFace_t *pDecalFace = m_Faces.Element(pos);
+
+			if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL))
+			{
+				pDecalFace->pFace->Render2D(pRender);
+			}
+		}
+
+		pRender->PopRenderMode();
+	}
+
+//	pRender->RenderEnable(RENDER_POLYGON_OFFSET_FILL, false);
+}
+#endif
 void CMapDecal::Render3D(CRender3D *pRender)
 {
 	//

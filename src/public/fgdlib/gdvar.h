@@ -60,6 +60,7 @@ enum GDIV_TYPE
 	ivActbusy,				// to open list of actbusies
 	ivScript,				// backported from 2015, for VScript
 	ivScriptList,			// ditto
+	ivSoundchoices,			// for button sounds which are a choices list but hardcoded
 #endif
 	ivMax					// count of types
 };

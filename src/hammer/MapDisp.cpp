@@ -201,7 +201,11 @@ void CMapDisp::InitData( int power )
 //-----------------------------------------------------------------------------
 bool CMapDisp::Create( void )
 {
+#ifdef SLE
+	if (m_CoreDispInfo.CreateWithoutLOD() )
+#else
 	if ( m_CoreDispInfo.Create()) //CreateWithoutLOD() )
+#endif
 	{
 		PostCreate();
 		return true;
@@ -1591,6 +1595,7 @@ void CMapDisp::UpdateMesh()
 			meshBuilder.TangentT3fv(vert.m_TangentT.Base());
 			meshBuilder.TexCoord2fv(0, vert.m_TexCoord.Base());
 			meshBuilder.TexCoord2fv(1, vert.m_LuxelCoords[ 0 ].Base());
+			meshBuilder.TexCoord2fv(2, vert.m_TexCoord.Base());
 
 			meshBuilder.AdvanceVertex();
 		}
@@ -4717,44 +4722,49 @@ bool CMapDisp::SaveDXF(ExportDXFInfo_s *pInfo)
 #ifdef SLE //// SLE TODO: SMD Export
 bool CMapDisp::SaveSMD(ExportSMDInfo_s *pInfo)
 {
-	int nVertCount = GetSize();
-	int nTriFaces = TriangleCount();
-
-//	FileHandle_t SMDFile01;
-//	EnsureFileDirectoryExists(SMDfilename);
-//	SMDFile01 = g_pFileSystem->Open(SMDfilename, "wb");
-//	int num_tris_final = num_tris;
-
-	fprintf(pInfo->fp, "version 1\r\n"
-		"nodes\r\n"
-		"0 \"static_prop\" -1\r\n"
-		"end\r\n"
-		"skeleton\r\n"
-		"time 0\r\n"
-		"0 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000\r\n"
-		"end\r\n"
-		"triangles\r\n"
-	);
 	int i;
-	for (i = 0; i < GetSize(); i++)
+	for (i = 0; i < TriangleCount(); i++)
 	{
-	//	if (ValidTriangle(vertices[tri[i].p[0]].p, vertices[tri[i].p[1]].p, vertices[tri[i].p[2]].p)) {
-	//	fprintf(pInfo->fp, "%s", tri[i].material);
+		// Get vert positions
 		Vector pos1, pos2, pos3, normal;
-		GetTriPos(i, pos1, pos2, pos3);
-	//	normal = GetNormalFromFace(i);
-		Vector2D uv;
-		GetSurfTexCoord(i, uv);
-		fprintf(pInfo->fp, "%s\n", "test");
-		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos1[0], pos1[1], pos1[2], 0.0, 0.0, 0.0, uv[0], uv[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
-		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos2[0], pos2[1], pos2[2], 0.0, 0.0, 0.0, uv[0], uv[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
-		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos3[0], pos3[1], pos3[2], 0.0, 0.0, 0.0, uv[0], uv[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
-	}
+		GetTriPos(i, pos3, pos2, pos1); // the order should be reversed or the disp comes out flipped
+		
+		m_CoreDispInfo.GetNormal(i, normal);
 
-//	Msg("%i triangles written.\n", num_tris_final);
-//	Msg("------------------------\n");
-	fprintf(pInfo->fp, "end");
-//	g_pFileSystem->Close(SMDFile01);
+		// Get texture name
+		char texture[256];
+		CMapFace *mapface = (CMapFace*)GetParent();
+		if (mapface)
+		{
+			mapface->GetTextureName(texture);
+			// cut down to just the filename, no paths
+			Q_FileBase(texture, texture, sizeof(texture));
+		}
+		else
+		{
+			Assert(0);
+			return false;
+		}
+
+		// Get texture coords for each vert
+		Vector2D uv1, uv2, uv3;
+		uv1 = Vector2D(0, 0);
+		uv2 = Vector2D(0, 0);
+		uv3 = Vector2D(0, 0);
+
+		unsigned short v1, v2, v3;
+		GetTriIndices(i, v1, v2, v3);
+		
+		// the order needs to be reversed and then the vertical flipped
+		m_CoreDispInfo.GetTexCoord(v1, uv3);
+		m_CoreDispInfo.GetTexCoord(v2, uv2);
+		m_CoreDispInfo.GetTexCoord(v3, uv1);
+		
+		fprintf(pInfo->fp, "%s\n", texture);
+		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos1[0], pos1[1], pos1[2], normal[0], normal[1], normal[2], uv1[0], -uv1[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
+		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos2[0], pos2[1], pos2[2], normal[0], normal[1], normal[2], uv2[0], -uv2[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
+		fprintf(pInfo->fp, "0 %f %f %f %f %f %f %f %f 0\n", pos3[0], pos3[1], pos3[2], normal[0], normal[1], normal[2], uv3[0], -uv3[1]); //normal[0], normal[1], normal[2], uv[0], uv[1]);
+	}
 
 	return true;
 }

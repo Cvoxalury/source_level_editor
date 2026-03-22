@@ -23,6 +23,9 @@ enum SelectionState_t
 	SELECT_MORPH,				// selected for vertex manipulation
 	SELECT_MULTI_PARTIAL,		// partial selection in a multiselect
 	SELECT_MODIFY,				// being modified by a tool
+#ifdef SLE //// SLE NEW - allow selecting w/o children, for the worldspawn
+	SELECT_NORMAL_NOCHILDREN,
+#endif
 };
 #ifdef SLE
 //// SLE NEW: 3d skybox preview
@@ -340,6 +343,8 @@ protected:
 #ifdef SLE
 		m_eSkyboxState = SKYBOX_NONE;		//// SLE NEW: 3d skybox preview
 		m_bShownAsEditorObject = true;		//// SLE NEW - editor objects display filter/toggle
+		
+		m_eFrozenState = FROZEN_NO;			//// SLE NEW - Freeze/unfreeze 	
 #endif
 	}
 

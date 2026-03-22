@@ -45,7 +45,7 @@ public:
 protected:
 	void SetText( const char* pNewText );
 	void Initialize();
-	void Render3DText( CRender3D *pRender, const char* szText, const float flTextSize );
+	void RenderWorldText( CRender2D *pRender2D, CRender3D *pRender3D, const char* szText, const float flTextSize );
 
 	//
 	// Implements CMapAtom transformation functions.
@@ -59,6 +59,9 @@ protected:
 	colorVec m_RenderColor;			// Our render color.
 	float m_flTextSize;
 	CUtlString m_pText;
+
+	bool m_show2D_bool;				// Display this world text in 2d views (false by default)
+	bool m_show3D_bool;				// Display this world text in 3d views (true by default)
 
 private:
 	void ComputeCornerVertices( Vector* pVerts, float flBloat = 0.0f ) const;

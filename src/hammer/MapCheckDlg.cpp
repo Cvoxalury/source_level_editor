@@ -59,6 +59,7 @@ typedef enum
 	ErrorEmptyAmbientGeneric,
 	ErrorEmptyModelName,
 	ErrorDisplacementNodraw,
+	ErrorShortFogFarZ,
 #endif
 } MapErrorType;
 
@@ -100,7 +101,8 @@ struct
 	{IDS_DISPASBRUSHENT,				IDS_DISPASBRUSHENT_DESC},
 	{IDS_EMPTYSOUNDNAME,				IDS_EMPTYSOUNDNAME_DESC},
 	{IDS_EMPTYMODELNAME,				IDS_EMPTYMODELNAME_DESC},
-	{IDS_DISPLACEMENTNODRAW,			IDS_DISPLACEMENTNODRAW_DESC}
+	{IDS_DISPLACEMENTNODRAW,			IDS_DISPLACEMENTNODRAW_DESC},
+	{IDS_SHORTFOGFARZ,					IDS_SHORTFOGFARZ_DESC}
 #endif
 };
 
@@ -728,6 +730,9 @@ static void AddError(CListBox *pList, MapErrorType Type, DWORD dwExtra, ...)
 #ifdef SLE		
 		case ErrorDisplacementTiedToEntity:
 		case ErrorDisplacementNodraw:
+		case ErrorEmptyAmbientGeneric:
+		case ErrorEmptyModelName:
+		case ErrorShortFogFarZ:
 		{
 			pError->pObjects[0] = va_arg(vl, CMapClass *);
 			break;
@@ -1525,7 +1530,55 @@ static void CheckDisplacementsNodraw(CListBox *pList, CMapWorld *pWorld)
 {
 //	pWorld->EnumChildren((ENUMMAPCHILDRENPROC)_CheckDisplacementsNodraw, (DWORD)pList, MAPCLASS_TYPE(CMapSolid));
 }
-#endif
+
+// Check ambient generics without a sound
+static BOOL _CheckAmbientGenericSoundName (CMapEntity *pEntity, CListBox *pList)
+{
+	if ( !IsCheckVisible(pEntity) )
+		return TRUE;
+
+	if ( pEntity && !stricmp(pEntity->GetClassName(), "ambient_generic") ) //// SLE TODO - expand to include other entities by FGD?
+	{
+		const char *soundValue = pEntity->GetKeyValue("message");
+		if ( !soundValue || !soundValue[0] )
+		{
+			AddError(pList, ErrorEmptyAmbientGeneric, 0, pEntity);
+			return TRUE;
+		}
+	}
+
+	return TRUE;
+}
+
+static void CheckAmbientGenericSoundName(CListBox *pList, CMapWorld *pWorld)
+{
+	pWorld->EnumChildren( ( ENUMMAPCHILDRENPROC )_CheckAmbientGenericSoundName, ( DWORD )pList, MAPCLASS_TYPE( CMapEntity ));
+}
+
+// Check fog controllers that have low FarZ (but over -1 as that is the default)
+static BOOL _CheckShortFogFarZ (CMapEntity *pEntity, CListBox *pList)
+{
+	if ( !IsCheckVisible(pEntity) )
+		return TRUE;
+
+	if ( pEntity && !stricmp(pEntity->GetClassName(), "env_fog_controller") ) //// SLE TODO - expand to include other entities by FGD?
+	{
+		const char *farzValue = pEntity->GetKeyValue("farz");
+		if ( farzValue && atof(farzValue) < 2048 && atof(farzValue) >= 0 )
+		{
+			AddError(pList, ErrorShortFogFarZ, 0, pEntity);
+			return TRUE;
+		}
+	}
+
+	return TRUE;
+}
+
+static void CheckShortFogFarZ(CListBox *pList, CMapWorld *pWorld)
+{
+	pWorld->EnumChildren( ( ENUMMAPCHILDRENPROC )_CheckShortFogFarZ, ( DWORD )pList, MAPCLASS_TYPE( CMapEntity ));
+}
+#endif //// SLE
 //
 // ** FIX FUNCTIONS
 //
@@ -1867,6 +1920,8 @@ bool CMapCheckDlg::DoCheck(void)
 #ifdef SLE	//// SLE NEW - new 'Map Problems' types 
 //	CheckDisplacementsTiedToEntity(&m_Errors, pWorld);
 	CheckDisplacementsNodraw(&m_Errors, pWorld);
+//	CheckAmbientGenericSoundName(&m_Errors, pWorld);
+	CheckShortFogFarZ(&m_Errors, pWorld);
 #endif
 	if (!m_Errors.GetCount())
 	{

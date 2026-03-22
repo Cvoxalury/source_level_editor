@@ -3464,6 +3464,10 @@ CSculptProjectOptions::~CSculptProjectOptions()
 		m_pTexture->DecrementReferenceCount();
 		m_pTexture = NULL;
 #ifdef SLE //// ported from Hammer-2013
+		m_pTexture->SetTextureRegenerator(NULL);
+	}
+	if( m_pMaterial)
+	{
 		m_pMaterial->DecrementReferenceCount();
 		m_pMaterial = NULL;
 #endif

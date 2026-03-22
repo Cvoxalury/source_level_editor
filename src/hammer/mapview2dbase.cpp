@@ -31,10 +31,15 @@
 #include "vgui_controls/EditablePanel.h"
 #include "camera.h"
 #include "material.h"
-#ifdef SLE_2D_BACKGROUNDS
+#if 0 //def SLE_2D_BACKGROUNDS
 #include "bitmap/tgaloader.h"
 #include <vgui/ISurface.h>
 #include <vgui/IInput.h>
+
+#include "KeyValues.h"
+#include "materialsystem/imaterialsystem.h"
+#include "materialsystem/MaterialSystemUtil.h"
+#include "materialsystem/itexture.h"
 #endif
 #ifdef HAMMER2013_PORT_KEYBINDS_X
 #include "KeyBinds.h"
@@ -144,6 +149,12 @@ CMapView2DBase::CMapView2DBase(void)
 	m_pRender->SetView( this );
 
 	m_pRender->SetDefaultRenderMode( RENDER_MODE_FLAT_NOZ );
+#if 0 //def SLE_2D_BACKGROUNDS
+	m_bg_pixels = NULL;
+	m_bg_tex = NULL;
+	m_bg_mat = NULL;
+	m_bg_loaded_bool = false;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -165,6 +176,24 @@ CMapView2DBase::~CMapView2DBase(void)
 	{
 		delete m_pRender;
 	}
+#if 0 //def SLE_2D_BACKGROUNDS
+	m_bg_pixels = NULL;
+	if ( m_bg_tex )
+	{
+		m_bg_tex->SetTextureRegenerator(NULL);
+		m_bg_tex->DecrementReferenceCount();
+		m_bg_tex = NULL;
+	}
+	if ( m_bg_mat )
+	{
+		m_bg_mat->DecrementReferenceCount();
+		m_bg_mat = NULL;
+	}
+	if ( m_bg_pixels )
+	{
+		delete [] m_bg_pixels;
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -630,24 +659,81 @@ void CMapView2DBase::DrawGridLogical( CRender2D *pRender )
 		pRender->DrawLine( vPointMin, vPointMax );
 	}
 }
-#ifdef SLE_2D_BACKGROUNDS
+#if 0 //def SLE_2D_BACKGROUNDS
 using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: //// SLE NEW - background images
 //-----------------------------------------------------------------------------
+bool CMapView2DBase::ReadBackgroundImage(CString &filename)
+{
+	if( m_bg_loaded_bool) return true; 
+
+	enum ImageFormat	imageFormat;
+	float				sourceGamma;
+	CUtlBuffer			buf;
+
+	if ( !g_pFullFileSystem->ReadFile( filename, NULL, buf ) )
+	{
+		return false;
+	}
+
+	if ( !TGALoader::GetInfo( buf, &m_bg_width_int, &m_bg_height_int, &imageFormat, &sourceGamma ) )
+	{
+		return false;
+	}
+
+	if ( m_bg_pixels )
+	{
+		delete [] m_bg_pixels;
+	}
+	
+	if ( m_bg_tex )
+	{
+		m_bg_tex->DecrementReferenceCount();
+	}
+	if ( m_bg_mat )
+	{
+		m_bg_mat->DecrementReferenceCount();
+	}
+
+	int memRequired = ImageLoader::GetMemRequired(m_bg_width_int, m_bg_height_int, 1, imageFormat, false);
+	m_bg_pixels = new unsigned char[ memRequired ];
+
+	buf.SeekGet(CUtlBuffer::SEEK_HEAD, 0);
+	TGALoader::Load(m_bg_pixels, buf, m_bg_width_int, m_bg_height_int, imageFormat, sourceGamma, false);
+
+	m_bg_tex = dynamic_cast< ITextureInternal * >( g_pMaterialSystem->CreateProceduralTexture("BackgroundImage", TEXTURE_GROUP_OTHER, m_bg_width_int, m_bg_height_int, IMAGE_FORMAT_BGR888,
+		TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_NOLOD | TEXTUREFLAGS_PROCEDURAL) );
+
+	ITextureRegenerator *pRegen = new CBackgroundRegenerator(m_bg_pixels, m_bg_width_int, m_bg_height_int, imageFormat);
+	m_bg_tex->SetTextureRegenerator(pRegen);
+	m_bg_tex->Download();
+	m_bg_tex->IncrementReferenceCount();
+
+	m_bg_mat = g_pMaterialSystem->CreateMaterial("editor/background2d", new KeyValues("UnlitGeneric", "$translucent", "1"));
+	m_bg_mat->FindVar("$BaseTexture", nullptr)->SetTextureValue(m_bg_tex);
+	m_bg_mat->FindVar("$alpha", nullptr)->SetFloatValue(0.2f);
+	m_bg_mat->IncrementReferenceCount();
+	
+	m_bg_loaded_bool = true;
+	return true;
+}
+
 void CMapView2DBase::DrawBackgroundImage(CRender2D *view, CString &filename, int bl_x, int bl_y, int tr_x, int tr_y, int opacity)
 {
 	if (!view || !(view->GetCamera())) return;
+	if( !ReadBackgroundImage(filename)) return;
+	if( !m_bg_mat) return;
 	if (opacity == 0) return;
-	int width, height, outwidth, outheight, id;
+	int width, height;
 	width = (abs)(bl_x - tr_x);
 	height = (abs)(bl_y - tr_y);
 	if ( width == 0 || height == 0 ) return;
 
-	view->PushRenderMode(RENDER_MODE_TRANSLUCENT_FLAT);
-	Vector viewdir;
-	GetCenterPoint(viewdir);
-	view->SetDrawColor(Color(100, 100, 100, opacity));
+//	view->PushRenderMode(RENDER_MODE_TRANSLUCENT_FLAT);
+//	Vector viewdir;
+//	GetCenterPoint(viewdir);
+//	view->SetDrawColor(Color(100, 100, 100, opacity));
 #if 0
 	if( id < 0 )
 		id = vgui::surface()->CreateNewTextureID(true);
@@ -664,10 +750,43 @@ void CMapView2DBase::DrawBackgroundImage(CRender2D *view, CString &filename, int
 	{
 		AfxMessageBox("cannot load tga");
 	}
+#else
+	// Draw via meshbuilder.
+	view->PushRenderMode( RENDER_MODE_TEXTURED );
+
+	CMatRenderContextPtr pRenderContext( MaterialSystemInterface() );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh(true, NULL, NULL, m_bg_mat);
+
+	CMeshBuilder meshBuilder;
+	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 4 );
+	meshBuilder.Position3f(bl_x, bl_y + height, 0.0f);
+	meshBuilder.TexCoord2f( 0, 0.0f, 0.0f );
+	meshBuilder.Color4ub( 255, 255, 255, 128 );
+	meshBuilder.AdvanceVertex();
+	
+	meshBuilder.Position3f(bl_x + width, bl_y + height, 0.0f);
+	meshBuilder.TexCoord2f( 0, 1.0f, 0.0f );
+	meshBuilder.Color4ub( 255, 255, 255, 128 );
+	meshBuilder.AdvanceVertex();
+	
+	meshBuilder.Position3f(bl_x + width, bl_y, 0.0f);
+	meshBuilder.TexCoord2f( 0, 1.0f, 1.0f );
+	meshBuilder.Color4ub( 255, 255, 255, 128 );
+	meshBuilder.AdvanceVertex();
+	
+	meshBuilder.Position3f(bl_x, bl_y, 0.0f);
+	meshBuilder.TexCoord2f( 0, 0.0f, 1.0f );
+	meshBuilder.Color4ub( 255, 255, 255, 128 );
+	meshBuilder.AdvanceVertex();
+	meshBuilder.End();
+	pMesh->Draw();
+
+	view->PopRenderMode();
 #endif
+
 //	if (viewdir[axThird] == COORD_EXTENT)
 	{
-		view->DrawRectangle(Vector(bl_x, bl_y, 0), Vector(tr_x, tr_y, 0), true); // x/y
+//		view->DrawRectangle(Vector(bl_x, bl_y, 0), Vector(tr_x, tr_y, 0), true); // x/y
 	}
 //	else if (viewdir[axHorz] == COORD_EXTENT)
 	{
@@ -677,8 +796,8 @@ void CMapView2DBase::DrawBackgroundImage(CRender2D *view, CString &filename, int
 	{
 //		view->DrawRectangle(Vector(bl_x, 0, bl_y), Vector(tr_x, 0, tr_y), true); // x/z
 	}
-	view->SetDrawColor(Color(255, 225, 255, 255));
-	view->PopRenderMode();
+//	view->SetDrawColor(Color(255, 225, 255, 255));
+//	view->PopRenderMode();
 }
 #endif
 //-----------------------------------------------------------------------------

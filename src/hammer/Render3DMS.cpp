@@ -1259,7 +1259,7 @@ bool CompareLightPreview_Lights(CLightPreview_Light const &a, CLightPreview_Ligh
 	return (a.m_flDistanceToEye > b.m_flDistanceToEye);
 }
 #ifdef SLE //// SLE CHANGE - bump up the lights count
-#define MAX_PREVIEW_LIGHTS 32 // max # of lights to process.
+#define MAX_PREVIEW_LIGHTS 320 // max # of lights to process.
 #else
 #define MAX_PREVIEW_LIGHTS 10 // max # of lights to process.
 #endif
@@ -1428,7 +1428,6 @@ static bool ParseLightGeneric( CMapEntity *e, CLightingPreviewLightDescription &
 		out.m_Falloff=GetFloatForKey(e,"_exponent");
 	}
 
-
 	// check angle, targets
 #if 0														// !!bug!!
 	target = e->m_KeyValues.GetValue( "target");
@@ -1462,7 +1461,8 @@ static bool ParseLightGeneric( CMapEntity *e, CLightingPreviewLightDescription &
 	if ( out.m_Type == MATERIAL_LIGHT_DIRECTIONAL )
 	{
 		out.m_Range = 0;
-		out.m_Attenuation2 = out.m_Attenuation1 = out.m_Attenuation0 = 0;
+		out.m_Attenuation2 = out.m_Attenuation1 = 0;
+		out.m_Attenuation0 = 1;
 		out.m_Direction *= -1;
 	}
 	else
@@ -1472,6 +1472,8 @@ static bool ParseLightGeneric( CMapEntity *e, CLightingPreviewLightDescription &
 
 // when there are multiple lighting environments, we are supposed to ignore but the first
 static bool s_bAddedLightEnvironmentAlready;
+
+#define NUM_AMBIENT_LIGHTS 32
 
 static void AddEntityLightToLightList( 
 	CMapEntity *e,
@@ -1485,7 +1487,7 @@ static void AddEntityLightToLightList(
 		e->GetOrigin( new_l.m_Position );
 		new_l.m_Range = 0;
 
-		if ( (! s_bAddedLightEnvironmentAlready ) &&
+		if ( /*(! s_bAddedLightEnvironmentAlready ) &&*/
 			 (! stricmp( pszClassName, "light_environment" ) ))
 		{
 			// lets add the sun to the list!
@@ -1503,14 +1505,14 @@ static void AddEntityLightToLightList(
 			{
 				DirectionalSampler_t sampler;
 				Vector color = new_l.m_Color;
-				for( int i = 0; i < 160; i++)
+				for( int i = 0; i < NUM_AMBIENT_LIGHTS; i++)
 				{
 					new_l.Init( 0x80000000 | i );			// special id for ambient
 					new_l.m_Type = MATERIAL_LIGHT_DIRECTIONAL;
 					Vector dir = sampler.NextValue();
 					new_l.m_Direction = dir;
 					new_l.m_Position = new_l.m_Direction * 100000;
-					new_l.m_Color = color * ( 1.0 / 160.0 );
+					new_l.m_Color = color * ( 1.0 / (float)NUM_AMBIENT_LIGHTS );
 					new_l.RecalculateDerivedValues();
 					listout.AddToTail( new_l );
 				}
@@ -1900,12 +1902,14 @@ void CRender3D::EndRenderFrame(void)
 			CCamera *pCamera = GetCamera();
 			int width, height;
 			pCamera->GetViewPort(width, height);
-
-//			StretchDIBits(
-// 				m_WinData.hDC,0,0,width,height,
-// 				0,0,g_pLPreviewOutputBitmap->m_nWidth, g_pLPreviewOutputBitmap->m_nHeight,
-// 				g_pLPreviewOutputBitmap->m_pBits, (BITMAPINFO *) &mybmh,
-// 				DIB_RGB_COLORS, SRCCOPY);
+			
+#if 0
+			StretchDIBits(
+				m_WinData.hDC,0,0,width,height,
+				0,0,g_pLPreviewOutputBitmap->Width(), g_pLPreviewOutputBitmap->Height(),
+ 				g_pLPreviewOutputBitmap->GetBits(), (BITMAPINFO *) &mybmh,
+ 				DIB_RGB_COLORS, SRCCOPY);
+#endif
 
 			// remember that we blitted it
 			m_pView->m_nLastRaytracedBitmapRenderTimeStamp =
@@ -1989,7 +1993,11 @@ void CRender3D::PopInstanceData( void )
 //-----------------------------------------------------------------------------
 // Renders the world axes 
 //-----------------------------------------------------------------------------
+#ifdef SLE //// SLE CHANGE - allow drawing with an offset
+void CRender3D::RenderWorldAxes(Vector offset/*= Vector(0, 0, 0)*/, float scale /*= 1.0f*/)
+#else
 void CRender3D::RenderWorldAxes()
+#endif
 {
 	// Render the world axes.
 	PushRenderMode( RENDER_MODE_WIREFRAME );
@@ -1997,9 +2005,75 @@ void CRender3D::RenderWorldAxes()
 	CMeshBuilder meshBuilder3D;
 	CMatRenderContextPtr pRenderContext( MaterialSystemInterface() );
 	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+#ifdef SLE
 #ifdef SLE //// SLE CHANGE - render world axii with letters
 	meshBuilder3D.Begin( pMesh, MATERIAL_LINES, 8 ); // (3 axii + two lines for 'X' + three more for 'Z')
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 0, offset.y + 0, offset.z + 0);
+	meshBuilder3D.AdvanceVertex();
 
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 32*scale, offset.y + 0, offset.z + 0);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 255, 32);
+	meshBuilder3D.Position3f(offset.x + 0, offset.y + 0, offset.z + 0);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 255, 32);
+	meshBuilder3D.Position3f(offset.x + 0, offset.y + 32*scale, offset.z + 0);
+	meshBuilder3D.AdvanceVertex();
+	
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x + 0, offset.y + 0, offset.z + 0);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x + 0, offset.y + 0, offset.z + 32*scale);
+	meshBuilder3D.AdvanceVertex();
+
+	// draw letter 'X'
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 36 * scale, offset.y -1*scale, offset.z -2*scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 36 * scale, offset.y + 1 * scale, offset.z + 2 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 36 * scale, offset.y -1 * scale, offset.z + 2 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(255, 32, 32);
+	meshBuilder3D.Position3f(offset.x + 36 * scale, offset.y + 1 * scale, offset.z - 2 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	// draw letter 'Z'
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y - 2 * scale, offset.z + 36 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y + 2 * scale, offset.z + 36 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y - 2 * scale, offset.z + 40 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y + 2 * scale, offset.z + 40 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y - 2 * scale, offset.z + 36 * scale);
+	meshBuilder3D.AdvanceVertex();
+
+	meshBuilder3D.Color3ub(32, 32, 255);
+	meshBuilder3D.Position3f(offset.x, offset.y + 2 * scale, offset.z + 40 * scale);
+#else
+	meshBuilder3D.Begin(pMesh, MATERIAL_LINES, 8); // (3 axii + two lines for 'X' + three more for 'Z')
 	meshBuilder3D.Color3ub(255, 32, 32);
 	meshBuilder3D.Position3f(0, 0, 0);
 	meshBuilder3D.AdvanceVertex();
@@ -2015,7 +2089,7 @@ void CRender3D::RenderWorldAxes()
 	meshBuilder3D.Color3ub(32, 255, 32);
 	meshBuilder3D.Position3f(0, 64, 0);
 	meshBuilder3D.AdvanceVertex();
-	
+
 	meshBuilder3D.Color3ub(32, 32, 255);
 	meshBuilder3D.Position3f(0, 0, 0);
 	meshBuilder3D.AdvanceVertex();
@@ -2064,6 +2138,7 @@ void CRender3D::RenderWorldAxes()
 
 	meshBuilder3D.Color3ub(32, 32, 255);
 	meshBuilder3D.Position3f(0, 2, 72);
+#endif //// SLE CHANGE - render world axii with letters
 #else
 	meshBuilder3D.Begin( pMesh, MATERIAL_LINES, 3 );
 
@@ -2250,12 +2325,13 @@ void CRender3D::Render(void)
 		memset(&wrect, 0, sizeof(wrect));
 
 		pCamera->GetViewPort(width, height);
-
-// 		StretchDIBits(
-// 			m_WinData.hDC,0,0,width,height,
-// 			0,0,g_pLPreviewOutputBitmap->m_nWidth, g_pLPreviewOutputBitmap->m_nHeight,
-// 			g_pLPreviewOutputBitmap->m_pBits, (BITMAPINFO *) &mybmh,
-// 			DIB_RGB_COLORS, SRCCOPY);
+#if 0
+ 		StretchDIBits(
+ 			m_WinData.hDC,0,0,width,height,
+ 			0,0,g_pLPreviewOutputBitmap->Width(), g_pLPreviewOutputBitmap->Height(),
+ 			g_pLPreviewOutputBitmap->GetBits(), (BITMAPINFO *) &mybmh,
+ 			DIB_RGB_COLORS, SRCCOPY);
+#endif
 		m_pView->m_nLastRaytracedBitmapRenderTimeStamp =
 			GetUpdateCounter(EVTYPE_BITMAP_RECEIVED_FROM_LPREVIEW);
 
@@ -2278,7 +2354,17 @@ void CRender3D::Render(void)
 	{
 #ifdef SLE
 		RenderWorldAxes();
-
+#endif
+#ifdef SLE //// SLE NEW - screen corner helpers
+		// draw copy of axii that follows the 3d camera
+		Vector fwd;
+		GetCamera()->GetViewForward(fwd);
+		int offset = 64;
+		Vector helperPos;
+		Vector2D screenPos = Vector2D(width / 2, height / 2) + Vector2D(-((width) - offset), ((height) - offset));
+		GetView()->ClientToWorld(helperPos, screenPos);
+		helperPos += fwd * 8;
+		RenderWorldAxes(helperPos, 0.025f);
 	//	if (IsInLightingPreview()) //// SLE NEW: BSP Lighting
 	//	{
 			// Lighting preview?
@@ -3046,7 +3132,7 @@ void CRender3D::RenderMapClass(CMapClass *pMapClass)
 
 			if (m_eCurrentRenderMode == RENDER_MODE_LIGHT_PREVIEW_RAYTRACED)
 				should_appear &= pMapClass->ShouldAppearInLightingPreview();
-//				should_appear &= pMapClass->ShouldAppearInRaytracedLightingPreview();
+				should_appear &= pMapClass->ShouldAppearInRaytracedLightingPreview();
 #endif //// SLE_USE_HAMMER_LPREVIEW
 
 			if ( should_appear == true && IsPicking() )
@@ -3195,7 +3281,7 @@ void CRender3D::RenderInstanceMapClass_r(CMapClass *pMapClass)
 
 			if (m_eCurrentRenderMode == RENDER_MODE_LIGHT_PREVIEW_RAYTRACED)
 				should_appear &= pMapClass->ShouldAppearInLightingPreview();
-			//				should_appear &= pMapClass->ShouldAppearInRaytracedLightingPreview();
+				should_appear &= pMapClass->ShouldAppearInRaytracedLightingPreview();
 #endif
 			if ( should_appear )
 			{
@@ -3210,8 +3296,10 @@ void CRender3D::RenderInstanceMapClass_r(CMapClass *pMapClass)
 				else
 				{
 #ifdef SLE_USE_HAMMER_LPREVIEW
+#ifndef SLE //// SLE CHANGE - allow translucent objects in the previews, even though they're bugged
 					if ((m_eCurrentRenderMode != RENDER_MODE_LIGHT_PREVIEW2) &&
-						(m_eCurrentRenderMode != RENDER_MODE_LIGHT_PREVIEW_RAYTRACED) )					
+						(m_eCurrentRenderMode != RENDER_MODE_LIGHT_PREVIEW_RAYTRACED) )		
+#endif
 #endif
 					{
 						AddTranslucentDeferredRendering(pMapClass);

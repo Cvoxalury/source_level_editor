@@ -142,7 +142,7 @@ void CMapDirectionVisualizer::Render2D( CRender2D* pRender )
 	Vector center;
 	GetParent()->GetOrigin( center );
 
-	const float scale = 4.f; //( 1.f / pRender->GetCamera()->GetZoom() ) * 16.f;
+	const float scale = 1.f; //( 1.f / pRender->GetCamera()->GetZoom() ) * 16.f;
 
 	const float flLengthBase = 32.0f * scale;
 	const float flLengthTip = 12.0f * scale;
@@ -173,7 +173,7 @@ void CMapDirectionVisualizer::Render3D( CRender3D* pRender )
 
 	Vector camPos;
 	pRender->GetCamera()->GetViewPoint( camPos );
-	const float scale = camPos.DistTo( center ) / 256.f;
+	const float scale = min(2.0f, max(camPos.DistTo( center ) / 256.f, 0.5f));
 
 	const float flLengthBase = 32.0f * scale;
 	const float flLengthTip = 12.0f * scale;
@@ -212,11 +212,29 @@ void CMapDirectionVisualizer::SetRenderColor(color32 rgbColor)
 //-----------------------------------------------------------------------------
 void CMapDirectionVisualizer::OnParentKeyChanged( const char* szKey, const char* szValue )
 {
+	QAngle dir;
 	if ( stricmp( szKey, m_szKeyName ) == 0 )
 	{
-		QAngle dir;
-		sscanf( szValue, "%f %f %f", &dir.x, &dir.y, &dir.z );
+		sscanf(szValue, "%f %f %f", &dir.x, &dir.y, &dir.z);
+
+		if ( m_pitch_is_set_bool )
+		{
+			dir.x = m_pitch_value_float;
+		}
+
 		AngleVectors( dir, &m_Dir );
-		CalcBounds();
+	//	CalcBounds();
 	}
+
+	//// special case for lights with separate Pitch value
+	else if ( stricmp(szKey, "pitch") == 0 )
+	{
+		VectorAngles(m_Dir, dir); // remember the non-pitch angles, else they're reset to 0
+		sscanf(szValue, "%f", &dir.x);
+		dir.x *= -1; // pitch is designed to be negated
+		m_pitch_value_float = dir.x;
+		AngleVectors( dir, &m_Dir );
+		m_pitch_is_set_bool = true;
+	}
+	CalcBounds();
 }

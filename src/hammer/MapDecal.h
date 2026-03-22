@@ -12,8 +12,6 @@
 
 #include "MapHelper.h"
 
-
-
 class CHelperInfo;
 class CMapFace;
 class CRender3D;
@@ -56,7 +54,9 @@ class CMapDecal : public CMapHelper
 		virtual void OnParentKeyChanged(const char* szKey, const char* szValue);
 		virtual void OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList);
 		virtual void OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren);
-
+#ifdef SLE //// SLE NEW - render overlays in 2d
+		virtual void Render2D(CRender2D *pRender);
+#endif
 		virtual void Render3D(CRender3D *pRender);
 
 		int SerializeRMF(std::fstream &File, BOOL bRMF);
@@ -94,6 +94,5 @@ class CMapDecal : public CMapHelper
 		CMapObjectList m_Solids;	// List of solids to which we are attached.
 		CUtlVector<DecalFace_t*> m_Faces;		// List of decal faces and the solids that they are attached to.
 };
-
 
 #endif // MAPDECAL_H

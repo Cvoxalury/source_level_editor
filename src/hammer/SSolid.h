@@ -166,7 +166,7 @@ class CSSolid
 		void SerializeDXF(FILE* stream, int nObject);
 #ifdef SLE //// SLE TODO: SMD Export
 		// save to .smd:
-		void SerializeSMD(FILE* stream, int nObject);
+		void SerializeSMD(ExportSMDInfo_s *pInfo);
 #endif
 		SSHANDLE GetConnectionVertex(CSSEdge *pEdge1, CSSEdge *pEdge2);
 

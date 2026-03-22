@@ -222,6 +222,13 @@ CDispUtilsHelper* SetupEdgeIncrements(
 	int &myEnd,
 	int &iFreeDim )
 {
+#ifdef SLE //// SLE NEW - fix up power of 0 displacements for experimental use
+	if (!pDisp->GetPowerInfo())
+		return NULL;
+
+	if (pDisp->GetPower() == 0)
+		return NULL;
+#endif
 	int iEdgeDim = g_EdgeDims[iEdge];
 	iFreeDim = !iEdgeDim;
 
@@ -231,6 +238,14 @@ CDispUtilsHelper* SetupEdgeIncrements(
 		return NULL;
 
 	CDispUtilsHelper *pNeighbor = pDisp->GetDispUtilsByIndex( pSub->m_iNeighbor );
+
+#ifdef SLE //// SLE NEW - fix up power of 0 displacements for experimental use
+	if (!pNeighbor->GetPowerInfo())
+		return NULL;
+
+	if (pNeighbor->GetPower() == 0)
+		return NULL;
+#endif
 
 	CShiftInfo *pShiftInfo = &g_ShiftInfos[pSub->m_Span][pSub->m_NeighborSpan];
 	Assert( pShiftInfo->m_bValid );
@@ -242,8 +257,7 @@ CDispUtilsHelper* SetupEdgeIncrements(
 	const CPowerInfo *pPowerInfo = pDisp->GetPowerInfo();
 	myIndex[iEdgeDim] = g_EdgeSideLenMul[iEdge] * pPowerInfo->m_SideLengthM1;
 	myIndex[iFreeDim] = pPowerInfo->m_MidPoint * iSub;
-	TransformIntoSubNeighbor( pDisp, iEdge, iSub, myIndex, nbIndex );
-	
+	TransformIntoSubNeighbor(pDisp, iEdge, iSub, myIndex, nbIndex);
 	int myPower = pDisp->GetPowerInfo()->m_Power;
 	int nbPower = pNeighbor->GetPowerInfo()->m_Power + pShiftInfo->m_PowerShiftAdd;
 	
@@ -353,6 +367,13 @@ CDispUtilsHelper* TransformIntoSubNeighbor(
 	CVertIndex &out
 	)
 {
+#ifdef SLE //// SLE NEW - fix up power of 0 displacements for experimental use
+	if (!pDisp->GetPowerInfo())
+		return NULL;
+
+	if (pDisp->GetPower() == 0)
+		return NULL;
+#endif
 	const CDispSubNeighbor *pSub = &pDisp->GetEdgeNeighbor( iEdge )->m_SubNeighbors[iSub];
 
 	// Find the part of pDisp's edge that this neighbor covers.
@@ -362,11 +383,18 @@ CDispUtilsHelper* TransformIntoSubNeighbor(
 	// Find the corresponding parts on the neighbor.
 	CDispUtilsHelper *pNeighbor = pDisp->GetDispUtilsByIndex( pSub->GetNeighborIndex() );
 	int iNBEdge = (iEdge + 2 + pSub->GetNeighborOrientation()) & 3;
+
+#ifdef SLE //// SLE NEW - fix up power of 0 displacements for experimental use
+	if (!pNeighbor->GetPowerInfo())
+		return NULL;
+
+	if (pNeighbor->GetPower() == 0)
+		return NULL;
+#endif
 	
 	CVertIndex viDestStart, viDestEnd;
 	SetupSpan( pNeighbor->GetPower(), iNBEdge, pSub->GetNeighborSpan(), viDestEnd, viDestStart );
-
-
+	
 	// Now map the one into the other.
 	int iFreeDim = !g_EdgeDims[iEdge];
 	int fixedPercent = ((nodeIndex[iFreeDim] - viSrcStart[iFreeDim]) * (1<<16)) / (viSrcEnd[iFreeDim] - viSrcStart[iFreeDim]);

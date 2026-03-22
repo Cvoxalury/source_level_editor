@@ -31,6 +31,9 @@ public:
 	virtual void			Release();
 
 	virtual bool			LoadBSPL( char const *pFilename );
+#ifdef SLE
+	void					RegisterLightmaps(IMaterialSystem *pMatSys);
+#endif
 	virtual void			Term();
 	virtual bool			Serialize();
 	virtual void			StartLighting( char const *pVMFFileWithEnts );
@@ -123,6 +126,7 @@ private:
 		
 		float	m_LightmapVecs[2][4];
 		int		m_LightmapTextureMinsInLuxels[2];
+		int		m_LightmapTextureSizeInLuxels[2];
 
 		int		m_iVertStart;	// Indexes CBSPLighting::m_Verts.
 		int		m_nVerts;

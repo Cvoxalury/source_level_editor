@@ -60,6 +60,9 @@ private:
 
 	char m_szKeyName[32];
 	Vector m_Dir;
+
+	bool m_pitch_is_set_bool;
+	float m_pitch_value_float;
 };
 
 #endif // MAPDIRVISUALIZER_H

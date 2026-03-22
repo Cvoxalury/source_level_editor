@@ -1355,10 +1355,11 @@
 #define ID_TOGGLE_SELECTBYHANDLE        32999 //// SLE NEW: quick access via hotkey for the 15 degrees rotation snap option.
 #define ID_TOGGLE_INFINITESELECT        33000
 #define ID_FILE_EXPORTTODXF             33001
+#define ID_WINDOW_TOGGLE                33002
 #define ID_FILE_EXPORTTOSMD             33003 //// SLE NEW: Direct export to SMD
 #define ID_FILE_EXPORTTOMAP             33004 //// SLE NEW: add export to MAP to Tools->Export
 #define ID_FILE_EXPORTTOTXT				33005 //// SLE NEW: allow saving the map as a commentary txt file (or potentially in the future, mapadd)
-#define ID_WINDOW_TOGGLE                33002
+#define ID_FILE_EXPORTCOLLTOSMD         33006 //// SLE NEW: Direct export to SMD
 #define ID_TOOLS_APPLYDECALS            33008
 #define ID_SAVEWINDOWSTATE              33009
 #define ID_LOADWINDOWSTATE              33010
@@ -1440,6 +1441,7 @@
 #define ID_VIEW_SHOW_NORMALMAPS			33122  //// SLE NEW - preview normal maps option
 #define ID_VIEW_SHOW_SPECULAR			33123  //// SLE NEW - preview specular option
 #define ID_VIEW_EDITOR_MODE				33124  //// SLE NEW - preview editor mode
+#define ID_VIEW_SHOW_ILLUMPOS			33125  //// SLE NEW - show illum position
 #define ID_MAP_ENTITY_GALLERY           33171
 #define ID_VIEW_CENTER3DVIEWSONSELECTION 33172
 #define DISP_DRAWREMOVEDVERTS           33173
@@ -1632,12 +1634,14 @@
 #define IDS_EMPTYSOUNDNAME              41009
 #define IDS_EMPTYMODELNAME              41010
 #define IDS_HAMMER_GAMECONFIG_IMPORTED	41011
+#define IDS_SHORTFOGFARZ				41012
 #define IDS_NOTONEMAPCONT_DESC          41020
 #define IDS_DISPASBRUSHENT_DESC         41021
 #define IDS_EMPTYSOUNDNAME_DESC         41022
 #define IDS_EMPTYMODELNAME_DESC         41023
 #define IDS_DISPLACEMENTNODRAW			41024
 #define IDS_DISPLACEMENTNODRAW_DESC		41025
+#define IDS_SHORTFOGFARZ_DESC			41026
 #define ID_VIEW_FILTERCONTROL           59399
 #define ID_VIEW_OBJECTBAR               59400
 #define ID_VIEW_MAPTOOLSBAR             59401

@@ -424,13 +424,13 @@ BEGIN
     END
     POPUP "&Map"
     BEGIN
-//		POPUP "&Light Preview"						//// SLE NEW: BSP Lighting // we're not ready yet
-//		BEGIN
-//		MENUITEM "Enable BSP Lighting Preview", ID_MAP_ENABLELIGHTPREVIEW // x
-//		MENUITEM "Disable BSP Lighting Preview", ID_MAP_DISABLELIGHTPREVIEW // x
-//		MENUITEM "&Update BSP Lighting Preview", ID_MAP_UPDATELIGHTPREVIEW // x
-//		END	
-		MENUITEM SEPARATOR
+	//	POPUP "&Light Preview"						//// SLE NEW: BSP Lighting // we're not ready yet
+	//	BEGIN
+	//	MENUITEM "Enable BSP Lighting Preview", ID_MAP_ENABLELIGHTPREVIEW // x
+	//	MENUITEM "Disable BSP Lighting Preview", ID_MAP_DISABLELIGHTPREVIEW // x
+	//	MENUITEM "&Update BSP Lighting Preview", ID_MAP_UPDATELIGHTPREVIEW // x
+	//	END	
+	//	MENUITEM SEPARATOR
         MENUITEM "&Snap to Grid",				ID_MAP_SNAPTOGRID // x
         MENUITEM "Sho&w Grid\tShift+R",         ID_VIEW_GRID
 		MENUITEM "Sho&w Grid in 3D",			ID_TOGGLE_3D_GRID
@@ -552,7 +552,6 @@ BEGIN
 		MENUITEM "Show Editor Objects\tShift+Y", ID_SHOW_EDITOR_OBJECTS
 		MENUITEM "&Show Entities",				ID_TOOLS_HIDEITEMS
 		MENUITEM "Show Entity &Names",			ID_TOOLS_HIDE_ENTITY_NAMES
-//		MENUITEM "Show cullboxes\tC",			ID_SHOW_CULLBOXES
 		MENUITEM "See-thru for selected solid edges\tP", ID_SHOW_SOLID_EDGES_NOZ  //// SLE NEW - option to render selected solids' edges in wireframe noz
 		MENUITEM "Preview Skybox\tY",				ID_SHOW_TOOLSSKY_FACES
 		MENUITEM SEPARATOR
@@ -561,6 +560,9 @@ BEGIN
 #ifdef SLE //// SLE NEW - preview normal maps
 		POPUP "&Debug view" //// SLE NEW - LOD control option
 		BEGIN //// SLE TODO - add displacement vector previews here
+			MENUITEM "Show Model Illum Position",	ID_VIEW_SHOW_ILLUMPOS //// SLE NEW - show illum position
+		//	MENUITEM "Show Cullboxes\tC",			ID_SHOW_CULLBOXES
+			MENUITEM SEPARATOR
 			MENUITEM "&Show Diffuse",			ID_VIEW_SHOW_DIFFUSE
 			MENUITEM "&Show Normal maps",		ID_VIEW_SHOW_NORMALMAPS
 			MENUITEM "&Show Specular",			ID_VIEW_SHOW_SPECULAR
@@ -617,7 +619,8 @@ BEGIN
 		BEGIN
 			MENUITEM "&Export Selection to .&DXF", ID_FILE_EXPORTTODXF //// SLE CHANGE - moved from File to Tools because now it works on selections.
 			MENUITEM "&Export visible objects to .&MAP", ID_FILE_EXPORTTOMAP //// SLE NEW: add export to MAP to Tools->Export
-		//	MENUITEM "&Export Selection to .&SMD", ID_FILE_EXPORTTOSMD //// SLE NEW - Export selection to SMD
+			MENUITEM "&Export Selection to .&SMD", ID_FILE_EXPORTTOSMD //// SLE NEW - Export selection to SMD
+			MENUITEM "&Export Selection to .&SMD (Only Collision)", ID_FILE_EXPORTCOLLTOSMD //// SLE NEW - Export selection to SMD
 			MENUITEM "&Export Selection to Commentary .&TXT", ID_FILE_EXPORTTOTXT //// SLE NEW - allow saving the map as a commentary txt file (or potentially in the future, mapadd)
 		END
 		MENUITEM SEPARATOR
@@ -1186,7 +1189,7 @@ END
 //// 'ABOUT' WINDOW
 IDD_ABOUTBOX DIALOGEX 0, 0, 246, 82
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Source Level Editor 2.108.900"
+CAPTION "Source Level Editor 2.117.1600"
 FONT 8, "Segoe UI", 0, 0, 0x0
 BEGIN
 //    PUSHBUTTON      "(disabled in this version)",IDC_ORDER,7,49,88,14
@@ -3291,10 +3294,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Source Level Editor"
-            VALUE "FileVersion", "2.108.900"
+            VALUE "FileVersion", "2.117.1600"
             VALUE "InternalName", "Source Level Editor"
             VALUE "ProductName", "Source Level Editor"
-            VALUE "ProductVersion", "2.108.900"
+            VALUE "ProductVersion", "2.117.1600"
         END
     END
     BLOCK "VarFileInfo"
@@ -4008,7 +4011,7 @@ IDC_CROSSHAIR           CURSOR                  "res\\cur_crosshair.cur"
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME           "Source Level Editor 2.108"
+    IDR_MAINFRAME           "Source Level Editor 2.117"
     IDR_FORGEMAPTYPE        "\nvmf\nSource Engine Projects\nSource Engine Projects (*.vmf)\n.vmf"
     IDR_FORGEPAKTYPE        "\npak\nQuake PAK archive\nQuake PAK archive (*.pak)\n.pak\nWorldcraft.Pak\nQuake PAK archive"
     IDS_NONE                "(none)"
@@ -4352,12 +4355,14 @@ BEGIN
 	IDS_EMPTYSOUNDNAME      "Ambient_generic (%s) with empty sound name" // ambient_generic without sound name added
 	IDS_EMPTYMODELNAME      "Model entity (%s) with empty model name" // prop_static or other entity without model name added
 	IDS_DISPLACEMENTNODRAW  "A displacement has a NODRAW material applied" // there's a displacement with a material that has %compilenodraw
+	IDS_SHORTFOGFARZ		"A fog controller with very short FarZ value" // env_fog_controller with suspiciously low FarZ
 
 	IDS_NOTONEMAPCONT_DESC       "An env_tonemap_controller entity should be present to control HDR values. It's not necessary, but highly recommended that you add a named ""env_tonemap_controller"" and a ""logic_auto"" entities, and create inputs for the tonemap controller - such as ""SetBloomScale"", ""SetAutoExposureMax"", ""SetAutoExposureMin"" to control its effects appropriately." // forgot to add env_tonemap_controller
 	IDS_DISPASBRUSHENT_DESC      "The compiler tools will not process a map which has displacements assigned to a brush entity (func_detail, trigger_once, etc). Find the problematic displacement (with ""Go to Error"") and untie it from entity (press Ctrl+Shift+W)." // there's a displacement somewhere that's tied to a brush entity
 	IDS_EMPTYSOUNDNAME_DESC      "Ambient_generic (%s) with empty sound name" // ambient_generic without sound name added
 	IDS_EMPTYMODELNAME_DESC      "Model entity (%s) with empty model name" // prop_static or other entity without model name added
 	IDS_DISPLACEMENTNODRAW_DESC  "A displacement with a material passing %compileNodraw was detected. Some compilers may terminate compilation because of this while others will make the face visible in-game. It is advised to replace the material on this face."
+	IDS_SHORTFOGFARZ_DESC		 "A fog controller entity uses a Far Z Clip Plane distance of less than 2048. Be sure this is intentional or you may suffer extremely limited visibility in-game."
 	////
     IDS_MIXEDFACES          "Mixed face contents"
     IDS_DUPLICATEPLANES     "Solid contains duplicate planes"

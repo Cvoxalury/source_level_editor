@@ -169,6 +169,8 @@ protected:
 	afx_msg void OnUpdateOpaqueMaterials(CCmdUI *pCmdUI);
 	afx_msg void OnOpaqueMaterials();
 #ifdef SLE //// SLE NEW - preview normal maps, diffuse, specular...
+	afx_msg void OnUpdateShowIllumPos(CCmdUI *pCmdUI); //// SLE NEW - show illum position
+	afx_msg void OnShowIllumPos();
 	afx_msg void OnUpdateShowDiffuse(CCmdUI *pCmdUI);
 	afx_msg void OnShowDiffuse();
 	afx_msg void OnUpdateShowNormalMaps(CCmdUI *pCmdUI);

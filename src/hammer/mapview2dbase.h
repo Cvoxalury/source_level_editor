@@ -17,6 +17,11 @@
 #include "utlvector.h"
 #include "VGuiWnd.h"
 #include "color.h"
+#if 0 //def SLE_2D_BACKGROUNDS
+#include "materialsystem/imaterial.h"
+#include "../materialsystem/itextureinternal.h"
+#include "pixelwriter.h"
+#endif
 #ifdef HAMMER2013_PORT_KEYBINDS_X
 #include "Keyboard.h"
 #endif
@@ -124,7 +129,8 @@ protected:
 
 	void DrawGridLogical( CRender2D *pRender );
 	void DrawGrid( CRender2D *pRender, int xAxis, int yAxis, float depth, bool bNoSmallGrid = false );
-#ifdef SLE_2D_BACKGROUNDS
+#if 0 //def SLE_2D_BACKGROUNDS
+	bool ReadBackgroundImage( CString &filename);
 	void DrawBackgroundImage(CRender2D *pRender, CString &filename, int bl_x = 0, int bl_y = 0, int tr_x = 0, int tr_y = 0, int opacity = 0); //// SLE NEW - background images
 #endif
 	CRender2D *GetRender();
@@ -217,6 +223,14 @@ protected:
 private:
 	CKeyboard m_Keyboard;	// Handles binding of keys and mouse buttons to logical functions.
 #endif
+#if 0 //def SLE_2D_BACKGROUNDS
+	// texture regenerators and procedural textures for drawing TGA backgrounds as rescalable VTFs.	
+	unsigned char		*m_bg_pixels;
+	int					m_bg_width_int, m_bg_height_int;
+	ITextureInternal	*m_bg_tex;
+	IMaterial			*m_bg_mat;
+	bool				m_bg_loaded_bool;
+#endif
 };
 
 //-----------------------------------------------------------------------------
@@ -247,4 +261,66 @@ inline bool CMapView2DBase::HasTitleWnd() const
 	return m_pwndTitle != NULL;
 }
 
+#if 0 //def SLE_2D_BACKGROUNDS
+class CBackgroundRegenerator : public ITextureRegenerator
+{
+public:
+	CBackgroundRegenerator( unsigned char *ImageData, int Width, int Height, enum ImageFormat Format ) :
+	  m_ImageData( ImageData ), 
+		  m_Width( Width ), 
+		  m_Height( Height ),
+		  m_Format( Format )
+	  {
+	  }
+
+	  virtual void RegenerateTextureBits( ITexture *pTexture, IVTFTexture *pVTFTexture, Rect_t *pSubRect )
+	  {
+		  for (int iFrame = 0; iFrame < pVTFTexture->FrameCount(); ++iFrame )
+		  {
+			  for (int iFace = 0; iFace < pVTFTexture->FaceCount(); ++iFace )
+			  {
+				  int nWidth = pVTFTexture->Width();
+				  int nHeight = pVTFTexture->Height();
+				  int nDepth = pVTFTexture->Depth();
+				  for (int z = 0; z < nDepth; ++z)
+				  {
+					  // Fill mip 0 with a checkerboard
+					  CPixelWriter pixelWriter;
+					  pixelWriter.SetPixelMemory( pVTFTexture->Format(), pVTFTexture->ImageData( iFrame, iFace, 0, 0, 0, z ), pVTFTexture->RowSizeInBytes( 0 ) );
+
+					  switch( m_Format )
+					  {
+					  case IMAGE_FORMAT_BGR888:
+						  {
+							  unsigned char *data = m_ImageData;
+
+							  for (int y = 0; y < nHeight; ++y)
+							  {
+								  pixelWriter.Seek( 0, y );
+								  for (int x = 0; x < nWidth; ++x)
+								  {
+									  pixelWriter.WritePixel( *( data + 2 ), *( data + 1 ), *( data ), 255 );
+									  data += 3;
+								  }
+							  }
+						  }
+						  break;
+					  }
+				  }
+			  }
+		  }
+	  }
+
+	  virtual void Release()
+	  {
+		  delete this;
+	  }
+
+private:
+	unsigned char		*m_ImageData;
+	int					m_Width;
+	int					m_Height;
+	enum ImageFormat	m_Format;
+};
+#endif
 #endif // MAPVIEW2DBASE_H

@@ -1354,12 +1354,16 @@ bool CMapClass::HitTestLogical(CMapViewLogical *pView, const Vector2D &point, Hi
 //-----------------------------------------------------------------------------
 SelectionState_t CMapClass::SetSelectionState(SelectionState_t eSelectionState)
 {
-	FOR_EACH_OBJ( m_Children, pos )
+#ifdef SLE //// SLE NEW - allow selecting w/o children, for the worldspawn
+	if( eSelectionState != SELECT_NORMAL_NOCHILDREN)
+#endif
 	{
-		CMapAtom *pObject = m_Children.Element(pos);
-		pObject->SetSelectionState(eSelectionState);
+		FOR_EACH_OBJ(m_Children, pos)
+		{
+			CMapAtom *pObject = m_Children.Element(pos);
+			pObject->SetSelectionState(eSelectionState);
+		}
 	}
-
 	return CMapAtom::SetSelectionState(eSelectionState);
 }
 

@@ -61,7 +61,9 @@ public:
 	void OnClone( CMapClass *pClone, CMapWorld *pWorld, 
 				  const CMapObjectList &OriginalList, CMapObjectList &NewList );
 	void OnUndoRedo( void );
-
+#ifdef SLE //// SLE NEW - render overlays in 2d
+	void Render2D(CRender2D *pRender);
+#endif
 	void Render3D( CRender3D *pRender );
 
 	// Overlay.
@@ -143,6 +145,9 @@ private:
 		
 	void Handles_Clear( void );
 	void Handles_Build3D();
+#ifdef SLE //// SLE NEW - render overlays in 2d
+	void Handles_Render2D(CRender2D *pRender);
+#endif
 	void Handles_Render3D( CRender3D *pRender );
 	void Handles_SurfToOverlayPlane( CMapFace *pFace, Vector const &vSurf, Vector &vPoint );
 	void Handles_Copy( Handles_t *pSrc, Handles_t *pDst );

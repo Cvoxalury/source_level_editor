@@ -63,6 +63,7 @@ static TypeMap_t TypeMap[] =
 	{ ivActbusy,			"actbusy",				STRING }, // to open list of actbusies
 	{ ivScript,				"script",				STRING }, // backported from 2015, for VScript
 	{ ivScriptList,			"scriptlist",			STRING }, // ditto
+	{ ivSoundchoices,		"soundchoices",			STRING }, // for button sounds which are a choices list but hardcoded
 #endif
 };
 
@@ -400,7 +401,11 @@ BOOL GDinputvariable::InitFromTokens(TokenReader& tr)
 	//
 	if ((ttype == OPERATOR && IsToken(szToken, "]")) ||	ttype != OPERATOR)
 	{
-		if (m_eType == ivFlags || m_eType == ivChoices)
+		if (m_eType == ivFlags || m_eType == ivChoices
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+			|| m_eType == ivSoundchoices
+#endif
+			)
 		{
 			//
 			// Can't define a flags or choices variable without providing any flags or choices.
@@ -416,7 +421,11 @@ BOOL GDinputvariable::InitFromTokens(TokenReader& tr)
 		return(FALSE);
 	}
 
-	if (m_eType != ivFlags && m_eType != ivChoices)
+	if (m_eType != ivFlags && m_eType != ivChoices
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+			&& m_eType != ivSoundchoices
+#endif
+			)
 	{
 		GDError(tr, "didn't expect '=' here");
 		return(FALSE);
@@ -485,7 +494,11 @@ BOOL GDinputvariable::InitFromTokens(TokenReader& tr)
 		m_nDefault = (int)nDefault;
 		Q_snprintf( m_szDefault, sizeof( m_szDefault ), "%d", m_nDefault );
 	}
-	else if (m_eType == ivChoices)
+	else if (m_eType == ivChoices
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+			|| m_eType == ivSoundchoices
+#endif
+			)
 	{
 		GDIVITEM ivi;
 

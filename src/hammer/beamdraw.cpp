@@ -21,12 +21,6 @@ static IMaterial *g_pBeamWireframeMaterial;
 static Vector g_vecCurrentVForward(0, 0, 0), g_vecCurrentVRight(0, 0, 0), g_vecCurrentVUp(0, 0, 0), g_vecCurrentRenderOrigin(0, 0, 0);
 static Vector g_vecVForward(0, 0, 0), g_vecVRight(0, 0, 0), g_vecVUp(0, 0, 0);
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pMaterial - 
-//			source - 
-//			color - 
-//-----------------------------------------------------------------------------
 void DrawHalo(IMaterial* pMaterial, const Vector& source, float scale, float const* color, float flHDRColorScale )
 {
 	static unsigned int nHDRColorScaleCache = 0;
@@ -168,19 +162,6 @@ static void ComputeBeamPerpendicular( const Vector &vecBeamDelta, Vector *pPerp 
 	VectorNormalize( *pPerp );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			*spritemodel - 
-//			frame - 
-//			rendermode - 
-//			source - 
-//			delta - 
-//			flags - 
-//			*color - 
-//			fadescale - 
-//-----------------------------------------------------------------------------
 void DrawSegs(CRender3D *pRender, int noise_divisions, float *prgNoise, const char* spritemodel,
 				float frame, int rendermode, const Vector& source, const Vector& delta, 
 				float startWidth, float endWidth, float scale, float freq, float speed, int segments,
@@ -430,19 +411,7 @@ void CalcSegOrigin( Vector *vecOut, int iPoint, int noise_divisions, float *prgN
 		}
 	}
 }
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			*spritemodel - 
-//			frame - 
-//			rendermode - 
-//			source - 
-//			delta - 
-//			flags - 
-//			*color - 
-//			fadescale - 
-//-----------------------------------------------------------------------------
+
 void DrawTeslaSegs(CRender3D *pRender, int noise_divisions, float *prgNoise, /*const model_t**/const char* spritemodel,
 				float frame, int rendermode, const Vector&  source, const Vector&  delta, 
 				float startWidth, float endWidth, float scale, float freq, float speed, int segments,
@@ -610,22 +579,6 @@ void DrawTeslaSegs(CRender3D *pRender, int noise_divisions, float *prgNoise, /*c
 	}
 }
 #if 0
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			*beammodel - 
-//			*halomodel - 
-//			flHaloScale - 
-//			startWidth - 
-//			endWidth - 
-//			scale - 
-//			freq - 
-//			speed - 
-//			segments - 
-//			* - 
-//-----------------------------------------------------------------------------
-
 void DrawSplineSegs( int noise_divisions, float *prgNoise, 
 				const model_t* beammodel, const model_t* halomodel, float flHaloScale,
 				float frame, int rendermode, int numAttachments, Vector* attachment, 
@@ -938,16 +891,6 @@ void DrawSplineSegs( int noise_divisions, float *prgNoise,
 	}
 }
 
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *spritemodel - 
-//			frame - 
-//			rendermode - 
-//			source - 
-//			scale - 
-//			*color - 
-//-----------------------------------------------------------------------------
 void BeamDrawHalo( const model_t* spritemodel, float frame, int rendermode, 
 				  const Vector& source, float scale, float* color, float flHDRColorScale )
 {
@@ -958,22 +901,6 @@ void BeamDrawHalo( const model_t* spritemodel, float frame, int rendermode,
 	DrawHalo( pSprite->GetMaterial( (RenderMode_t)rendermode ), source, scale, color, flHDRColorScale );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			*spritemodel - 
-//			frame - 
-//			rendermode - 
-//			source - 
-//			delta - 
-//			width - 
-//			scale - 
-//			freq - 
-//			speed - 
-//			segments - 
-//			*color - 
-//-----------------------------------------------------------------------------
 void DrawDisk( int noise_divisions, float *prgNoise, const model_t* spritemodel, 
 			  float frame, int rendermode, const Vector&  source, const Vector& delta, 
 			  float width, float scale, float freq, float speed, int segments, float* color, float flHDRColorScale )
@@ -1056,22 +983,6 @@ void DrawDisk( int noise_divisions, float *prgNoise, const model_t* spritemodel,
 	pMesh->Draw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			*spritemodel - 
-//			frame - 
-//			rendermode - 
-//			source - 
-//			delta - 
-//			width - 
-//			scale - 
-//			freq - 
-//			speed - 
-//			segments - 
-//			*color - 
-//-----------------------------------------------------------------------------
 void DrawCylinder( int noise_divisions, float *prgNoise, const model_t* spritemodel,
 				  float frame, int rendermode, const Vector&  source, const Vector& delta, 
 				  float width, float scale, float freq, float speed, int segments, 
@@ -1152,12 +1063,6 @@ void DrawCylinder( int noise_divisions, float *prgNoise, const model_t* spritemo
 	pMesh->Draw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : noise_divisions - 
-//			*prgNoise - 
-//			(*pfnNoise - 
-//-----------------------------------------------------------------------------
 void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *noise, int divs, float scale ), 
 			  const model_t* spritemodel, float frame, int rendermode,
 			  const Vector& source, const Vector& delta, float width, 
@@ -1308,21 +1213,6 @@ void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *no
 	pMesh->Draw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : spritemodel - 
-//			*pHead - 
-//			delta - 
-//			*screen - 
-//			*screenLast - 
-//			die - 
-//			source - 
-//			flags - 
-//			width - 
-//			amplitude - 
-//			freq - 
-//			*color - 
-//-----------------------------------------------------------------------------
 void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, int rendermode, 
 					Vector& delta, Vector& screen, Vector& screenLast, float die,
 					const Vector& source, int flags, float width, float amplitude, 

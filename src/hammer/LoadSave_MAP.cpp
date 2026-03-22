@@ -1384,7 +1384,7 @@ static int SaveCommentaryTXTEntities(CMapClass *pObject, std::fstream& file)
 
 int CMapWorld::SerializeCommentaryTXT(std::fstream &file, BOOL fIsStoring)
 {
-	int iRvl;
+//	int iRvl;
 
 	bStuffed = FALSE;
 	bErrors = FALSE;

@@ -55,7 +55,52 @@ void CToolOverlay::OnActivate()
 void CToolOverlay::OnDeactivate()
 {
 }
+#ifdef SLE //// SLE NEW - render overlays in 2d
+bool CToolOverlay::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
+{
+	// Post drag events.
+	PostDrag();
 
+	// Update the entity properties dialog.
+	GetMainWnd()->pObjectProperties->MarkDataDirty();
+
+	return true;
+}
+
+bool CToolOverlay::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
+{
+	// Handle the overlay "handle" selection.
+	if (HandleSelection(pView, vPoint))
+	{
+		PreDrag();
+		return true;
+	}
+
+	// creating overlays is not available in 2d, since we don't want to solve all the face-tracing code here.
+
+	return true;
+}
+
+bool CToolOverlay::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
+{
+	if (m_bDragging)
+	{
+		bool bShift = ((GetKeyState(VK_SHIFT) & 0x8000) != 0);
+
+		// Build the ray and drag the overlay handle to the impact point.
+		const CCamera *pCamera = pView->GetCamera();
+
+		if (pCamera)
+		{
+			Vector vecStart, vecEnd;
+			pView->BuildRay(vPoint, vecStart, vecEnd);
+			OnDrag(vecStart, vecEnd, bShift);
+		}
+	}
+
+	return true;
+}
+#endif
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 bool CToolOverlay::OnLMouseUp3D( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint )

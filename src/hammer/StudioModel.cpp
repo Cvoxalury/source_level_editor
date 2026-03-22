@@ -141,9 +141,13 @@ void CStudioModelCache::ReloadModel(const char *pszModelPath)
 //-----------------------------------------------------------------------------
 StudioModel *CStudioModelCache::CreateModel(const char *pszModelPath)
 {
-#ifndef SLE //// SLE CHANGE - make the cache always consider a model to be new, 
+#ifdef SLE //// SLE CHANGE - make the cache always consider a model to be new, 
 			//// this makes individual animations on prop dynamics work.
 			//// TODO: is this the best we can come up with?..
+	StudioModel *pTest = FindModel( pszModelPath );
+	if ( pTest && pTest->GetSequenceCount() <= 1 ) // this works for statics and single-anim models
+		return pTest;
+#else
 	StudioModel *pTest = FindModel( pszModelPath );
 	if ( pTest )
 		return pTest;
@@ -323,6 +327,16 @@ void CStudioFileChangeWatcher::Init()
 
 void CStudioFileChangeWatcher::OnFileChange( const char *pRelativeFilename, const char *pFullFilename )
 {
+#ifdef SLE
+	// bump the main window here to cause the model to properly update
+	/*
+	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+	if (pDoc == NULL)
+		return;
+
+	pDoc->UpdateAllViews(MAPVIEW_UPDATE_OBJECTS);
+	*/
+#endif
 	char relativeFilename[MAX_PATH];
 	V_ComposeFileName( "models", pRelativeFilename, relativeFilename, sizeof( relativeFilename ) );
 	V_FixSlashes( relativeFilename );
@@ -792,7 +806,7 @@ void StudioModel::DrawModel3D(CRender3D *pRender, const Color &color, float flAl
 			VectorScale((*boneToWorld)[2], flScale, (*boneToWorld)[2]);
 		}
 
-		if (pRender->GetCurrentRenderMode() == RENDER_MODE_FLAT) //// SLE NEW - in Flat mode, draw models with flat override
+		if(pRender->GetCurrentRenderMode() == RENDER_MODE_FLAT) //// SLE NEW - in Flat mode, draw models with flat override
 		{
 			if ( !pRender->IsPicking() )
 			{
@@ -803,59 +817,65 @@ void StudioModel::DrawModel3D(CRender3D *pRender, const Color &color, float flAl
 					overlay->AddRef();
 				}
 				g_pStudioRender->ForcedMaterialOverride(overlay, OVERRIDE_NORMAL);
-				float color[ 4 ] = { 1, 1, 1, 1 };
-				if ( GetTriangleCount() <= 1000 ) // tint the models in flat rendermode according to their polycount - the higher, the redder
-					color[ 0 ] += 0.0;
+				 // tint the models in flat rendermode according to their polycount - the higher, the redder
+				float colorReplace[ 4 ] = { 255, 255, 225, 255 }; 
+				if ( GetTriangleCount() <= 1000 )
+				{
+					colorReplace[ 0 ] = 255; // use a slightly yellow hue so models are easier to see against brushes
+					colorReplace[ 1 ] = 245;
+					colorReplace[ 2 ] = 225;
+				}
 				else if ( GetTriangleCount() <= 2000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0.83;
-					color[ 2 ] = 0.83;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0.83;
+					colorReplace[ 2 ] *= 0.83;
 				} else if ( GetTriangleCount() <= 4000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0.75;
-					color[ 2 ] = 0.75;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0.75;
+					colorReplace[ 2 ] *= 0.75;
 				} else if ( GetTriangleCount() <= 6000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0.5;
-					color[ 2 ] = 0.5;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0.5;
+					colorReplace[ 2 ] *= 0.5;
 				} else if ( GetTriangleCount() <= 8000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0.25;
-					color[ 2 ] = 0.25;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0.25;
+					colorReplace[ 2 ] *= 0.25;
 				} else if ( GetTriangleCount() <= 10000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0.13;
-					color[ 2 ] = 0.25;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0.13;
+					colorReplace[ 2 ] *= 0.25;
 				} else if ( GetTriangleCount() <= 15000 )
 				{
-					color[ 0 ] = 1;
-					color[ 1 ] = 0;
-					color[ 2 ] = 0.5;
+					colorReplace[ 0 ] *= 1;
+					colorReplace[ 1 ] *= 0;
+					colorReplace[ 2 ] *= 0.5;
 				} else if ( GetTriangleCount() <= 20000 )
 				{
-					color[ 0 ] = 0.75;
-					color[ 1 ] = 0;
-					color[ 2 ] = 0.75;
+					colorReplace[ 0 ] *= 0.75;
+					colorReplace[ 1 ] *= 0;
+					colorReplace[ 2 ] *= 0.75;
 				} else if ( GetTriangleCount() > 20000 )
 				{
-					color[ 0 ] = 0.5;
-					color[ 1 ] = 0;
-					color[ 2 ] = 1.00;
+					colorReplace[ 0 ] *= 0.5;
+					colorReplace[ 1 ] *= 0;
+					colorReplace[ 2 ] *= 1.00;
 				}
-				g_pStudioRender->SetColorModulation(color);
-				g_pStudioRender->DrawModel(NULL, info, boneToWorld, 0, 0, m_origin);
+				
+				g_pStudioRender->SetColorModulation(colorReplace);
+				pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, Color(colorReplace[0], colorReplace[1], colorReplace[2], colorReplace[3]));
 				float reset[ 4 ] = { 1, 1, 1, 1 };
 				g_pStudioRender->SetColorModulation(reset);
 				g_pStudioRender->ForcedMaterialOverride(NULL);
 				pRender->PopRenderMode();
 			}
 			else
-				g_pStudioRender->DrawModel(NULL, info, boneToWorld, 0, 0, m_origin);
+				pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, color);
 		}
 		else
 		{
@@ -866,8 +886,8 @@ void StudioModel::DrawModel3D(CRender3D *pRender, const Color &color, float flAl
 		}
 
 		//// SLE NEW - draw overlaying model in solid colour as selection overlay
-		if (!(pRender->IsPicking()) && bSelectionOverlay)
-		{			
+		if(!(pRender->IsPicking()) && bSelectionOverlay)
+		{
 			IMaterial* overlay = materials->FindMaterial("../../bin/level_editor/materials/editor/modelselectionoverlay", TEXTURE_GROUP_OTHER, false);
 			if (overlay)
 			{
@@ -1236,6 +1256,16 @@ void StudioModel::GetAttachmentPosition(Vector &attachmentPos, int attachmentInd
 void StudioModel::GetAttachmentPosition(Vector &attachmentPos, char *attachmentName)
 {
 	//// SLE TODO - realise
+}
+
+#endif //// SLE
+#ifdef SLE //// SLE NEW - show illum position
+void StudioModel::GetIllumPosition(Vector &illumPos)
+{
+	CStudioHdr *hdr = GetStudioHdr();
+	if (!hdr) return;
+
+	illumPos = hdr->illumposition();
 }
 #endif //// SLE
 //-----------------------------------------------------------------------------

@@ -37,7 +37,11 @@ public:
 	
     void		OnActivate();
     void		OnDeactivate();
-
+#ifdef SLE //// SLE NEW - render overlays in 2d
+	bool		OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+	bool		OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+	bool		OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+#endif
 	bool		OnLMouseUp3D( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint );
     bool		OnLMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint );
 	bool		OnMouseMove3D( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint );

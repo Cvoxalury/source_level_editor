@@ -292,7 +292,6 @@ bool CIncrementalLightInfo::IsLowerPriorityThan( CLightingPreviewThread *pLPV,
 			return ( m_fTotalContribution == 0 );
 		}
 
-
 		case INCR_STATE_PARTIAL_RESULTS+16*INCR_STATE_PARTIAL_RESULTS:
 		{
 			// if incrmental vs incremental, and no light from either, do most recently lit one
@@ -784,7 +783,7 @@ void CLightingPreviewThread::SendVectorMatrixAsRendering( CSIMDVectorMatrix cons
 unsigned LightingPreviewThreadFN( void *thread_start_arg )
 {
 	CLightingPreviewThread LPreviewObject;
-	ThreadSetPriority( -2 );								// low
+//	ThreadSetPriority( -2 );								// low
 	LPreviewObject.Run();
 	return 0;
 }

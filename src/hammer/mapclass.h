@@ -328,8 +328,11 @@ public:
 #endif
 	virtual bool IsEditable( void );
 	virtual bool ShouldSnapToHalfGrid() { return false; }
-	virtual bool IsSolid( ) { return false; }
-
+	virtual bool IsSolid( ) { return false; }	
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+	virtual bool ShouldDoSequentialNaming() { return false; }	
+	virtual const char* GetSequentialNamingBase() { return ""; }
+#endif
 	// searching
 	virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = NULL, VMatrix *InstanceMatrix = NULL );
 

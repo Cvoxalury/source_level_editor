@@ -1,24 +1,25 @@
 
 #include "stdafx.h"
-#include "hammer_mathlib.h"
+#include "beamdraw.h"
 #include "box3d.h"
 #include "bspfile.h"
+#include "camera.h"
 #include "const.h"
+#include "hammer.h"
+#include "hammer_mathlib.h"
 #include "KeyValues.h"
 #include "mapdefs.h"		// dvs: For COORD_NOTINIT
 #include "mapdoc.h"
 #include "mapentity.h"
 #include "mapspotlight.h"
+#include "mapsprite.h"
+#include "material.h"
+#include "materialsystem/imesh.h"
+#include "options.h"
 #include "render2d.h"
 #include "render3d.h"
-#include "hammer.h"
-#include "texturesystem.h"
-#include "materialsystem/imesh.h"
-#include "material.h"
-#include "options.h"
-#include "camera.h"
 #include "sprite.h"
-#include "mapsprite.h"
+#include "texturesystem.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -170,13 +171,15 @@ void CSpotlightHelper::GetSpriteAxes(const QAngle& Angles, int type, Vector& for
 	}
 }
 
+static Vector g_vecCurrentVForward(0, 0, 0), g_vecCurrentVRight(0, 0, 0), g_vecCurrentVUp(0, 0, 0), g_vecCurrentRenderOrigin(0, 0, 0);
+
 void CSpotlightHelper::ComputeCornerVertices( Vector* pVerts, float length, float width) const
 {
-	Vector ViewForward( 1.0f, 0.0f, 0.0f );
-	Vector ViewUp( 0.0f, 1.0f, 0.0f );
-	Vector ViewRight( 0.0f, 0.0f, -1.0f );
-	AngleVectors( m_Angles, &ViewForward, &ViewRight, &ViewUp );
-	
+	Vector ViewForward(1.0f, 0.0f, 0.0f);
+	Vector ViewUp(0.0f, 1.0f, 0.0f);
+	Vector ViewRight(0.0f, 0.0f, -1.0f);
+	AngleVectors(m_Angles, &ViewForward, &ViewRight, &ViewUp);
+
 	pVerts[0] = m_Origin - ViewUp * (width / 2);
 	pVerts[1] = pVerts[0] + ViewUp * width;
 	pVerts[2] = pVerts[1] + ViewForward * length;
@@ -268,6 +271,10 @@ void CSpotlightHelper::Render3D( CRender3D* pRender )
 {
 	if (!GetParent()) return;
 
+	pRender->GetViewUp(g_vecCurrentVUp);
+	pRender->GetViewForward(g_vecCurrentVUp);
+	pRender->GetViewRight(g_vecCurrentVRight);
+
 	Vector cornerVerts[4];
 	ComputeCornerVertices(cornerVerts, m_beamlength_float, m_beamwidth_float * 2); // multiply width by 2 to emulate the game
 		
@@ -349,7 +356,24 @@ void CSpotlightHelper::Render3D( CRender3D* pRender )
 //	texlr.x = m_TexLR.x;
 //	texlr.y = m_TexUL.y : m_TexLR.y;
 	*/
+#if 1
+	float fcolor[3];
 
+	fcolor[0] = m_RenderColor.r * (64 / 255);
+	fcolor[1] = m_RenderColor.g * (64 / 255);
+	fcolor[2] = m_RenderColor.b * (64 / 255);
+	
+	Vector start = (cornerVerts[0] + cornerVerts[1]) / 2;
+	Vector end = (cornerVerts[2] + cornerVerts[3]) / 2;
+
+	float noisef = 0.0f;
+	float *noise;
+	noise = &noisef;
+
+	DrawSegs(pRender, 2, noise, m_beamtexturename_string, 1,
+		m_eRenderMode, start, end - start, m_beamwidth_float, m_beamwidth_float,
+		1, 1, 30, 2, FBEAM_NOTILE, fcolor, 1);
+#else
 	IMesh* pMesh = pRenderContext->GetDynamicMesh();
 	meshBuilder.Begin(pMesh, MATERIAL_POLYGON, 4);
 
@@ -375,7 +399,7 @@ void CSpotlightHelper::Render3D( CRender3D* pRender )
 
 	meshBuilder.End();
 	pMesh->Draw();
-	
+#endif
 	pRender->PopRenderMode();
 	pRenderContext->PopMatrix();
 	if (GetSelectionState() != SELECT_NONE && Options.general.bShowHelpers)

@@ -37,7 +37,7 @@ struct LightDesc_t
 	Vector m_Color;											//< color+intensity 
     Vector m_Position;										//< light source center position
     Vector m_Direction;										//< for SPOT, direction it is pointing
-    float  m_Range;											//< distance range for light.0=infinite
+    float  m_Range;											//< distance range for light. 0=infinite
     float m_Falloff;										//< angular falloff exponent for spot lights
     float m_Attenuation0;									//< constant distance falloff term
     float m_Attenuation1;									//< linear term of falloff

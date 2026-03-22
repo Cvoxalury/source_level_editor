@@ -159,7 +159,6 @@ CMapSpriteBeam::CMapSpriteBeam(const char *pszStartValueKey,
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 // Purpose: Sets data members to initial values.
 //-----------------------------------------------------------------------------
@@ -461,32 +460,16 @@ void CMapSpriteBeam::Render3D(CRender3D *pRender)
 	pRender->PopRenderMode();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : File - 
-//			bRMF - 
-// Output : int
-//-----------------------------------------------------------------------------
 int CMapSpriteBeam::SerializeRMF(std::fstream &File, BOOL bRMF)
 {
 	return( 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : File - 
-//			bRMF - 
-// Output : int
-//-----------------------------------------------------------------------------
 int CMapSpriteBeam::SerializeMAP(std::fstream &File, BOOL bRMF)
 {
 	return( 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pTransBox - 
-//-----------------------------------------------------------------------------
 void CMapSpriteBeam::DoTransform(const VMatrix &matrix)
 {
 	BaseClass::DoTransform(matrix);

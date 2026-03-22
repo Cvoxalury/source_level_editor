@@ -206,6 +206,7 @@ public:
 	, bool bNoZ = false
 #endif
 	);
+
 	void RenderBox(const Vector &Mins, const Vector &Maxs, unsigned char chRed, unsigned char chGreen, unsigned char chBlue, SelectionState_t eBoxSelectionState);
 	void RenderArrow(Vector const &vStartPt, Vector const &vEndPt, unsigned char chRed, unsigned char chGreen, unsigned char chBlue);
 
@@ -258,7 +259,11 @@ protected:
 	void RenderTool(void);
 	void RenderTree( CMapWorld *pWorld );
     void RenderPointsAndPortals(void);
+#ifdef SLE //// SLE CHANGE - allow drawing with an offset
+	void RenderWorldAxes(Vector offset = Vector(0,0,0), float scale = 1.0f);
+#else
 	void RenderWorldAxes();
+#endif
 	void RenderTranslucentObjects( void );
 #ifdef SLE //// SLE NEW - renders point message entities text
 	void RenderWorldText(void);

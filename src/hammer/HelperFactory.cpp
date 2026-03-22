@@ -34,10 +34,12 @@
 #include "mapworldtext.h"
 #include "mapdirectionvisualizer.h"
 //// SLE NEW - our own
+#include "maprotationdistancevisualizer.h"
 #include "mapspotlight.h"
 #include "mapornament.h"
 #include "mapsunhelper.h"
 #include "MapSpriteBeam.h"
+#include "mapimagepanel.h"
 #endif
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -88,9 +90,10 @@ static HelperFactoryMap_t HelperFactoryMap[] =
 	"beam", CMapSpriteBeam::Create,
 	"tesla", CMapSpriteTesla::Create,
 	"laser", CMapSpriteBeam::CreateLaser,
+	"rotationdistance", CMapRotationDistanceVisualizer::Create,
+	"imagepanel", CImagePanelHelper::CreateImagePanel,
 	// todo:
 	// point message as helper?
-	// boolean
 	// particle system
 	// legacy particles?
 #endif

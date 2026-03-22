@@ -178,6 +178,7 @@ public:
 	bool bSolidsEdgesNoZ;	//// SLE NEW - option to render selected solids' edges in wireframe noz
 	int iMaterialCacheSize; //// SLE NEW - customisable material cache size for the mat browser
 	BOOL bMissingMatAsError; //// SLE NEW - ported from sdk-2013-hammer - display missing texture as emo checkerboard
+	BOOL bShowIllumPosition; //// SLE NEW - show illum position
 #else
 	float fLightConeLength;  // Multiplier for light_spot cone length //// SLE REMOVE: Does anybody ever use this setting? 
 #endif

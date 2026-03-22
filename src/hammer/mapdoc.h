@@ -198,7 +198,7 @@ class CMapDoc : public CDocument
 #endif
 		bool m_bShowGrid;
 		bool m_bShowLogicalGrid;
-#ifdef SLE_2D_BACKGROUNDS
+#if 0 //def SLE_2D_BACKGROUNDS
 		//// SLE NEW - background images
 		struct {
 			bool is_enabled_bool;
@@ -214,21 +214,6 @@ class CMapDoc : public CDocument
 			ITextureInternal	*texture_itex;
 			IMaterial			*material_imat;
 		} bg_xy;
-		/*
-		struct  {
-			bool m_draw_bg_xz_bool;
-			float m_bg_xz_width_float;
-			float m_bg_xz_height_float;
-			int m_bg_xz_alpha_int;
-		} bg_xz;
-		struct  {
-			bool m_draw_bg_yz_bool;
-			float m_bg_yz_width_float;
-			float m_bg_yz_height_float;
-			int m_bg_yz_alpha_int;
-		} bg_yz;
-		*/
-		////
 #endif	
 		// pointfile stuff:
 		enum
@@ -622,6 +607,9 @@ class CMapDoc : public CDocument
 		void Postload(const char *pszFileName);
 		inline bool IsLoading(void);
 
+#ifdef SLE //// prevent entities from updating while closing the doc
+		inline bool IsClosing(void);
+#endif
 		inline void SetInitialUpdate( void ) { m_bHasInitialUpdate = true; }
 		inline bool HasInitialUpdate( void ) { return m_bHasInitialUpdate; }
 
@@ -699,6 +687,9 @@ class CMapDoc : public CDocument
 #ifdef SLE /// SLE NEW - for OnViewPlayerStart and OnViewSkyCamera, keep track of ids cycled
 		int m_lastPlayerStartID = 0;
 		int m_lastSkyCameraID = 0;
+#endif
+#ifdef SLE //// prevent entities from updating while closing the doc
+		bool m_bIsClosing;
 #endif
 		//
 		// Serialization.
@@ -1003,7 +994,9 @@ protected:
 		afx_msg void OnToggle15DegSnap(); //// SLE NEW: quick access via hotkey for the 15 degrees rotation snap option.
 		afx_msg void OnUpdate15DegSnap(CCmdUI* pCmdUI);
 		afx_msg void OnFileExportDXF(); //// SLE CHANGE - moved from File to Tools because now it works on selections
-		afx_msg void OnFileExportSMD(); //// SLE TODO: SMD Export
+		afx_msg void OnFileExportSMD(bool onlyCollisions); //// SLE TODO: SMD Export
+		afx_msg void OnFileExportSMDNoCollisions(); //// SLE TODO: SMD Export
+		afx_msg void OnFileExportSMDCollisions(); //// SLE TODO: SMD Export
 		afx_msg void OnFileExportMAP(); //// SLE NEW: add export to MAP to Tools->Export
 		afx_msg void OnFileExportCommentary(); //// SLE NEW: add exporting commentary nodes to txt
 #endif
@@ -1138,7 +1131,12 @@ bool CMapDoc::IsLoading(void)
 {
 	return(m_bLoading);
 }
-
+#ifdef SLE //// prevent entities from updating while closing the doc
+bool CMapDoc::IsClosing(void)
+{
+	return(m_bIsClosing);
+}
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: Returns the document that is currently active.
 //-----------------------------------------------------------------------------

@@ -742,6 +742,12 @@
     <ClCompile Include="VisGroup.cpp">
       <Filter>Source Files\Dialog UI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="maprotationdistancevisualizer.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapimagepanel.cpp">
+      <Filter>Source Files\Map Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\mathlib\amd3dx.h">
@@ -1618,6 +1624,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="prefabsdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="maprotationdistancevisualizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapimagepanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

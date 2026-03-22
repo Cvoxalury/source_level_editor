@@ -30,6 +30,10 @@ GDclass::GDclass(void)
 	m_bExtend = false;
 #endif
 	m_bHalfGridSnap = false;
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+	m_bSequentialNaming = false;
+	m_szSequentialNamingBase = NULL;
+#endif
 
 	m_bGotSize = false;
 	m_bGotColor = false;
@@ -98,6 +102,9 @@ GDclass::~GDclass(void)
 	m_Outputs.RemoveAll();
 
 	delete m_pszDescription;
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+//	delete m_szSequentialNamingBase;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -742,7 +749,100 @@ bool GDclass::ParseSize(TokenReader &tr)
 
 	return(true);
 }
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming
+bool GDclass::ParseSequentialNaming(TokenReader &tr)
+{	
+	char szToken[MAX_TOKEN];
 
+	while (1)
+	{
+	//	if (!GDGetToken(tr, szToken, sizeof(szToken), IDENT))
+	//	{
+	//		return(false);
+	//	}
+
+		tr.NextToken(szToken, sizeof(szToken));
+		m_szSequentialNamingBase = szToken;
+		m_bSequentialNaming = true;
+		
+	//	GDError(tr, "sequential naming parsing - got sequential name base \"%s\"", szToken);
+
+		if (IsToken(szToken, ")"))
+		{
+			break;
+		}
+	}
+
+	return(true);
+
+	/*
+	char szToken[MAX_TOKEN];
+	
+	if (!GDGetToken(tr, szToken, sizeof(szToken), IDENT))
+	{
+		return(false);
+	}
+
+	if (!GDGetToken(tr, szToken, sizeof(szToken), IDENT))
+	{
+		return(false);
+	}
+
+	m_szSequentialNamingBase = szToken;
+
+	if (!GDGetToken(tr, szToken, sizeof(szToken), OPERATOR, ")"))
+	{
+		return(false);
+	}
+	
+	m_bSequentialNaming = true;
+	*/
+	return(true);
+	/*
+	char szToken[MAX_TOKEN];
+
+	CHelperInfo *pHelper = new CHelperInfo;
+	pHelper->SetName(pszTokenName);
+	
+	bool bCloseParen = false;
+	while (!bCloseParen)
+	{
+		trtoken_t eType = tr.PeekTokenType(szToken,sizeof(szToken));
+
+		if (eType == OPERATOR)
+		{
+			if (!GDGetToken(tr, szToken, sizeof(szToken), OPERATOR))
+			{
+				delete pHelper;
+				return(false);
+			}
+
+			if (IsToken(szToken, ")"))
+			{
+				bCloseParen = true;
+			}
+			else if (IsToken(szToken, "="))
+			{
+				delete pHelper;
+				return(false);
+			}
+		}
+		else
+		{
+			if (!GDGetToken(tr, szToken, sizeof(szToken), eType))
+			{
+				return(false);
+			}
+		}
+	}
+
+	m_bSequentialNaming = true;
+	m_szSequentialNamingBase = pszTokenName;
+
+	return(true);
+	*/
+}
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : &tr - 
@@ -794,6 +894,16 @@ bool GDclass::ParseSpecifiers(TokenReader &tr)
 					return(false);
 				}
 			}
+#ifdef SLE //// SLE NEW - fgd-driven sequential naming. This is used by paths and keyframes to add a number to their targetname.
+			else if ( IsToken (szToken, "sequentialnaming") )
+			{
+				if (!ParseSequentialNaming(tr))
+				{
+					return(false);
+				}
+				m_bSequentialNaming = true;
+			}
+#endif
 			else if (!ParseHelper(tr, szToken))
 			{
 				return(false);

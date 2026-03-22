@@ -51,6 +51,9 @@ CWorldTextHelper::CWorldTextHelper() : m_eRenderMode( kRenderTransAlpha ), m_flT
 	m_RenderColor.b = 255;
 	m_RenderColor.a = 255;
 
+	m_show2D_bool = false; 
+	m_show3D_bool = true; 
+
 	Initialize();
 }
 
@@ -102,6 +105,12 @@ void CWorldTextHelper::CalcBounds( BOOL bFullUpdate )
 
 	Vector vMin = cornerVerts[0].Min( cornerVerts[1] ).Min( cornerVerts[2] ).Min( cornerVerts[3] );
 	Vector vMax = cornerVerts[0].Max( cornerVerts[1] ).Max( cornerVerts[2] ).Max( cornerVerts[3] );
+			
+	// bloat the bbox a little so it's not 0 width when seen from the sides
+	Vector faceNormal = GetNormalFromPoints(cornerVerts[0], cornerVerts[1], cornerVerts[2]);		
+	vMin += faceNormal * 4.0f;
+	vMax -= faceNormal * 4.0f;
+
 	m_CullBox.UpdateBounds( vMin, vMax );
 	m_Render2DBox.UpdateBounds( vMin, vMax );
 }
@@ -160,16 +169,28 @@ void CWorldTextHelper::Initialize()
 
 #define CHAR_WIDTH 0.0625f // 1/16
 #define CHAR_HEIGHT 0.0625f // 1/16
-void CWorldTextHelper::Render3DText( CRender3D* pRender, const char* szText, const float flTextSize )
+//-----------------------------------------------------------------------------
+// Purpose: Renders the helper in either 2D or 3D render.
+// Input:	pRender2D - the 2D render
+//			pRender3D - the 3D render
+//			Should only use one or the other!
+//-----------------------------------------------------------------------------
+void CWorldTextHelper::RenderWorldText(CRender2D* pRender2D, CRender3D* pRender3D, const char* szText, const float flTextSize )
 {
 	if (Options.general.bShowEditorObjects)
 		return;
+
 	if ( !szText )
 		return;
+
 	int nNumChars = V_strlen( szText );
 	if ( !nNumChars )
 		return;
 
+	if(!pRender2D && !pRender3D) return;
+
+//	if( pRender2D && pRender3D) return; // not supposed to use both at once, choose one!
+	
 	Vector ViewForward( 1.0f, 0.0f, 0.0f );
 	Vector ViewUp( 0.0f, 1.0f, 0.0f );
 	Vector ViewRight( 0.0f, 0.0f, -1.0f );
@@ -186,7 +207,14 @@ void CWorldTextHelper::Render3DText( CRender3D* pRender, const char* szText, con
 		pDebugText->AddRef();
 	}
 
-	pRender->PushRenderMode( RENDER_MODE_EXTERN );
+	if ( pRender2D )
+	{
+		pRender2D->PushRenderMode(RENDER_MODE_EXTERN);
+	}
+	else if( pRender3D)
+	{
+		pRender3D->PushRenderMode(RENDER_MODE_EXTERN);
+	}
 	CMatRenderContextPtr pRenderContext( MaterialSystemInterface() );
 	pRenderContext->Bind( pDebugText );
 
@@ -240,17 +268,75 @@ void CWorldTextHelper::Render3DText( CRender3D* pRender, const char* szText, con
 
 	meshBuilder.End();
 	pMesh->Draw();
-	pRender->PopRenderMode();
+	if ( pRender2D )
+	{
+		pRender2D->PopRenderMode();
+	}
+	else if ( pRender3D )
+	{
+		pRender3D->PopRenderMode();
+	}
 }
 
 //-----------------------------------------------------------------------------
-// Purpose:
-// Input  : pRender -
+void CWorldTextHelper::Render2D( CRender2D* pRender )
+{
+	Vector vecMins;
+	Vector vecMaxs;
+	GetRender2DBox( vecMins, vecMaxs );
+
+	Vector2D pt,pt2;
+	pRender->TransformPoint( pt, vecMins );
+	pRender->TransformPoint( pt2, vecMaxs );
+
+	if ( !IsSelected() )
+	{
+		pRender->SetDrawColor( r, g, b );
+		pRender->SetHandleColor( r, g, b );
+	}
+	else
+	{
+		pRender->SetDrawColor( GetRValue( Options.colors.clr2DSelection ), GetGValue( Options.colors.clr2DSelection ), GetBValue( Options.colors.clr2DSelection ) );
+		pRender->SetHandleColor( GetRValue( Options.colors.clr2DSelection ), GetGValue( Options.colors.clr2DSelection ), GetBValue( Options.colors.clr2DSelection ) );
+	}
+
+	// Draw the bounding box.
+
+	pRender->DrawBox( vecMins, vecMaxs );
+
+	//
+	// Draw center handle.
+	//
+
+	if ( pRender->IsActiveView() )
+	{
+		int sizex = abs( pt.x - pt2.x ) + 1;
+		int sizey = abs( pt.y - pt2.y ) + 1;
+
+		// dont draw handle if object is too small
+		if ( sizex > 6 && sizey > 6 )
+		{
+			pRender->SetHandleStyle( HANDLE_RADIUS, CRender::HANDLE_CROSS );
+			pRender->DrawHandle( ( vecMins + vecMaxs ) / 2 );
+		}
+	}
+
+	// Draw the text itself, if it's supposed to be visible
+	if ( m_show2D_bool )
+	{
+		RenderWorldText(pRender, NULL, m_pText, m_flTextSize);
+	}
+}
+
 //-----------------------------------------------------------------------------
 void CWorldTextHelper::Render3D( CRender3D* pRender )
 {
 	pRender->BeginRenderHitTarget( this );
-	Render3DText( pRender, m_pText, m_flTextSize );
+	// Draw the text itself, if it's supposed to be visible
+	if ( m_show3D_bool )
+	{
+		RenderWorldText(NULL, pRender, m_pText, m_flTextSize);
+	}
 	pRender->EndRenderHitTarget();
 
 	if ( GetSelectionState() != SELECT_NONE )
@@ -323,49 +409,19 @@ void CWorldTextHelper::OnParentKeyChanged( const char* szKey, const char* szValu
 
 		PostUpdate( Notify_Changed );
 	}
-}
-
-//-----------------------------------------------------------------------------
-void CWorldTextHelper::Render2D( CRender2D* pRender )
-{
-	Vector vecMins;
-	Vector vecMaxs;
-	GetRender2DBox( vecMins, vecMaxs );
-
-	Vector2D pt,pt2;
-	pRender->TransformPoint( pt, vecMins );
-	pRender->TransformPoint( pt2, vecMaxs );
-
-	if ( !IsSelected() )
+	else if ( !stricmp(szKey, "showin2d") )
 	{
-		pRender->SetDrawColor( r, g, b );
-		pRender->SetHandleColor( r, g, b );
+		if( atoi(szValue) == 1)
+			m_show2D_bool = true;
+		else
+			m_show2D_bool = false;
 	}
-	else
+	else if ( !stricmp(szKey, "showin3d") )
 	{
-		pRender->SetDrawColor( GetRValue( Options.colors.clr2DSelection ), GetGValue( Options.colors.clr2DSelection ), GetBValue( Options.colors.clr2DSelection ) );
-		pRender->SetHandleColor( GetRValue( Options.colors.clr2DSelection ), GetGValue( Options.colors.clr2DSelection ), GetBValue( Options.colors.clr2DSelection ) );
-	}
-
-	// Draw the bounding box.
-
-	pRender->DrawBox( vecMins, vecMaxs );
-
-	//
-	// Draw center handle.
-	//
-
-	if ( pRender->IsActiveView() )
-	{
-		int sizex = abs( pt.x - pt2.x ) + 1;
-		int sizey = abs( pt.y - pt2.y ) + 1;
-
-		// dont draw handle if object is too small
-		if ( sizex > 6 && sizey > 6 )
-		{
-			pRender->SetHandleStyle( HANDLE_RADIUS, CRender::HANDLE_CROSS );
-			pRender->DrawHandle( ( vecMins + vecMaxs ) / 2 );
-		}
+		if( atoi(szValue) == 1)
+			m_show3D_bool = true;
+		else
+			m_show3D_bool = false;
 	}
 }
 

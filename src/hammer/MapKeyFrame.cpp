@@ -180,13 +180,13 @@ void CMapKeyFrame::OnClone( CMapClass *pClone, CMapWorld *pWorld, const CMapObje
 	CMapEntity *pNewEntity = dynamic_cast<CMapEntity*>( pClone->GetParent() );
 
 	// insert the newly created keyframe into the sequence
-
+#ifndef SLE //// SLE REMOVE - already done in MapEntity, doing it twice leads to skipping over numbers
 	// point the clone's next at what we were pointing at
 	const char *nextKey = pEntity->GetKeyValue( "NextKey" );
 	if ( nextKey )
 	{
 		pNewEntity->SetKeyValue( "NextKey", nextKey );
-	}
+	}	
 
 	// create a new targetname for the clone
 	char newName[128];
@@ -199,6 +199,7 @@ void CMapKeyFrame::OnClone( CMapClass *pClone, CMapWorld *pWorld, const CMapObje
 
 	// point the current keyframe at the clone
 	pEntity->SetKeyValue("NextKey", newName);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -256,9 +257,6 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 		// only draw if we haven't already been drawn this frame
 		if ( GetRenderFrame() != pRender->GetRenderFrame() )
 		{
-		//	pRender->PushRenderMode( RENDER_MODE_WIREFRAME );
-			pRender->PushRenderMode(RENDER_MODE_FLAT_NOCULL);
-
 			SetRenderFrame( pRender->GetRenderFrame() );
 
 			Vector o1, o2;
@@ -326,7 +324,10 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 			//
 			IMesh *pMesh = pRenderContext->GetDynamicMesh(true, NULL, NULL, ropeMaterial);
 
-#if 1 ///// old method of rope-drawing
+#if 0 ///// old method of rope-drawing
+		//	pRender->PushRenderMode( RENDER_MODE_WIREFRAME );
+			pRender->PushRenderMode(RENDER_MODE_FLAT_NOCULL);
+
 			// draw connecting line going from green to red
 			meshBuilder.Begin(pMesh, MATERIAL_QUADS, MAX_LINE_POINTS);
 			meshBuilder.Color3ub(255, 255, 255);
@@ -396,10 +397,13 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 
 #else //// new method is currently bugged in terms of shader and drawing
 			
-			pRender->BeginRenderHitTarget(this);
-			pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+		//	pRender->BeginRenderHitTarget(this);
+			pRender->PushRenderMode(RENDER_MODE_FLAT_NOCULL);
 
+			float noisef = 0.0f;
 			float *noise;
+			noise = &noisef;
+
 			float fcolor[ 3 ];
 			fcolor[ 0 ] = 1;
 			fcolor[ 1 ] = 1;
@@ -409,24 +413,25 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 			{
 				if ( i == 0 ) // o1 to m_LinePoints[i]
 				{
-					DrawSegs(pRender, 10, noise, cacheTextureName, 1, kRenderNormal, 
+					DrawSegs(pRender, 2, noise, cacheTextureName, 1, kRenderNormal, 
 						o1, ( m_LinePoints[ i ] - o1 ), cacheRopeWidth, cacheRopeWidth, 
-						1, 1, 30, 2, FBEAM_SOLID, fcolor, 0);
+						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 				else if ( i == MAX_LINE_POINTS && o2 != Vector(0, 0, 0) ) // m_LinePoints[i] to o2
 				{
-					DrawSegs(pRender, 10, noise, cacheTextureName, 1, kRenderNormal, 
+					DrawSegs(pRender, 2, noise, cacheTextureName, 1, kRenderNormal, 
 						m_LinePoints[ i ], ( o2 - m_LinePoints[ i ] ), cacheRopeWidth, cacheRopeWidth, 
-						1, 1, 30, 2, FBEAM_SOLID, fcolor, 0);
+						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 				else // m_LinePoints[i-1] to m_LinePoints[i]
 				{
 					DrawSegs(pRender, 10, noise, cacheTextureName, 1, kRenderNormal, 
 						m_LinePoints[ i-1 ], ( m_LinePoints[ i ] - m_LinePoints[ i-1 ] ), cacheRopeWidth, cacheRopeWidth, 
-						1, 1, 30, 2, FBEAM_SOLID, fcolor, 0);
+						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 			}
-			pRender->EndRenderHitTarget();
+
+		//	pRender->EndRenderHitTarget();
 			pRender->PopRenderMode();
 #endif			
 			//// SLE NEW - if selected, then also draw a yellow wireframe version on top of textured version

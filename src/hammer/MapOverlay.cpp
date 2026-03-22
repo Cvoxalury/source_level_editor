@@ -25,7 +25,9 @@
 #include "ChunkFile.h"
 #include "mapview.h"
 #include "options.h"
-
+#ifdef SLE //// SLE NEW - render overlays in 2d
+#include "Render2D.h"
+#endif
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
@@ -371,8 +373,43 @@ void CMapOverlay::Handles_Build3D( void )
 }
 
 //-----------------------------------------------------------------------------
-// Purpose:
+// Purpose: Rendering corner handles in 2D and 3D
 //-----------------------------------------------------------------------------
+#ifdef SLE //// SLE NEW - render overlays in 2d
+void CMapOverlay::Handles_Render2D(CRender2D *pRender)
+{
+	// Set the render mode to "flat."
+	pRender->PushRenderMode(RENDER_MODE_FLAT);
+
+	// Set the color, should be based on selection.
+	unsigned char ucColor[4];
+	ucColor[0] = ucColor[1] = ucColor[2] = ucColor[3] = 255;
+
+	unsigned char ucSelectColor[4];
+	ucSelectColor[0] = ucSelectColor[3] = 255;
+	ucSelectColor[1] = ucSelectColor[2] = 0;
+
+	pRender->SetHandleStyle(HANDLE_RADIUS, CRender::HANDLE_SQUARE);
+
+	for (int iHandle = 0; iHandle < OVERLAY_HANDLES_COUNT; iHandle++)
+	{
+	//	pRender->BeginRenderHitTarget(this, iHandle);
+		if (m_Handles.m_iHit == iHandle)
+		{
+			pRender->SetHandleColor(ucSelectColor[0], ucSelectColor[1], ucSelectColor[2]);
+		}
+		else
+		{
+			pRender->SetHandleColor(ucColor[0], ucColor[1], ucColor[2]);
+		}
+
+		pRender->DrawHandle(m_Handles.m_vec3D[iHandle]);
+
+	//	pRender->EndRenderHitTarget();
+	}
+	pRender->PopRenderMode();
+}
+#endif
 void CMapOverlay::Handles_Render3D( CRender3D *pRender )
 {
 	// Set the render mode to "flat."
@@ -1751,6 +1788,11 @@ void CMapOverlay::OnNotifyDependent( CMapClass *pObject, Notify_Dependent_t eNot
 	case Notify_Undo:
 	case Notify_Transform:
 		{
+#ifdef SLE //// SLE CHANGE - fully update the overlay when undoing or scaling/rotating
+			DoClip();
+			CenterEntity();
+			Handles_Build3D();
+#endif
 			PostModified();
 			break;
 		}
@@ -1778,6 +1820,111 @@ void CMapOverlay::OnNotifyDependent( CMapClass *pObject, Notify_Dependent_t eNot
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
+#ifdef SLE //// SLE NEW - render overlays in 2d
+void CMapOverlay::Render2D(CRender2D *pRender)
+{
+	// only draw when selected
+	if (GetSelectionState() != SELECT_NONE)
+	{
+		int nFaceCount = m_aRenderFaces.Count();
+
+		if (nFaceCount != 0)
+		{
+			// dont draw textured during manipulating
+			if (GetSelectionState() != SELECT_MODIFY)
+			{
+				// Bind the material -- if there is one!!
+				bool bTextured = false;
+				if (m_Material.m_pTexture)
+				{
+#ifdef HAMMER2013_PORT_PROXIES
+					pRender->BindTexture(m_Material.m_pTexture, GetParent());
+#else
+					pRender->BindTexture(m_Material.m_pTexture);
+#endif
+					pRender->PushRenderMode(RENDER_MODE_TEXTURED);
+					bTextured = true;
+				}
+				else
+				{
+					// Default state.
+					pRender->PushRenderMode(RENDER_MODE_FLAT);
+				}
+
+				for (int iFace = 0; iFace < nFaceCount; iFace++)
+				{
+					ClipFace_t *pRenderFace = m_aRenderFaces.Element(iFace);
+					if (!pRenderFace)
+						continue;
+
+					MaterialPrimitiveType_t type = MATERIAL_POLYGON;
+
+					// Get a dynamic mesh.
+					CMeshBuilder meshBuilder;
+					CMatRenderContextPtr pRenderContext(MaterialSystemInterface());
+					IMesh* pMesh = pRenderContext->GetDynamicMesh();
+					
+					meshBuilder.Begin(pMesh, type, pRenderFace->m_nPointCount);
+					for (int iPoint = 0; iPoint < pRenderFace->m_nPointCount; iPoint++)
+					{
+						if (!bTextured)
+						{
+							meshBuilder.Color3ub(0, 128, 0);
+						}
+						else
+						{
+							meshBuilder.TexCoord2f(0, pRenderFace->m_aTexCoords[0][iPoint].x, pRenderFace->m_aTexCoords[0][iPoint].y);
+							meshBuilder.TexCoord2f(2, pRenderFace->m_aTexCoords[1][iPoint].x, pRenderFace->m_aTexCoords[1][iPoint].y);
+							meshBuilder.Color4ub(255, 255, 255, 255);
+						}
+						meshBuilder.Position3f(pRenderFace->m_aPoints[iPoint].x, pRenderFace->m_aPoints[iPoint].y, pRenderFace->m_aPoints[iPoint].z);
+						meshBuilder.AdvanceVertex();
+					}
+					meshBuilder.End();
+
+					pMesh->Draw();
+				}
+
+				pRender->PopRenderMode();
+			}
+
+			// Render wireframe on top
+			pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+			for (int iFace = 0; iFace < nFaceCount; iFace++)
+			{
+				ClipFace_t *pRenderFace = m_aRenderFaces.Element(iFace);
+				if (!pRenderFace)
+					continue;
+
+				MaterialPrimitiveType_t type = MATERIAL_LINE_LOOP;
+
+				// get a dynamic mesh
+				CMeshBuilder meshBuilder;
+				CMatRenderContextPtr pRenderContext(MaterialSystemInterface());
+				IMesh* pMesh = pRenderContext->GetDynamicMesh();
+
+				meshBuilder.Begin(pMesh, type, pRenderFace->m_nPointCount);
+				for (int iPoint = 0; iPoint < pRenderFace->m_nPointCount; iPoint++)
+				{
+					meshBuilder.Color3ub(0, 255, 0);
+					meshBuilder.Position3f(pRenderFace->m_aPoints[iPoint].x, pRenderFace->m_aPoints[iPoint].y, pRenderFace->m_aPoints[iPoint].z);
+					meshBuilder.AdvanceVertex();
+				}
+				meshBuilder.End();
+
+				pMesh->Draw();
+			}
+			pRender->PopRenderMode();
+		}
+
+		// Render the handles - if selected or in overlay tool mode.
+		if ((ToolManager()->GetActiveToolID() == TOOL_OVERLAY) && Basis_IsValid())
+		{
+			Handles_Render2D(pRender);
+		}
+	} // if selected
+}
+#endif
 void CMapOverlay::Render3D( CRender3D *pRender )
 {
 	int nFaceCount = m_aRenderFaces.Count();
@@ -1787,8 +1934,7 @@ void CMapOverlay::Render3D( CRender3D *pRender )
 		// dont draw textured during manipulating
 		if ( GetSelectionState() != SELECT_MODIFY )
 		{
-
-			// Bind the matrial -- if there is one!!
+			// Bind the material -- if there is one!!
 			bool bTextured = false;
 			if ( m_Material.m_pTexture )
 			{
@@ -2271,6 +2417,12 @@ void CMapOverlay::HandlesDragTo( Vector &vecImpact, CMapFace *pFace )
 	Handles_SurfToOverlayPlane( pFace, vecImpact, vecOverlay );
 	OverlayPlaneToOverlayUV( vecOverlay, vecUVOverlay );
 	m_Handles.m_vecBasisCoords[m_Handles.m_iHit] = vecUVOverlay;
+
+#ifdef SLE //// SLE CHANGE - update overlay dynamically when dragging verts
+	DoClip();
+	CenterEntity();
+	Handles_Build3D();
+#endif
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

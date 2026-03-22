@@ -74,7 +74,9 @@ class CEditGameClass
 		unsigned long GetSpawnFlags(void);
 		void SetSpawnFlag(unsigned long nFlag, bool bSet);
 		void SetSpawnFlags(unsigned long nFlags);
-
+#ifdef SLE //// SLE NEW - method to check spawnflags mirroring the game code
+		bool HasSpawnFlags(int flags);
+#endif
 		//
 		// Interface to entity connections.
 		//

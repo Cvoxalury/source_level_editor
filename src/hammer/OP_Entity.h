@@ -240,7 +240,11 @@ class COP_Entity : public CObjectPage, CFilteredComboBox::ICallbacks, public CCo
 		void CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
 		void CreateSmartControls_TargetName( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
 		void CreateSmartControls_BasicEditControl( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont, CUtlVector<const char *> *pHelperType );
+#ifdef SLE //// SLE CHANGE - have an option to not have browse button, for soundchoices
+		void CreateSmartControls_BrowseAndPlayButtons( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont, bool createBrowse = true );
+#else
 		void CreateSmartControls_BrowseAndPlayButtons( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
+#endif
 		void CreateSmartControls_MarkAndEyedropperButtons( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
 		void CreateSmartControls_PickButton( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
 		void CreateSmartControls_InstanceVariable( GDinputvariable *pVar, CRect &ctrlrect, HFONT hControlFont );
@@ -410,8 +414,11 @@ class COP_Entity : public CObjectPage, CFilteredComboBox::ICallbacks, public CCo
 		void SetReadOnly(bool bReadOnly);
 
 		void SetSmartControlText(const char *pszText);
+#ifdef SLE
+		void PerformMark(const char *pTargetName, bool bClear, bool bNameOrClass, bool bModel = false);
+#else
 		void PerformMark(const char *pTargetName, bool bClear, bool bNameOrClass);
-
+#endif
 		void LoadCustomColors();
 		void SaveCustomColors();
 		
