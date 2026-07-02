@@ -26,8 +26,8 @@ extern CSteamAPIContext *steamapicontext;
 #include <tier0/memdbgon.h>
 
 #ifdef SLE //// SLE CHANGE - different default gameconfig path
-#define	GAME_CONFIG_FILENAME	"level_editor\\cfg\\GameConfig.txt"
-#define DEFAULT_GAME_BLOCK_FILENAME	"level_editor\\cfg\\GameConfig_Default.txt"
+#define	GAME_CONFIG_FILENAME	"level_editor\\cfg\\gameconfig.cfg"
+#define DEFAULT_GAME_BLOCK_FILENAME	"level_editor\\cfg\\gameconfig_default.cfg"
 #define	IMPORT_GAME_CONFIG_FILENAME	"GameConfig.txt"
 #else
 #define	GAME_CONFIG_FILENAME	"GameConfig.txt"
@@ -281,6 +281,7 @@ bool CGameConfigManager::LoadConfigsInternal( const char *baseDir, bool bRecursi
 		if (!m_pData->LoadFromFile(g_pFullFileSystem, IMPORT_GAME_CONFIG_FILENAME, "EXECUTABLE_PATH"))
 #endif
 		{
+			
 			// Attempt to re-create the configs
 #ifdef SLE
 			// Start our new block
@@ -299,9 +300,16 @@ bool CGameConfigManager::LoadConfigsInternal( const char *baseDir, bool bRecursi
 
 				// Version the config.
 				VersionConfig();
+
 			}
 		}
-
+#ifdef SLE //// this fixes SLE not remembering improted config on first run
+		else
+		{
+			m_LoadStatus = LOADSTATUS_CONVERTED;
+			return true;
+		}
+#endif
 		m_LoadStatus = LOADSTATUS_ERROR;
 		return false;
 	}
