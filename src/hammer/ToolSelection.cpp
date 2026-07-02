@@ -1145,6 +1145,8 @@ void Selection3D::FinishTranslation(bool bSave, bool bClone )
 		if (GetTranslateMode() == modeMove 
 #ifdef SLE //// SLE NEW - allow cloning on rotation too // todo - on scaling too?
 			|| GetTranslateMode() == modeRotate
+			|| GetTranslateMode() == modeScale
+			|| GetTranslateMode() == modeShear
 #endif
 			)
 		{
