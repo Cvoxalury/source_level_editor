@@ -360,6 +360,10 @@ public:
 	virtual void AddShadowingTriangles( CUtlVector<Vector> &tri_list );
 
 	DetailObjects		*m_pDetailObjects;
+
+#ifdef SLE //// SLE TODO: SMD Export
+	bool SaveSMD(ExportSMDInfo_s *pInfo);
+#endif
 	
 protected:
 
