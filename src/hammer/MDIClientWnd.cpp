@@ -45,7 +45,7 @@ BOOL CMDIClientWnd::OnEraseBkgnd(CDC *pDC)
 #ifdef SLE_DARK_THEME //// SLE NEW - dark theme test
 	CBrush backBrush(SLE_DARK_THEME_CLR_BACK); // This color blends with the splash image!
 #else
-	CBrush backBrush(RGB(141, 136, 130)); // This color blends with the splash image!
+	CBrush backBrush(RGB(141, 136, 130)); // This color blends with the splash image! //// SLE NOTE - this is the colour of the program's background
 #endif
 	// Save old brush
 	CBrush *pOldBrush = pDC->SelectObject(&backBrush);
