@@ -1,7 +1,7 @@
 //========= Copyright Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
-//
+// //// SLE TODO - some kind of config to specify date:splash externally?
 //=============================================================================//
 
 #include "stdafx.h"
@@ -11,6 +11,7 @@
 #include "Options.h"
 #include "vstdlib\random.h"
 #include "tier0/icommandline.h"
+#include "atlimage.h"
 #endif
 #define SPLASH_MIN_SHOW_TIME_MS	500
 
@@ -306,121 +307,254 @@ BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
 	m_bitmap.GetBitmap(&bm);
 
 #ifdef SLE //// SLE NEW - easter egg splash screens
-	if (Options.general.bEasterEggSplashes )
+	char filename_all[64];
+	char filename_splash[64];
+
+	if (Options.general.bEasterEggSplashes)
 	{
 		SYSTEMTIME st;
 		GetLocalTime(&st);
 
+#if 1 // new way
 		if ((st.wMonth) == 11 && st.wDay == 19) // 19/11/1998, HL & OF
 		{
-			if( st.wSecond % 3 != 0) // 2/3 chance it's HL
+			if (st.wSecond % 3 != 0) // 2/3 chance it's HL
 			{
-				if ( !m_bitmap.LoadBitmap(IDB_SPLASH_HL1) )	return FALSE;
+				sprintf(filename_splash, "%s", "sle_splash_hl1.jpg");
 			}
 			else // 1/3 chance it's OF
 			{
-				if ( !m_bitmap.LoadBitmap(IDB_SPLASH_OF) )	return FALSE;
+				sprintf(filename_splash, "%s", "sle_splash_of.jpg");
 			}
-
-		//	BITMAP bm_hl1;
-		//	m_bitmap_hl1.GetBitmap(&bm_hl1);
-
-		//	return CreateEx(0,
-		//		AfxRegisterWndClass(0, AfxGetApp()->LoadStandardCursor(IDC_ARROW)),
-		//		NULL, WS_POPUP | WS_VISIBLE, 0, 0, bm_hl1.bmWidth, bm_hl1.bmHeight, pParentWnd->GetSafeHwnd(), NULL);
 		}
 
-		else if ( ( st.wMonth ) == 5 && ( st.wDay ) == 16 ) // 16/5/200-, BMI
+		else if ((st.wMonth) == 5 && (st.wDay) == 16) // 16/5/200-, BMI
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_BMI) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_bmi.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 4 && ( st.wDay ) == 12 ) // 12/4/--, space
+		else if ((st.wMonth) == 4 && (st.wDay) == 12) // 12/4/--, space
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_SPACE) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_space.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 12 && ( st.wDay ) == 32 ) // 31/12/--, new year
+		else if ((st.wMonth) == 12 && (st.wDay) == 31) // 31/12/--, new year
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_NEWYEAR) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_newyear.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 6 && ( st.wDay ) == 12 ) // 12/6/2001, BS
+		else if ((st.wMonth) == 6 && (st.wDay) == 12) // 12/6/2001, BS
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_BS) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_bs.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 11 && ( st.wDay ) == 14 ) // 14/11/2001, DC
+		else if ((st.wMonth) == 11 && (st.wDay) == 14) // 14/11/2001, DC
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_DC) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_dc.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 9 && ( st.wDay ) == 30 ) // 30/09/2003
+		else if ((st.wMonth) == 9 && (st.wDay) == 30) // 30/09/2003
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_SEP30) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_sep30.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 10 && ( st.wDay ) == 7 ) // 7/10/2004, CSS
+		else if ((st.wMonth) == 10 && (st.wDay) == 7) // 7/10/2004, CSS
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_CSS) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_css.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 11 && ( st.wDay ) == 16 ) // 16/11/2004, HL2
+		else if ((st.wMonth) == 11 && (st.wDay) == 16) // 16/11/2004, HL2
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_HL2) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_hl2.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 11 && ( st.wDay ) == 30 ) // 30/11/2004, HL2 DM
+		else if ((st.wMonth) == 11 && (st.wDay) == 30) // 30/11/2004, HL2 DM
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_HL2DM) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_hl2dm.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 9 && ( st.wDay ) == 26 ) // 26/09/2005, DOD:S
+		else if ((st.wMonth) == 9 && (st.wDay) == 26) // 26/09/2005, DOD:S
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_DODS) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_dods.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 10 && ( st.wDay ) == 27 ) // 27/10/2005, HL2:LC
+		else if ((st.wMonth) == 10 && (st.wDay) == 27) // 27/10/2005, HL2:LC
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_LC) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_lc.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 2 && ( st.wDay ) == 12 ) // 12/2/2006, COW
+		else if ((st.wMonth) == 2 && (st.wDay) == 12) // 12/2/2006, COW
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_COW) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_cow.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 6 && ( st.wDay ) == 1 ) // 1/6/2006, HL2:EP1
+		else if ((st.wMonth) == 6 && (st.wDay) == 1) // 1/6/2006, HL2:EP1
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_EP1) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_ep1.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 10 && ( st.wDay ) == 10 ) // 10/10/2007, EP2 & P1 & TF2
+		else if ((st.wMonth) == 10 && (st.wDay) == 10) // 10/10/2007, EP2 & P1 & TF2
 		{
-			if ( st.wSecond % 3 == 0 )
+			if (st.wSecond % 3 == 0)
 			{
-				if ( !m_bitmap.LoadBitmap(IDB_SPLASH_EP2) )	return FALSE;
-			} 
-			else if (st.wSecond % 2 )
+				sprintf(filename_splash, "%s", "sle_splash_ep2.jpg");
+			}
+			else if (st.wSecond % 2)
 			{
-				if ( !m_bitmap.LoadBitmap(IDB_SPLASH_PORTAL) )	return FALSE;
-			} 
+				sprintf(filename_splash, "%s", "sle_splash_portal.jpg");
+			}
 			else
 			{
-				if ( !m_bitmap.LoadBitmap(IDB_SPLASH_TF2) )	return FALSE;
+				sprintf(filename_splash, "%s", "sle_splash_tf2.jpg");
 			}
 		}
 
-		else if ( ( st.wMonth ) == 4 && ( st.wDay ) == 19 ) // 19/4/2010, P2
+		else if ((st.wMonth) == 4 && (st.wDay) == 19) // 19/4/2010, P2
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_PORTAL2) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_portal2.jpg");
 		}
 
-		else if ( ( st.wMonth ) == 3 && ( st.wDay ) == 23 ) // 23/3/2020, HL:A
+		else if ((st.wMonth) == 3 && (st.wDay) == 23) // 23/3/2020, HL:A
 		{
-			if ( !m_bitmap.LoadBitmap(IDB_SPLASH_HLA) ) return FALSE;
+			sprintf(filename_splash, "%s", "sle_splash_hla.jpg");
+		}
+
+		else
+		{
+			sprintf(filename_splash, "%s", "sle_splash.jpg");
+		}
+
+#else // old way
+	else // no command line
+	{
+		if ((st.wMonth) == 11 && st.wDay == 19) // 19/11/1998, HL & OF
+		{
+			if (st.wSecond % 3 != 0) // 2/3 chance it's HL
+			{
+				if (!m_bitmap.LoadBitmap(IDB_SPLASH_HL1))	return FALSE;
+			}
+			else // 1/3 chance it's OF
+			{
+				if (!m_bitmap.LoadBitmap(IDB_SPLASH_OF))	return FALSE;
+			}
+
+			//	BITMAP bm_hl1;
+			//	m_bitmap_hl1.GetBitmap(&bm_hl1);
+
+			//	return CreateEx(0,
+			//		AfxRegisterWndClass(0, AfxGetApp()->LoadStandardCursor(IDC_ARROW)),
+			//		NULL, WS_POPUP | WS_VISIBLE, 0, 0, bm_hl1.bmWidth, bm_hl1.bmHeight, pParentWnd->GetSafeHwnd(), NULL);
+		}
+
+		else if ((st.wMonth) == 5 && (st.wDay) == 16) // 16/5/200-, BMI
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_BMI)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 4 && (st.wDay) == 12) // 12/4/--, space
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_SPACE)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 12 && (st.wDay) == 32) // 31/12/--, new year
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_NEWYEAR)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 6 && (st.wDay) == 12) // 12/6/2001, BS
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_BS)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 11 && (st.wDay) == 14) // 14/11/2001, DC
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_DC)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 9 && (st.wDay) == 30) // 30/09/2003
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_SEP30)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 10 && (st.wDay) == 7) // 7/10/2004, CSS
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_CSS)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 11 && (st.wDay) == 16) // 16/11/2004, HL2
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_HL2)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 11 && (st.wDay) == 30) // 30/11/2004, HL2 DM
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_HL2DM)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 9 && (st.wDay) == 26) // 26/09/2005, DOD:S
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_DODS)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 10 && (st.wDay) == 27) // 27/10/2005, HL2:LC
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_LC)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 2 && (st.wDay) == 12) // 12/2/2006, COW
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_COW)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 6 && (st.wDay) == 1) // 1/6/2006, HL2:EP1
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_EP1)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 10 && (st.wDay) == 10) // 10/10/2007, EP2 & P1 & TF2
+		{
+			if (st.wSecond % 3 == 0)
+			{
+				if (!m_bitmap.LoadBitmap(IDB_SPLASH_EP2))	return FALSE;
+			}
+			else if (st.wSecond % 2)
+			{
+				if (!m_bitmap.LoadBitmap(IDB_SPLASH_PORTAL))	return FALSE;
+			}
+			else
+			{
+				if (!m_bitmap.LoadBitmap(IDB_SPLASH_TF2))	return FALSE;
+			}
+		}
+
+		else if ((st.wMonth) == 4 && (st.wDay) == 19) // 19/4/2010, P2
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_PORTAL2)) return FALSE;
+		}
+
+		else if ((st.wMonth) == 3 && (st.wDay) == 23) // 23/3/2020, HL:A
+		{
+			if (!m_bitmap.LoadBitmap(IDB_SPLASH_HLA)) return FALSE;
 		}
 	}
+#endif
+	}
+	else // no easter eggs
+	{
+		sprintf(filename_splash, "%s", "sle_splash.jpg");
+	}
+
+	// allow command line override
+	if (CommandLine()->FindParm("-splashscreen"))
+	{
+		// compose the file name out of resource folder + the command line argument
+		sprintf(filename_splash, "%s", CommandLine()->ParmValue("-splashscreen"));
+	}
+
+	sprintf(filename_all, "level_editor\\gfx\\%s", filename_splash);
+	CImage image;
+	image.Load(_T(filename_all));
+	if (!m_bitmap.Attach(image.Detach())) return FALSE;
 #endif
 	return CreateEx(0,	AfxRegisterWndClass(0, AfxGetApp()->LoadStandardCursor(IDC_ARROW)),
 		NULL, WS_POPUP | WS_VISIBLE, 0, 0, bm.bmWidth, bm.bmHeight, pParentWnd->GetSafeHwnd(), NULL);
