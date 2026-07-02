@@ -32,11 +32,17 @@ CMapClass* CMapDirectionVisualizer::Create( CHelperInfo* pHelperInfo, CMapEntity
 		return nullptr;
 
 	CMapDirectionVisualizer* pBox = new CMapDirectionVisualizer( pszKey );
-	if ( pHelperInfo->GetParameterCount() == 4 ) // user supplied color
+	if (pHelperInfo->GetParameterCount() > 1) // user supplied direction and length (distance)
 	{
-		pBox->r = V_atoi( pHelperInfo->GetParameter( 1 ) );
-		pBox->g = V_atoi( pHelperInfo->GetParameter( 2 ) );
-		pBox->b = V_atoi( pHelperInfo->GetParameter( 3 ) );
+		strcpy(pBox->m_szDistKeyName, pHelperInfo->GetParameter(1));
+
+		pBox->m_distance_value_float = V_atof(pHelperInfo->GetParameter(1));
+	}
+	if ( pHelperInfo->GetParameterCount() == 5 ) // user supplied color
+	{
+		pBox->r = V_atoi( pHelperInfo->GetParameter( 2 ) );
+		pBox->g = V_atoi( pHelperInfo->GetParameter( 3 ) );
+		pBox->b = V_atoi( pHelperInfo->GetParameter( 4 ) );
 	}
 
 	return pBox;
@@ -59,7 +65,7 @@ CMapDirectionVisualizer::CMapDirectionVisualizer()
 CMapDirectionVisualizer::CMapDirectionVisualizer( const char* pszKey )
 {
 	Initialize();
-	strcpy( m_szKeyName, pszKey );
+	strcpy( m_szDirKeyName, pszKey );
 }
 
 //-----------------------------------------------------------------------------
@@ -68,11 +74,14 @@ CMapDirectionVisualizer::CMapDirectionVisualizer( const char* pszKey )
 void CMapDirectionVisualizer::Initialize()
 {
 	m_Dir.Init( 1.f, 0.f, 0.f );
-	m_szKeyName[0] = '\0';
+	m_szDirKeyName[0] = '\0';
+	m_szDistKeyName[0] = '\0';
 
 	r = 25;
 	g = 204;
 	b = 204;
+
+	m_distance_value_float = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -122,7 +131,8 @@ CMapClass* CMapDirectionVisualizer::CopyFrom( CMapClass* pObject, bool bUpdateDe
 
 	CMapClass::CopyFrom( pObject, bUpdateDependencies );
 
-	strcpy( m_szKeyName, pFrom->m_szKeyName );
+	strcpy( m_szDirKeyName, pFrom->m_szDirKeyName );
+	strcpy(m_szDistKeyName, pFrom->m_szDistKeyName);
 	m_Dir = pFrom->m_Dir;
 
 	return this;
@@ -144,7 +154,7 @@ void CMapDirectionVisualizer::Render2D( CRender2D* pRender )
 
 	const float scale = 1.f; //( 1.f / pRender->GetCamera()->GetZoom() ) * 16.f;
 
-	const float flLengthBase = 32.0f * scale;
+	const float flLengthBase = (m_distance_value_float > 0 ? m_distance_value_float - 12 : 32.0f * scale); // 12 is from the tip length
 	const float flLengthTip = 12.0f * scale;
 	const float flRadiusBase = 2.2f * scale;
 	const float flRadiusTip = 6.0f * scale;
@@ -175,7 +185,7 @@ void CMapDirectionVisualizer::Render3D( CRender3D* pRender )
 	pRender->GetCamera()->GetViewPoint( camPos );
 	const float scale = min(2.0f, max(camPos.DistTo( center ) / 256.f, 0.5f));
 
-	const float flLengthBase = 32.0f * scale;
+	const float flLengthBase = (m_distance_value_float > 0 ? m_distance_value_float - 12 : 32.0f * scale); // 12 is from the tip length
 	const float flLengthTip = 12.0f * scale;
 	const float flRadiusBase = 2.2f * scale;
 	const float flRadiusTip = 6.0f * scale;
@@ -213,7 +223,7 @@ void CMapDirectionVisualizer::SetRenderColor(color32 rgbColor)
 void CMapDirectionVisualizer::OnParentKeyChanged( const char* szKey, const char* szValue )
 {
 	QAngle dir;
-	if ( stricmp( szKey, m_szKeyName ) == 0 )
+	if ( stricmp( szKey, m_szDirKeyName ) == 0 )
 	{
 		sscanf(szValue, "%f %f %f", &dir.x, &dir.y, &dir.z);
 
@@ -226,6 +236,12 @@ void CMapDirectionVisualizer::OnParentKeyChanged( const char* szKey, const char*
 	//	CalcBounds();
 	}
 
+	// movelinears have the arrow length show the move distance
+	if (m_szDirKeyName[0] && stricmp(szKey, m_szDistKeyName) == 0)
+	{
+		sscanf(szValue, "%f", &m_distance_value_float);
+	}
+	
 	//// special case for lights with separate Pitch value
 	else if ( stricmp(szKey, "pitch") == 0 )
 	{

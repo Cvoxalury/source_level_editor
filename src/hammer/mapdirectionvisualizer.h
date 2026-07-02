@@ -58,11 +58,13 @@ public:
 private:
 	void Initialize();
 
-	char m_szKeyName[32];
+	char m_szDirKeyName[32];
+	char m_szDistKeyName[32];
 	Vector m_Dir;
 
 	bool m_pitch_is_set_bool;
 	float m_pitch_value_float;
+	float m_distance_value_float;
 };
 
 #endif // MAPDIRVISUALIZER_H
