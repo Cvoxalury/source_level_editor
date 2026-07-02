@@ -1548,9 +1548,6 @@
     <ClInclude Include="ToolVertexEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\dme_controls\particlesystempanelv2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vtffile.h">
       <Filter>Source Files\Hammer-2013</Filter>
     </ClInclude>
@@ -1640,9 +1637,6 @@
     <Library Include="..\lib\public\choreoobjects.lib">
       <Filter>Libraries</Filter>
     </Library>
-    <Library Include="..\lib\public\dmxloader.lib">
-      <Filter>Libraries</Filter>
-    </Library>
     <Library Include="..\lib\public\fgdlib.lib">
       <Filter>Libraries</Filter>
     </Library>
@@ -1677,6 +1671,9 @@
       <Filter>Libraries</Filter>
     </Library>
     <Library Include="..\lib\public\particles.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+    <Library Include="..\lib\public\dmxloader.lib">
       <Filter>Libraries</Filter>
     </Library>
   </ItemGroup>
