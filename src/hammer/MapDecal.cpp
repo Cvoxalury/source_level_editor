@@ -154,7 +154,7 @@ int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces)
 
 		if ((fDistance <= 16.0f) && (fDistance >= -0.0001))
 		{
-#ifdef SLE //// SLE CHANGE - disable decaling nodraw, skybox, toolbrushes
+#if 0 //def SLE //// SLE CHANGE - disable decaling nodraw, skybox, toolbrushes // Disabled for now, causes crashes at times
 			if (!pFace || !pFace->GetTexture())
 				continue;
 
