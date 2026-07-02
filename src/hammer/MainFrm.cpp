@@ -212,6 +212,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 #ifdef SLE_WINTAB_ENABLE //// SLE NEW - Tablet support w/ Wintab
 	ON_MESSAGE(WT_PACKET, OnWTPacket)
 #endif
+#ifdef SLE //// SLE NEW - drag & drop support, by SanyaSho
+	ON_WM_DROPFILES()
+#endif
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 	
@@ -413,7 +416,39 @@ void CMainFrame::OnEnterMenuLoop( BOOL bIsTrackPopupMenu )
 		}
 	}
 }
+#ifdef SLE //// SLE NEW - drag & drop support, by SanyaSho
+void CMainFrame::OnDropFiles(HDROP hDropInfo)
+{
+	UINT unCount = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
 
+	for (UINT i = 0; i < unCount; i++)
+	{
+		TCHAR fileName[MAX_PATH];
+		DragQueryFile(hDropInfo, i, fileName, MAX_PATH);
+
+		//// verify it's our regular map file
+		if (Q_strcmp(Q_GetFileExtension(fileName), "vmf") != 0 && Q_strcmp(Q_GetFileExtension(fileName), "vmx") != 0 && Q_strcmp(Q_GetFileExtension(fileName), "vme") != 0
+			&& Q_strcmp(Q_GetFileExtension(fileName), "rmf") != 0 && Q_strcmp(Q_GetFileExtension(fileName), "map") != 0)
+		{
+			CString str;
+			str.Format("File %s has an extension different than a regular map file. Do you still want to open it?", fileName);
+			if (AfxMessageBox(str, MB_YESNO) == IDYES)
+			{
+				APP()->OpenDocumentFile(fileName);
+			}
+		}
+		else
+		{
+			APP()->OpenDocumentFile(fileName);
+		}
+
+	}
+
+	DragFinish(hDropInfo);
+
+	CMDIFrameWnd::OnDropFiles(hDropInfo);
+}
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : lpCreateStruct - 
@@ -768,6 +803,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		LoadBarState("Barstate");
 	}
+
+#ifdef SLE //// SLE NEW - drag & drop support, by SanyaSho
+	DragAcceptFiles(true);
+#endif
 
 	return 0;
 }

@@ -156,6 +156,9 @@ protected:
 #endif
 	afx_msg BOOL OnHelpInfo(HELPINFO*);
 	afx_msg void OnEnterMenuLoop( BOOL bIsTrackPopupMenu );
+#ifdef SLE //// SLE NEW - drag & drop support, by SanyaSho
+	afx_msg void OnDropFiles(HDROP hDropInfo);
+#endif
 #if _MSC_VER < 1300
 	afx_msg void OnActivateApp(BOOL bActive, HTASK hTask);
 #else
