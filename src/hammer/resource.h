@@ -1389,6 +1389,7 @@
 #define ID_TOGGLE_3D_GRID               33059
 #define ID_SHOW_SOLID_EDGES_NOZ			33060 //// SLE NEW - option to render selected solids' edges in wireframe noz
 #define ID_GOTO_BRUSH                   33061
+#define ID_SHOW_CULLBOXES				33062 //// SLE NEW - toggle cullbox display
 #define ID_TOOLS_DISPLACE               33063
 #define ID_DISP_LOAD                    33064
 #define ID_DISP_SAVE                    33065
