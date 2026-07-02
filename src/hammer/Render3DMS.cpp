@@ -265,7 +265,7 @@ void CRender3D::BeginRenderHitTarget(CMapAtom *pObject, unsigned int uHandle)
 		uHandle = 0;
 	}
 
-	CMatRenderContextPtr pRenderContext( MaterialSystemInterface() );
+	CMatRenderContextPtr pRenderContext(MaterialSystemInterface());
 	pRenderContext->PushSelectionName((unsigned int)pObject);
 	pRenderContext->PushSelectionName(uHandle);
 }
