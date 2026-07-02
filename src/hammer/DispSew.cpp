@@ -320,6 +320,18 @@ void AverageVectorFieldData( CMapDisp *pDisp1, int ndx1, CMapDisp *pDisp2, int n
 
 	Vector vAvg;
 	vAvg = ( v1 + v2 ) * 0.5f;
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+
+	// if one side or the other is frozen, pull the sewn opposite disps to it
+	if (pDisp1->IsVertFrozen(ndx1) && !pDisp2->IsVertFrozen(ndx2))
+	{
+		vAvg = v1;
+	}
+	else if (pDisp2->IsVertFrozen(ndx2) && !pDisp1->IsVertFrozen(ndx1))
+	{
+		vAvg = v2;
+	}
+#endif
 
 	float distAvg = VectorNormalize( vAvg );
 
@@ -352,6 +364,17 @@ void AverageVectorFieldData( CMapDisp *pDisp1, int ndx1, CMapDisp *pDisp2, int n
 	pDisp1->GetSubdivPosition( ndx1, v1 );
 	pDisp2->GetSubdivPosition( ndx2, v2 );
 	vAvg = ( v1 + v2 ) * 0.5f;
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	// if one side or the other is frozen, pull the sewn opposite disps to it
+	if (pDisp1->IsVertFrozen(ndx1) && !pDisp2->IsVertFrozen(ndx2))
+	{
+		vAvg = v1;
+	}
+	else if (pDisp2->IsVertFrozen(ndx2) && !pDisp1->IsVertFrozen(ndx1))
+	{
+		vAvg = v2;
+	}
+#endif
 	pDisp1->SetSubdivPosition( ndx1, vAvg );
 	pDisp2->SetSubdivPosition( ndx2, vAvg );
 
@@ -376,7 +399,10 @@ void BlendVectorFieldData( CMapDisp *pDisp1, int ndxSrc1, int ndxDst1,
 	//
 	float dist1 = pDisp1->GetFieldDistance( ndxSrc1 );
 	float dist2 = pDisp2->GetFieldDistance( ndxSrc2 );
-	
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	if (pDisp1->IsVertFrozen(ndxSrc1)) dist1 = 0;
+	if (pDisp2->IsVertFrozen(ndxSrc2)) dist2 = 0;
+#endif
 	Vector v1, v2;
 	pDisp1->GetFieldVector( ndxSrc1, v1 );
 	pDisp2->GetFieldVector( ndxSrc2, v2 );
@@ -757,6 +783,12 @@ void SewCorner_ResolveDisp( SewCornerData_t *pCornerData )
 		}
 	}
 
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	// faceount will need to be subtracted if the vert is frozen, so that
+	// the other vert doesn't get its distance halved
+	int faceCount = pCornerData->faceCount;
+#endif
+
 	// for all the faces at the corner
 	for( int i = 0; i < pCornerData->faceCount; i++ )
 	{
@@ -827,7 +859,11 @@ void SewCorner_ResolveDisp( SewCornerData_t *pCornerData )
 		int ndxPt = GetCornerPointIndex( pDisp, pCornerData->ndxCorners[i] );
 		if( ndxPt == -1 )
 			continue;
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+		// makes frozen corner verts not move
+		if (pDisp->IsVertFrozen(ndxPt))
+			continue;
+#endif
 		// set the averaged values
 		pDisp->SetFieldDistance( ndxPt, avgDist );
 		pDisp->SetFieldVector( ndxPt, vAvgField );
@@ -870,7 +906,11 @@ void SewCorner_ResolveSolid( SewCornerData_t *pCornerData )
 		int ndxPt = GetCornerPointIndex( pDisp, pCornerData->ndxCorners[i] );
 		if( ndxPt == -1 )
 			continue;
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+		// makes frozen verts not get sewn to solid edges
+		if (pDisp->IsVertFrozen(ndxPt))
+			continue;
+#endif
 		//
 		// reset all neighbor surface data - field vector, distance, and offset
 		//
@@ -1797,7 +1837,11 @@ void SewEdge_ResolveSolidTJunc( SewEdgeData_t *pEdgeData, int type, bool bStart 
 				int ndxPt = GetEdgePointIndex( pDisp, pEdgeData->ndxEdges[i], j, true );
 				if( ndxPt == -1 )
 					continue;
-				
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+				// makes frozen verts not get sewn to solid edges
+				if (pDisp->IsVertFrozen(ndxPt))
+					continue;
+#endif
 				//
 				// reset displacement data (dist, field vector, and offset vector)
 				//
@@ -1916,7 +1960,13 @@ void SewEdge_ResolveDispNormal( SewEdgeData_t *pEdgeData )
 	{
 		int ndxSmPt = GetEdgePointIndex( pSmDisp, ndxSmEdge, ndxSm, true );
 		int ndxLgPt = GetEdgePointIndex( pLgDisp, ndxLgEdge, ndxLg, false );
-		
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+		// if both sides have frozen verts, cancel the operation
+		if (pSmDisp->IsVertFrozen(ndxSmPt) && pLgDisp->IsVertFrozen(ndxLgPt))
+		{
+			return;
+		}
+#endif
 		// average
 		AverageVectorFieldData( pSmDisp, ndxSmPt, pLgDisp, ndxLgPt );
 	}
@@ -1973,7 +2023,11 @@ void SewEdge_ResolveSolidNormal( SewEdgeData_t *pEdgeData )
 			int ndxPt = GetEdgePointIndex( pDisp, pEdgeData->ndxEdges[i], j, true );
 			if( ndxPt == -1 )
 				continue;
-			
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+			// makes frozen verts not get sewn to solid edges
+			if (pDisp->IsVertFrozen(ndxPt))
+				continue;
+#endif			
 			//
 			// reset displacement data (dist, field vector, and offset vector)
 			//
