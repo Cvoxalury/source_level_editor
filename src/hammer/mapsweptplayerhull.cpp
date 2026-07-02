@@ -334,8 +334,13 @@ void CMapSweptPlayerHull::Render3D(CRender3D *pRender)
 	Vector vec2;
 	m_Point[0]->GetOrigin(vec1);
 	m_Point[1]->GetOrigin(vec2);
-	
+#ifdef SLE //// SLE CHANGE - fix the line rendering
+	pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+#endif
 	pRender->DrawLine(vec1, vec2);
+#ifdef SLE //// SLE CHANGE - fix the line rendering
+	pRender->PopRenderMode();
+#endif
 	
 }
 

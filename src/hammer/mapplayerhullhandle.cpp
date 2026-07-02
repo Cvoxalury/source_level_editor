@@ -234,6 +234,7 @@ void CMapPlayerHullHandle::Render2D(CRender2D *pRender)
 //-----------------------------------------------------------------------------
 void CMapPlayerHullHandle::Render3D(CRender3D *pRender)
 {
+#ifndef SLE
 	if (GetSelectionState() == SELECT_NONE)
 	{
 		pRender->SetDrawColor( 200,180,0 );
@@ -242,12 +243,23 @@ void CMapPlayerHullHandle::Render3D(CRender3D *pRender)
 	{
 		pRender->SetDrawColor( 255,0,0 );
 	}
-
+#endif
 	Vector Mins, Maxs;
 	m_Render2DBox.GetBounds( Mins, Maxs );
 
 	pRender->BeginRenderHitTarget(this);
+#ifdef SLE //// SLE CHANGE - separate colours, also fixes the boxes not being tinted when selected
+	if (GetSelectionState() == SELECT_NONE)
+	{
+		pRender->RenderBox(Mins, Maxs, 200, 180, 0, SELECT_NONE);
+	}
+	else
+	{
+		pRender->RenderBox(Mins, Maxs, GetRValue(Options.colors.clr3DSelection), GetGValue(Options.colors.clr3DSelection), GetBValue(Options.colors.clr3DSelection), SELECT_NONE);
+	}
+#else
 	pRender->RenderBox( Mins, Maxs, 200, 180, 0, SELECT_NONE );
+#endif
 	pRender->EndRenderHitTarget();
 
 	if ((m_pParent != NULL) && (m_bDrawLineToParent))
