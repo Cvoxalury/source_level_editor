@@ -1760,7 +1760,7 @@ void CRender3D::EndRenderFrame(void)
 						( pLight->m_Type == MATERIAL_LIGHT_SPOT ) ||
 						( pLight->m_Type == MATERIAL_LIGHT_POINT )
 #ifdef SLE //// SLE CHANGE - taken from Hammer-2013
-						||( pLight->m_Type == MATERIAL_LIGHT_DIRECTIONAL /*&& ( pLight->m_nObjectID & 0x80000000 ) == 0*/ )
+						||( pLight->m_Type == MATERIAL_LIGHT_DIRECTIONAL && ( pLight->m_nObjectID & 0x80000000 ) == 0 )
 #endif
 						)
 					{
