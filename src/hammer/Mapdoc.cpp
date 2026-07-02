@@ -3,7 +3,17 @@
 // Purpose: The document. Exposes functions for object creation, deletion, and
 //			manipulation. Holds the current tool. Handles GUI messages that are
 //			view-independent.
-//
+// SLE NOTE: 
+// Carving with groups or multi-brush entities works fine in Worldcraft
+// but not in Source Hammer. SLE aims to fix it, and so far one half of the
+// equation has been solved: 
+// 1) selected brushes (what carve is being done with) aren't counted among all
+// the world brushes carve tests against. Otherwise it carves brushes with 
+// themselves, causing multiple or potentially infinite carving.
+// 2) would be to automatically remove the leftovers from group/multi-brush entity
+// carving. They cover up the resulting brush, but once removed, the clean 
+// result is left. It would be nice to automate their removal if there can be a
+// way to count/store these junk brushes... perhaps by checking the bboxes touching
 //=============================================================================//
 
 #include "stdafx.h"
@@ -5540,7 +5550,12 @@ void CMapDoc::OnToolsSubtractselection(void)
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pChild);
 		if (pSolid != NULL)
 		{
-			WorldSolids.AddToTail(pSolid);
+#ifdef SLE //// SLE CHANGE - don't count selected solids, or it causes multiple or infinite carving with multiple brushes selected
+			if (!pSolid->IsSelected())
+#endif
+			{
+				WorldSolids.AddToTail(pSolid);
+			}
 		}
 
 		pChild = m_pWorld->GetNextDescendent(pos);
@@ -5578,7 +5593,7 @@ void CMapDoc::OnToolsSubtractselection(void)
 				if (Outside.Count() > 1)
 				{
 					pResult = (CMapClass *)(new CMapGroup);
-					FOR_EACH_OBJ( Outside, pos2 )
+					FOR_EACH_OBJ(Outside, pos2)
 					{
 						CMapClass *pTemp = Outside.Element(pos2);
 						pResult->AddChild(pTemp);
@@ -5596,6 +5611,8 @@ void CMapDoc::OnToolsSubtractselection(void)
 				// Replace the 'subtract from' object with the subtraction results.
 				//
 				DeleteObject(pSubtractFrom);
+#ifdef SLE	//// SLE TODO - also remove any remaining brushes still intersecting the carver
+#endif
 				AddObjectToWorld(pResult, pDestParent);
 				GetHistory()->KeepNew(pResult);
 			}
