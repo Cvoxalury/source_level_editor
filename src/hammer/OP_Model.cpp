@@ -217,8 +217,9 @@ void COP_Model::FillInModelData(void)
 		model->GetModelSurfaceProp(surfaceprop);
 
 		CString str;
-		str.Format("Model path:\nmodels/%s\n\nModel version: %i\n\nTris: %i\n\nMass: %.2f\n\nSurfaceprop: %s",
-			model->GetModelName(), model->GetModelVersion(), model->GetTriangleCount(), mass, surfaceprop);
+		str.Format("Model path:\nmodels/%s\n\nModel version: %i\n\nTris: %i\n\nMass: %.2f\n\nSurfaceprop: %s\n\nStatic: %s",
+			model->GetModelName(), model->GetModelVersion(), model->GetTriangleCount(), mass, surfaceprop,
+			(model->GetStudioHdr()->flags() & STUDIOHDR_FLAGS_STATIC_PROP) ? "yes" : "no");
 
 		GetDlgItem(IDC_MODEL_TAB_MISC_INFO)->SetWindowText(str);
 	}
