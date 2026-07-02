@@ -53,6 +53,7 @@ public:
 	int GetBlockToolActivePrimitive(void);
 	int GetBlockToolFaceCount(void);
 	int GetBlockToolStartAngle(void);
+	void SetBlockToolFaceCount(int count);
 	void ResetEntityTool(void);
 #endif
 	bool IsEntityToolCreatingPrefab( void );

@@ -645,6 +645,13 @@ int CObjectBar::GetBlockToolStartAngle(void)
 
 	return nAngle;
 }
+
+void CObjectBar::SetBlockToolFaceCount(int count)
+{
+	char str[8];
+	Q_snprintf(str, sizeof(str), "%i", count);
+	m_Faces.SetWindowText(str);
+}
 #endif
 //-----------------------------------------------------------------------------
 // Purpose: 
