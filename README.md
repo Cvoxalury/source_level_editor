@@ -4,7 +4,7 @@ This is the repository of "SLE" - the Source Level Editor, my custom fork of Ham
 
 ![sle_splash](https://github.com/user-attachments/assets/30cc2ee3-15da-401b-9f0d-9226e0e09567)
 
-The current version is 2.108.
+The current version is 3.129.
 
 In the Releases you'll find two versions: the regular and "nomanifest". You will most likely want the regular one. "Nomanifest" means its menus, buttons and dialogues follow the classic Win 9x visual theme, without smooth corners or Aero effects.
 
@@ -35,10 +35,13 @@ The online version is hosted on <a href="https://github.com/Cvoxalury/source_lev
 As the name suggests, it's the core Source 1 games: Half-Life 2, Portal, CS:S, TF2, Source SDK 2013. More modern games that use more modern Source - CS:GO, L4D, Portal 2, Alien Swarm, and Garry's Mod - aren't supported or weren't tested. 
 
 ### 4. Notable features
+* Portability: as of 3.129, the settings are stored in an .INI file instead of Windows Registry (the user can opt to keep using the registry with the -useregistry command line option)
 
 * Face Edit tool supports texture shearing, randomised X/Y shifting, user-defined shifting step, extra Fit modes, quick Nodraw and Mark buttons, Grow/Shrink selection buttons;
 
 * Displacement tool supports 45° X/Y axii sculpting;
+
+* Displacement vertices can be frozen to keep them from moving when sculpting, subdividing or sewing disps;
 
 * Multiple Cordons are supported;
 
