@@ -1612,7 +1612,7 @@ void CRender3D::EndRenderFrame(void)
 				qsort(m_Pick.Hits, m_Pick.nNumHits, sizeof(m_Pick.Hits[ 0 ]), _CompareHitsReverse);
 			}
 		}
-
+		
 		//
 		// Copy the requested number of nearest hits into the destination buffer.
 		//
