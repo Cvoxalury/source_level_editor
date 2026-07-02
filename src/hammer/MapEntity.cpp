@@ -1603,13 +1603,11 @@ void CMapEntity::OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *p
 	{
 		ReplaceNodeIDRefs(NewList, GetNodeID(), ((CMapEntity *)pCopy)->GetNodeID());
 	}
-#ifdef SLE
+#ifdef SLE //// SLE NEW: BSP Lighting
 	if (m_EntityTypeFlags & ENTITY_FLAG_IS_LIGHT)
 	{
-		//// //// SLE NEW: BSP Lighting
 		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 		if (pDoc && pDoc->GetBSPLighting()) pDoc->InternalUpdateLightPreview();
-		////
 	}
 #endif
 	CMapClass::OnPaste(pCopy, pSourceWorld, pDestWorld, OriginalList, NewList);
