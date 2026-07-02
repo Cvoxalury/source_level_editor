@@ -1233,7 +1233,7 @@ void CBaseAssetPicker::Activate()
 {
 	RefreshAssetList();
 	RequestFilterFocus(); 
-	RescanAssets();
+	RescanAssets(); //// SLE TODO - make it rescan only once per browser creation, not every time it's activated
 
 	//// SLE NEW - backports for matsys_controls
 	// Keep scanning...
