@@ -68,7 +68,9 @@ private:
 		CFaceMaterial	*m_pMaterial;
 		CFace			*m_pFace; // only valid inside of Load
 		float			m_BumpSTexCoordOffset;
-
+#ifdef SLE //// SLE NEW - brush entity faces need to keep their offset from the entity origin
+		Vector			m_originOffset_vec;
+#endif
 		// Indices into CFaceMaterial::m_pMesh
 		int				m_iFirstIndex;
 		int				m_nIndices;
@@ -154,8 +156,13 @@ private:
 		);
 
 	void					BuildDrawCommands();
-
+#ifdef SLE
+public:
+	void					ReloadLightmaps(bool forceAll = false);
+private:
+#else
 	void					ReloadLightmaps();
+#endif
 	bool					LoadVRADDLL( char const *pFilename );
 	void					CreateDisplacements( CBSPInfo &file, CUtlVector<CFace> &faces, CUtlVector<CDispInfoFaces> &dispInfos );
 	

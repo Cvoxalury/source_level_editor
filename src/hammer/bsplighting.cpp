@@ -205,14 +205,19 @@ CBSPLighting::CFaceMaterial* CBSPLighting::FindOrAddMaterial(CBSPInfo &file, int
 		pMaterial->AddRef();
 #endif
 		// This is lovely. We have to call this stuff to get it to precalculate the data it needs.
+		pMaterial->GetMappingWidth();
 		pMaterial->GetMappingHeight();
 		pMaterial->RecomputeStateSnapshots();
 
 		CFaceMaterial *pMat = new CFaceMaterial;
 		if (pMaterial->IsTranslucent())
+		{
 			m_FaceMaterials.AddToTail(pMat);
+		}
 		else
+		{
 			m_FaceMaterials.AddToHead(pMat);
+		}
 		
 		pMat->m_pMaterial = pMaterial;
 
@@ -223,6 +228,15 @@ CBSPLighting::CFaceMaterial* CBSPLighting::FindOrAddMaterial(CBSPInfo &file, int
 
 bool CBSPLighting::LoadBSPL( char const *pFilename )
 {
+#ifdef SLE
+	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+	if (pDoc == NULL)
+		return false;
+
+	CMapWorld *pWorld = pDoc->GetMapWorld();
+	if (pWorld == NULL)
+		return false;
+#endif
 	// Free everything.
 	Term();
 #ifdef SLE
@@ -318,6 +332,21 @@ bool CBSPLighting::LoadBSPL( char const *pFilename )
 			pStoredFace->m_pFace = pOut;
 #ifdef SLE
 			pStoredFace->m_LightmapPageID = -1; // default to -1
+
+			pStoredFace->m_originOffset_vec = Vector(0,0,0);
+			// find out the face offset from the origin, if it's a brush entity
+
+		//	int origFaceIndex = pStoredFace->m_iMapFace;
+		//	char str[128];
+		//	Q_snprintf("face id is %i (%s)", origFaceIndex, pStoredFace->m_pMaterial->m_pMaterial->GetName());
+		//	AfxMessageBox(str);
+		//	CMapFace *origFace = pWorld->FaceID_FaceForID(origFaceIndex);
+		//	if (origFace)
+		//	{
+		//		Vector origOrigin;
+		//		origFace->GetCenter(origOrigin);
+		//		pStoredFace->m_originOffset_vec = origOrigin;
+		//	}
 #endif
 			pOut->m_pDFace = pIn;
 			pOut->m_pStoredFace = pStoredFace;
@@ -848,7 +877,11 @@ void CBSPLighting::BuildLMGroups(
 
 						for( int iVert=0; iVert < pFace->m_nVerts; iVert++ )
 						{
+#ifdef SLE //// SLE NEW - brush entity faces need to keep their offset from the entity origin
+							mb.Position3fv((float*)&(pVerts[iVert].m_vPos + pFace->m_pStoredFace->m_originOffset_vec));
+#else
 							mb.Position3fv( (float*)&pVerts[iVert].m_vPos );
+#endif
 							mb.TexCoord2fv( 0, pVerts[iVert].m_vTexCoords.Base() );
 							mb.TexCoord2fv( 1, pVerts[iVert].m_vLightCoords.Base() );
 							if( bNeedsBumpmap )
@@ -961,7 +994,11 @@ void CBSPLighting::BuildDrawCommands()
 	}
 }
 
+#ifdef SLE
+void CBSPLighting::ReloadLightmaps(bool forceAll)
+#else
 void CBSPLighting::ReloadLightmaps()
+#endif
 {
 	if( !m_pVRadDLL )
 		return;
@@ -976,23 +1013,24 @@ void CBSPLighting::ReloadLightmaps()
 	if( !bspInfo.lightdatasize )
 		return;
 	
-#ifdef SLE
-	Vector4D blocklights[4][MAX_LIGHTMAP_DIM_WITHOUT_BORDER * MAX_LIGHTMAP_DIM_WITHOUT_BORDER];
-#else
+//	Vector4D blocklights[4][MAX_LIGHTMAP_DIM_WITHOUT_BORDER * MAX_LIGHTMAP_DIM_WITHOUT_BORDER];
 	Vector4D blocklights[4][MAX_LIGHTMAP_DIM_INCLUDING_BORDER * MAX_LIGHTMAP_DIM_INCLUDING_BORDER];
-#endif
-	for( int iFace=0; iFace < m_StoredFaces.Count(); iFace++ )
+
+	for (int iFace = 0; iFace < m_StoredFaces.Count(); iFace++)
 	{
 		CStoredFace *pFace = &m_StoredFaces[iFace];
 
 		// Avoid updating lightmaps in faces that weren't touched.
-#ifndef SLE
-		if( bspInfo.m_pFacesTouched && !bspInfo.m_pFacesTouched[pFace->m_iMapFace] )
-			continue; //// SLE CHANGE - see if this helps fix bsplighting
+#ifdef SLE
+		if (!forceAll)
 #endif
-		dface_t *pIn = &bspInfo.dfaces[ pFace->m_iMapFace ];
+		{
+			if (bspInfo.m_pFacesTouched && !bspInfo.m_pFacesTouched[pFace->m_iMapFace])
+				continue;
+		}
+		dface_t *pIn = &bspInfo.dfaces[pFace->m_iMapFace];
 		int nLuxels = pFace->m_LightmapSize[0] * pFace->m_LightmapSize[1];
-		
+
 		bool bNeedsBumpmap = pFace->m_pMaterial->m_pMaterial->GetPropertyFlag(MATERIAL_PROPERTY_NEEDS_BUMPED_LIGHTMAPS);
 		
 		texinfo_t *pTexInfo = &bspInfo.texinfo[ bspInfo.dfaces[pFace->m_iMapFace].texinfo ];
@@ -1130,9 +1168,9 @@ bool CBSPLighting::LoadVRADDLL(char const *pFilename)
 	return true;
 }
 
+//// SLE TODO - fix bsplighting on displacements
 void CBSPLighting::CreateDisplacements( CBSPInfo &file, CUtlVector<CFace> &faces, CUtlVector<CDispInfoFaces> &dispInfos )
 {
-#if 1 //ndef SLE //// SLE TODO - fix bsplighting on displacements
 	IMaterialSystem *pMatSys = MaterialSystemInterface();
 
 	dispInfos.SetSize( file.g_numdispinfo );
@@ -1219,7 +1257,6 @@ void CBSPLighting::CreateDisplacements( CBSPInfo &file, CUtlVector<CFace> &faces
 			}
 		}
 	}
-#endif
 }
 
 IBSPLighting* CreateBSPLighting()
