@@ -19,7 +19,9 @@ static LPCTSTR pszIniSection = "Model Browser";
 
 // CModelBrowser dialog
 #ifdef SLE
-//#define MODELBROWSER_USES_GRID_VIEW
+#ifdef HAMMER2013_DM
+//#define MODELBROWSER_USES_GRID_VIEW // can't be used until the spacer/sizer crash is solved
+#endif
 #endif
 class CModelBrowserPanel : public vgui::EditablePanel
 {
@@ -294,8 +296,8 @@ BOOL CModelBrowser::OnInitDialog()
 	s2->AddSpacer(vgui::SizerAddArgs_t().Padding(2));
 	s2->AddPanel(m_pStatusLine, vgui::SizerAddArgs_t().Expand(1.0f).Padding(0));
 
-	s->AddSpacer(vgui::SizerAddArgs_t().Padding(2));
-	s->AddSizer(s2, vgui::SizerAddArgs_t().Padding(2));
+	s->AddSpacer(vgui::SizerAddArgs_t().Padding(2)); // !!causes the crash
+	s->AddSizer(s2, vgui::SizerAddArgs_t().Padding(2)); // !!causes the crash
 
 	pMainPanel->SetSizer(s);
 #endif
