@@ -64,6 +64,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_PROPERTIES, OnUpdateEditFunction)
 	ON_COMMAND(ID_VIEW_MESSAGES, OnViewMessages)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_MESSAGES, OnUpdateViewMessages)
+#ifdef SLE //// SLE NEW - allow disabling messages window
+	ON_COMMAND(ID_SHOW_MESSAGES_ON_STARTUP, OnShowMessagesOnStartup)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_MESSAGES_ON_STARTUP, OnUpdateShowMessagesOnStartup)
+#endif
 	ON_WM_ACTIVATEAPP()
 	ON_WM_SIZE()
 	ON_WM_CLOSE()
@@ -737,7 +741,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect clientrect;
 	wndMDIClient.GetClientRect(clientrect);
 	g_pwndMessage->CreateMessageWindow( this, CRect( 0, clientrect.Height() - 90, clientrect.Width(), clientrect.Height() ) );
-
+#ifdef SLE //// SLE NEW - allow disabling messages window
+	if (!Options.general.bShowMessagesOnStartup)
+	{
+		g_pwndMessage->OnClose();
+	}
+#endif
 	CPrefabLibrary::LoadAllLibraries();
 
 	ToolManager()->SetTool(TOOL_POINTER);
@@ -1037,7 +1046,17 @@ void CMainFrame::OnUpdateViewMessages(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck( g_pwndMessage->IsVisible() );
 }
+#ifdef SLE //// SLE NEW - allow disabling messages window
+void CMainFrame::OnShowMessagesOnStartup(void)
+{
+	Options.general.bShowMessagesOnStartup = !Options.general.bShowMessagesOnStartup;
+}
 
+void CMainFrame::OnUpdateShowMessagesOnStartup(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(Options.general.bShowMessagesOnStartup);
+}
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: Brings up the Object Properties dialog.
 //-----------------------------------------------------------------------------

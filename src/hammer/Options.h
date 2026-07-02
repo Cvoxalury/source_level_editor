@@ -50,6 +50,7 @@ public:
 #ifdef SLE
 	BOOL bEnableInstancesLoading = true; //// SLE NEW - control to disable loading instances
 	BOOL bRadiusCullingFollowCamera = true; //// SLE NEW - if disabled, radius culling won't follow the camera
+	BOOL bShowMessagesOnStartup; //// SLE NEW - allow disabling messages window
 
 	BOOL bShowToolBrushFaces; //// SLE NEW: Tool Brush Texture display filter/toogle.
 	BOOL bShowEditorObjects; //// SLE NEW: Editor objects display filter/toggle.

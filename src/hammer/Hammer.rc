@@ -746,6 +746,7 @@ BEGIN
 		MENUITEM "&Load Window State",			ID_LOADWINDOWSTATE
         MENUITEM SEPARATOR
         MENUITEM "&Messages\tAlt+F3",           ID_VIEW_MESSAGES
+		MENUITEM "&Show Messages on Startup",	ID_SHOW_MESSAGES_ON_STARTUP
     END
     POPUP "&Help"
     BEGIN

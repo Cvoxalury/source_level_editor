@@ -720,6 +720,7 @@ bool COptions::Read(void)
 	general.bShowMapRestorePrompt = APP()->GetProfileInt(pszGeneral, "Show Map Restore Prompt", TRUE); //// SLE NEW - option to not show map restore prompt after a crash
 	general.bEasterEggSplashes = APP()->GetProfileInt(pszGeneral, "Easter Egg Splash Screens", TRUE); //// SLE NEW - easter egg splash screens
 	general.iDeselectFacesThreshold = APP()->GetProfileInt(pszGeneral, "Deselect Faces Prompt Threshold", 0); //// SLE NEW - safeguard against accidentally clicking and losing a lot of selected faces
+	general.bShowMessagesOnStartup = APP()->GetProfileIntA(pszGeneral, "Show Messages On Startup", TRUE); //// SLE NEW - allow disabling messages window
 #else
 	general.bScaleLockingTextures = APP()->GetProfileInt(pszGeneral, "Scale Locking Textures", FALSE); //// SLE CHANGE - don't remember texture scale locking
 	general.bRadiusCulling = APP()->GetProfileInt(pszGeneral, "Use Radius Culling", FALSE); //// SLE CHANGE - don't remember it, reset every launch
@@ -1042,6 +1043,7 @@ void COptions::Write( BOOL fOverwrite, BOOL fSaveConfigs )
 	APP()->WriteProfileInt(pszGeneral, "Show Map Restore Prompt", general.bShowMapRestorePrompt); //// SLE NEW - option to not show map restore prompt after a crash
 	APP()->WriteProfileInt(pszGeneral, "Easter Egg Splash Screens", general.bEasterEggSplashes); //// SLE NEW - easter egg splash screens
 	APP()->WriteProfileInt(pszGeneral, "Deselect Faces Prompt Threshold", general.iDeselectFacesThreshold); //// SLE NEW - safeguard against accidentally clicking and losing a lot of selected faces
+	APP()->WriteProfileInt(pszGeneral, "Show Messages On Startup", general.bShowMessagesOnStartup); //// SLE NEW - allow disabling messages window
 #else
 	APP()->WriteProfileInt(pszGeneral, "Show Helpers", general.bShowHelpers);
 	APP()->WriteProfileInt(pszGeneral, "Use Radius Culling", general.bRadiusCulling);
