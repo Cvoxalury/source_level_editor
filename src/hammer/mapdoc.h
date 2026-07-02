@@ -989,6 +989,7 @@ protected:
 		afx_msg void OnUpdateShowToolsSkyFaces(CCmdUI* pCmdUI);
 		afx_msg void OnUpdatePlayModelAnimations(CCmdUI* pCmdUI);
 		afx_msg void OnUpdateShowSolidEdgesNoZ(CCmdUI* pCmdUI);
+		afx_msg void OnUpdateShowCullBoxes(CCmdUI* pCmdUI);
 		afx_msg void OnCycleSelectionMode();
 		afx_msg void OnUpdateCycleSelectionMode(CCmdUI* pCmdUI); //// SLE CHANGE. Be able to cycle through Groups-Objects-Solids selection mode w/ hotkey. The "ig" button still toggles Groups and Solids. 
 		afx_msg void OnToggle15DegSnap(); //// SLE NEW: quick access via hotkey for the 15 degrees rotation snap option.
@@ -1066,6 +1067,7 @@ protected:
 		afx_msg void OnShowToolsSkyFaces(); //// SLE NEW: ToolsSky Texture display filter/toogle.
 		afx_msg void OnPlayModelAnimations(); //// SLE NEW: Easy menu key to toggle model animations on/off.
 		afx_msg void OnShowSolidEdgesNoZ(); //// SLE NEW - option to render selected solids' edges in wireframe noz
+		afx_msg void OnShowCullBoxes(); //// SLE NEW - toggle cullbox display
 		afx_msg void OnRadiusCullingFollowCamera();
 		afx_msg void OnUpdateRadiusCullingFollowCamera(CCmdUI *pCmdUI);
 		afx_msg void OnSendSelectionToSelectedVisgroup(); //// SLE NEW: hotkey to instantly send selected objects to selected visgroup

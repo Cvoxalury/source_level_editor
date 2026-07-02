@@ -561,7 +561,7 @@ BEGIN
 		POPUP "&Debug view" //// SLE NEW - LOD control option
 		BEGIN //// SLE TODO - add displacement vector previews here
 			MENUITEM "Show Model Illum Position",	ID_VIEW_SHOW_ILLUMPOS //// SLE NEW - show illum position
-		//	MENUITEM "Show Cullboxes\tC",			ID_SHOW_CULLBOXES
+			MENUITEM "Show Cullboxes",			ID_SHOW_CULLBOXES //// SLE NEW - toggle cullbox display
 			MENUITEM SEPARATOR
 			MENUITEM "&Show Diffuse",			ID_VIEW_SHOW_DIFFUSE
 			MENUITEM "&Show Normal maps",		ID_VIEW_SHOW_NORMALMAPS

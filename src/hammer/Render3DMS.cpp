@@ -78,9 +78,9 @@ static bool g_bUseCullTree = false;
 #else
 static bool g_bUseCullTree = true;
 #endif
-
+#ifndef SLE //// SLE NEW - toggle cullbox display, moved to view3d options
 static bool g_bRenderCullBoxes = false;
-
+#endif
 #ifdef SLE_USE_HAMMER_LPREVIEW
 int g_nBitmapGenerationCounter = 1;
 #endif
@@ -3111,8 +3111,12 @@ void CRender3D::RenderMapClass(CMapClass *pMapClass)
 			//
 			// Render this object's culling box if it is enabled.
 			//
-			
+
+#ifdef SLE //// SLE NEW - toggle cullbox display, moved to view3d options
+			if (Options.view3d.bShowCullBoxes)
+#else
 			if (g_bRenderCullBoxes)
+#endif
 			{
 				Vector mins,maxs;
 				pMapClass->GetCullBox(mins, maxs);
@@ -3264,7 +3268,11 @@ void CRender3D::RenderInstanceMapClass_r(CMapClass *pMapClass)
 			//
 			// Render this object's culling box if it is enabled.
 			//			
+#ifdef SLE //// SLE NEW - toggle cullbox display, moved to view3d options
+			if (Options.view3d.bShowCullBoxes)
+#else
 			if (g_bRenderCullBoxes)
+#endif
 			{
 				Vector vecMins, vecMaxs, vecExpandedMins, vecExpandedMaxs;
 				pMapClass->GetCullBox( vecMins, vecMaxs );
@@ -3761,7 +3769,9 @@ void CRender3D::DebugHook1(void *pData)
 //-----------------------------------------------------------------------------
 void CRender3D::DebugHook2(void *pData)
 {
+#ifndef SLE //// SLE NEW - toggle cullbox display, moved to view3d options
 	g_bRenderCullBoxes = !g_bRenderCullBoxes;
+#endif
 }
 
 #ifdef SLE //// Ported from SDK-2013-Hammer

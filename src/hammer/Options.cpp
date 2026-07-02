@@ -1411,6 +1411,7 @@ void COptions::SetDefaults(void)
 	view3d.nLOD = -1;
 	view3d.bSolidsEdgesNoZ = TRUE;	//// SLE NEW - option to render selected solids' edges in wireframe noz
 	view3d.iMaterialCacheSize = 128; //// SLE NEW - customisable material cache size for the mat browser
+	view3d.bShowCullBoxes = FALSE; //// SLE NEW - toggle cullbox display // this isn't saved to ini or registry, no need to keep between sessions
 #endif
 	if ( bWrite )
 	{

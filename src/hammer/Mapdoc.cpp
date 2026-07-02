@@ -317,6 +317,8 @@ BEGIN_MESSAGE_MAP(CMapDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_PLAY_MODEL_ANIMATIONS, OnUpdatePlayModelAnimations)
 	ON_COMMAND(ID_SHOW_SOLID_EDGES_NOZ, OnShowSolidEdgesNoZ) //// SLE NEW - option to render selected solids' edges in wireframe noz
 	ON_UPDATE_COMMAND_UI(ID_SHOW_SOLID_EDGES_NOZ, OnUpdateShowSolidEdgesNoZ)
+	ON_COMMAND(ID_SHOW_CULLBOXES, OnShowCullBoxes) //// SLE NEW - toggle cullbox display
+	ON_UPDATE_COMMAND_UI(ID_SHOW_CULLBOXES, OnUpdateShowCullBoxes)
 #endif
 	ON_COMMAND(ID_TOGGLE_GROUPIGNORE, OnToggleGroupIgnore)
 	ON_UPDATE_COMMAND_UI(ID_TOGGLE_GROUPIGNORE, OnUpdateToggleGroupIgnore)
@@ -9706,6 +9708,19 @@ void CMapDoc::OnShowSolidEdgesNoZ(void)
 void CMapDoc::OnUpdateShowSolidEdgesNoZ(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(Options.view3d.bSolidsEdgesNoZ ? 1 : 0);
+	pCmdUI->Enable(!GetMainWnd()->IsShellSessionActive());
+}
+
+//// SLE NEW - toggle cullbox display
+void CMapDoc::OnShowCullBoxes(void)
+{
+	Options.view3d.bShowCullBoxes = !Options.view3d.bShowCullBoxes;
+	UpdateAllViews(MAPVIEW_UPDATE_TOOL);
+}
+
+void CMapDoc::OnUpdateShowCullBoxes(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(Options.view3d.bShowCullBoxes ? 1 : 0);
 	pCmdUI->Enable(!GetMainWnd()->IsShellSessionActive());
 }
 #endif //// SLE
