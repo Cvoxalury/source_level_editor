@@ -746,7 +746,18 @@ void Morph3D::RenderTool2D(CRender2D *pRender)
 				pStrucSolid->GetHandleInfo(&hi2, pEdge->hvEnd);
 				
 				pRender->DrawLine(hi1.pos, hi2.pos);
+#if 0 //def SLE //// SLE NEW - print out edge lengths
+				char lengthtext[16];
+				Q_snprintf(lengthtext, sizeof(lengthtext), "%.1f", (abs)(hi1.pos.DistTo(hi2.pos)));
+				Vector edgeCenter = pEdge->ptCenter;
+				Vector2D textpos2D; // = Vector2D(edgeCenter.x, edgeCenter.y);
 
+				if (pRender->GetView()->GetDrawType() == VIEW2D_XY)  textpos2D = Vector2D(edgeCenter.x, edgeCenter.y);
+				else if (pRender->GetView()->GetDrawType() == VIEW2D_XZ) textpos2D = Vector2D(edgeCenter.x, edgeCenter.z);
+				else if (pRender->GetView()->GetDrawType() == VIEW2D_YZ)  textpos2D = Vector2D(edgeCenter.y, edgeCenter.z);
+				
+				pRender->DrawTextA(lengthtext, textpos2D, 0, 0, 0);
+#endif
 				if (!(m_HandleMode & hmEdge))
 				{
 					// Don't draw edge handles.
