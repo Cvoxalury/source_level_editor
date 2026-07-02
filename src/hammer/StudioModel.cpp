@@ -327,16 +327,6 @@ void CStudioFileChangeWatcher::Init()
 
 void CStudioFileChangeWatcher::OnFileChange( const char *pRelativeFilename, const char *pFullFilename )
 {
-#ifdef SLE
-	// bump the main window here to cause the model to properly update
-	/*
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
-		return;
-
-	pDoc->UpdateAllViews(MAPVIEW_UPDATE_OBJECTS);
-	*/
-#endif
 	char relativeFilename[MAX_PATH];
 	V_ComposeFileName( "models", pRelativeFilename, relativeFilename, sizeof( relativeFilename ) );
 	V_FixSlashes( relativeFilename );
@@ -764,10 +754,7 @@ void StudioModel::DrawModel3D(CRender3D *pRender, const Color &color, float flAl
 			VectorScale((*boneToWorld)[2], flScale, (*boneToWorld)[2]);
 		}
 
-		if (pRender->IsPicking()) // a little faster
-			g_pStudioRender->DrawModel(NULL, info, boneToWorld, 0, 0, m_origin);
-		else
-			pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, color);
+		pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, color);
 #else
 		pRender->DrawModel( &info, boneToWorld, m_origin, flAlpha, bWireframe );	
 #endif
@@ -879,10 +866,7 @@ void StudioModel::DrawModel3D(CRender3D *pRender, const Color &color, float flAl
 		}
 		else
 		{
-			if( pRender->IsPicking()) // a little faster
-				g_pStudioRender->DrawModel(NULL, info, boneToWorld, 0, 0, m_origin);
-			else
-				pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, color);
+			pRender->DrawModel(&info, boneToWorld, m_origin, flAlpha, bWireframe, color);
 		}
 
 		//// SLE NEW - draw overlaying model in solid colour as selection overlay
