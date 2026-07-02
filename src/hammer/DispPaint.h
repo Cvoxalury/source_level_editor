@@ -52,6 +52,9 @@ protected:
 	void PerformFreeDrag( const SpatialPaintData_t &spatialData, const Vector &vPos, float flDistance2, Vector &vNewPos, bool hard );
 	Vector2D m_storedMousePoint; // sampled before DoPaintFreeMouse
 #endif
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	void DoPaintFreezeVert(SpatialPaintData_t &spatialData, CMapDisp *pDisp);
+#endif
 	void DoPaintOneOverR( const SpatialPaintData_t &spatialData, const Vector &vPos, float flDistance2, Vector &vNewPos );
 	void DoPaintOne( const SpatialPaintData_t &spatialData, const Vector &vPos, Vector &vNewPos );
 	bool DoPaintSmoothOneOverExp( const SpatialPaintData_t &spatialData, const Vector &vNewCenter, Vector &vPaintPos );

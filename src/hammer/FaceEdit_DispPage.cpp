@@ -606,7 +606,9 @@ void CFaceEditDispPage::SetTool( unsigned int tool )
 	CButton *pButtonWalk = ( CButton* )GetDlgItem( ID_DISP_TAG_WALK );
 	CButton *pButtonBuild = ( CButton* )GetDlgItem( ID_DISP_TAG_BUILD );
 	CButton *pButtonRemove = ( CButton* )GetDlgItem( ID_DISP_TAG_REMOVE );
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	CButton *pButtonFreezeVerts = (CButton*)GetDlgItem(ID_DISP_FREEZE_VERTS);
+#endif
 	pbuttonSelect->SetCheck( m_uiTool == FACEEDITTOOL_SELECT );
 	pbuttonCreate->SetCheck( m_uiTool == FACEEDITTOOL_CREATE );
 	pbuttonDestroy->SetCheck( m_uiTool == FACEEDITTOOL_DESTROY );

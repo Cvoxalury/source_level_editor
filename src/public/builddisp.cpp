@@ -782,6 +782,9 @@ void CCoreDispInfo::InitDispInfo( int power, int minTess, float smoothingAngle,
 		}
 
 		m_pVerts[i].m_Alpha = 0.0f;
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+		m_pVerts[i].m_vert_frozen_bool = false;
+#endif
 	}
 
 	for( i = 0; i < nIndexCount; i++ )

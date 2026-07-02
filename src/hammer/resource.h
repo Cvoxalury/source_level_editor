@@ -170,6 +170,7 @@
 #define IDD_FILESYSTEM_OPENDIALOG       327
 #define IDB_LABEL_MDL                   328
 #define IDB_LABEL_FOLDER                329
+//#define IDD_DISP_FREEZE_VERTS			330
 #define IDB_LABEL_FILE                  331
 #define IDD_MODEL_BROWSER               332
 #define IDD_DIFFMAP                     333
@@ -967,6 +968,7 @@
 #define ID_DISP_SCULPT_PAINT            1560
 #define ID_DISP_PAINT_DATA_SMOOTH       1561
 #define ID_DISP_PAINT_DATA_SLIDER_VALUE 1562
+#define ID_DISP_FREEZE_VERTS			1563
 #define ID_DISP_PAINT_DATA_TYPE         1564
 #define ID_MAP_ENABLELIGHTPREVIEW       1565
 #define IDC_VISIBLES_ONLY               1565

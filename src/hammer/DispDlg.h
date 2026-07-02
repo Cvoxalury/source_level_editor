@@ -142,6 +142,9 @@ protected:
 #ifdef SLE //// SLE NEW - disp free drag brush
 	afx_msg void OnEffectFreeDrag();
 #endif
+#ifdef SLE	//// SLE NEW - add freezing for disp verts
+	afx_msg void OnEffectFreezeVerts();
+#endif
 	afx_msg void OnBrushTypeSoftEdge( void );
 	afx_msg void OnBrushTypeHardEdge( void );
 

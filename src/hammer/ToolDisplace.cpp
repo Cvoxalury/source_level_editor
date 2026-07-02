@@ -774,6 +774,33 @@ void CToolDisplace::ApplyPaintTool( UINT nFlags, const Vector2D &vPoint, CMapDis
 			return;
 		}
 #endif
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	case DISPPAINT_EFFECT_FREEZE:
+		{
+			CDispMapImageFilter *pFilter = m_FilterRaiseLowerMgr.GetActiveFilter();
+			if (pFilter)
+			{
+				pFilter->m_DataType = m_iPaintChannel;
+				if (m_iPaintChannel == DISPPAINT_CHANNEL_POSITION)
+				{
+					pFilter->m_Scale = m_flPaintValueGeo;
+				}
+				else if (m_iPaintChannel == DISPPAINT_CHANNEL_ALPHA)
+				{
+					pFilter->m_Scale = m_flPaintValueData;
+				}
+
+				if (m_bRMBDown)
+				{
+					pFilter->m_Scale = -pFilter->m_Scale;
+				}
+
+				// apply the filter to the displacement surface(s)
+				m_FilterRaiseLowerMgr.Apply(pFilter, pDisp, m_iPaintAxis, m_vecPaintAxis, m_bAutoSew);
+			}
+			return;
+		}
+#endif
 	}
 }
 
@@ -781,10 +808,15 @@ void CToolDisplace::ApplyPaintTool( UINT nFlags, const Vector2D &vPoint, CMapDis
 //-----------------------------------------------------------------------------
 void CToolDisplace::ApplySpatialPaintTool( UINT nFlags, const Vector2D &vPoint, CMapDisp *pDisp )
 {
+#ifdef SLE //// SLE NEW - add freezing for disp verts
 	// Right mouse button only used to paint in a Raise/Lower situation.
-	if ( ( m_uiEffect != DISPPAINT_EFFECT_RAISELOWER ) && m_bRMBDown )
+	if ( ( m_uiEffect != DISPPAINT_EFFECT_RAISELOWER && m_uiEffect != DISPPAINT_EFFECT_FREEZE ) && m_bRMBDown )
 		return;
-
+#else
+	// Right mouse button only used to paint in a Raise/Lower situation.
+	if ((m_uiEffect != DISPPAINT_EFFECT_RAISELOWER) && m_bRMBDown)
+		return;
+#endif
 	// Get the hit index and check for validity.
 	int iHit = pDisp->GetTexelHitIndex();
 	if ( iHit == -1 )

@@ -30,6 +30,9 @@
 #include "Color.h"
 #include "render2d.h"
 #include "faceeditsheet.h"
+#ifdef SLE //// for the camera distance scaling 
+#include "camera.h"
+#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -1961,7 +1964,38 @@ void CMapDisp::RenderDisAllowedVerts( CRender3D *pRender )
 		}
 	}
 }
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+void CMapDisp::RenderFrozenVerts(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState)
+{
+	if (!bIsSelected) return; 
 
+	int nVertCount = GetSize();
+	for (int iVert = 0; iVert < nVertCount; ++iVert)
+	{
+		if (!GetCoreDispInfo()->IsVertFrozen(iVert)) continue;
+
+		Vector vecPos;
+		GetVert(iVert, vecPos);
+
+		float baseSize = 0.5f;
+		
+		Vector camPos;
+		pRender->GetCamera()->GetViewPoint(camPos);
+		const float scale = min(256.0f, max(camPos.DistTo(vecPos) / 128.f, 1.0f));
+
+		baseSize *= scale;
+
+		// Draw a box at this point!
+		Vector vecPointMin, vecPointMax;
+		for (int iAxis = 0; iAxis < 3; ++iAxis)
+		{
+			vecPointMin[iAxis] = vecPos[iAxis] - baseSize;
+			vecPointMax[iAxis] = vecPos[iAxis] + baseSize;
+		}
+		pRender->RenderBox(vecPointMin, vecPointMax, 0, 0, 255, SELECT_NONE);
+	}
+}
+#endif
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 void CMapDisp::Render3DDebug( CRender3D *pRender, bool isSelected )
@@ -2081,9 +2115,12 @@ void CMapDisp::CalcColor( CRender3D *pRender, bool bIsSelected,
 				SelectFaceColor( pColor );
 			}
 #ifdef SLE //// SLE CHANGE - white looks very bad in flat mode, can't see the disp relief/wireframe, changed to light gray
-			pColor[0] = 150;
-			pColor[1] = 150;
-			pColor[2] = 150;
+			else
+			{
+				pColor[0] = 150;
+				pColor[1] = 150;
+				pColor[2] = 150;
+			}
 #endif
 			break;
 		}
@@ -2205,6 +2242,10 @@ void CMapDisp::Render3D( CRender3D *pRender, bool bIsSelected, SelectionState_t 
 	{
 		RenderDisAllowedVerts( pRender );
 	}
+
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	RenderFrozenVerts(pRender, bIsSelected, faceSelectionState);
+#endif
 
 	// Render debug information.
 #ifdef SLE //// SLE TODO - tie to Debug view options
@@ -4465,7 +4506,10 @@ void CMapDisp::Paint_SetValue( int iVert, Vector const &vPaint )
 {
 	Assert( iVert >= 0 );
 	Assert( iVert < MAPDISP_MAX_VERTS );
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	// ignore frozen verts during geo operations
+	if (IsVertFrozen(iVert)) return;
+#endif
 	VectorCopy( vPaint, m_Canvas.m_Values[iVert] );
 	m_Canvas.m_bValuesDirty[iVert] = true;
 	m_Canvas.m_bDirty = true;
@@ -4509,6 +4553,10 @@ void CMapDisp::PaintPosition_Update( int iVert )
 
 void CMapDisp::UpdateVertPositionForSubdiv( int iVert, const Vector &vecNewSubdivPos )
 {
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	// ignore frozen verts during subdivision
+	if (IsVertFrozen(iVert)) return;
+#endif
 	Vector vecSubdivPos, vecFlatPos, vecPos;
 	GetFlatVert( iVert, vecFlatPos );
 	GetSubdivPosition( iVert, vecSubdivPos );

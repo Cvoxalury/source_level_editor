@@ -634,6 +634,10 @@ struct CoreDispVert_t
 
 	// additional per-vertex data
 	float			m_Alpha;							// displacement alpha values (per displacement vertex)
+
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	bool			m_vert_frozen_bool;
+#endif
 };
 
 // New, need to use this at the node level
@@ -777,7 +781,10 @@ public:
 
 	inline void SetAlpha( int index, float alpha );
 	inline float GetAlpha( int index );
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	inline void SetVertFrozen(int index, bool frozen);
+	inline bool IsVertFrozen(int index);
+#endif
 	int GetTriCount( void );
 	void GetTriIndices( int iTri, unsigned short &v1, unsigned short &v2, unsigned short &v3 );
 	void SetTriIndices( int iTri, unsigned short v1, unsigned short v2, unsigned short v3 );
@@ -1142,7 +1149,21 @@ inline float CCoreDispInfo::GetAlpha( int index )
 	Assert( index < MAX_VERT_COUNT );
 	return m_pVerts[index].m_Alpha;
 }
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+inline void CCoreDispInfo::SetVertFrozen(int index, bool frozen)
+{
+	Assert(index >= 0);
+	Assert(index < MAX_VERT_COUNT);
+	m_pVerts[index].m_vert_frozen_bool = frozen;
+}
 
+inline bool CCoreDispInfo::IsVertFrozen(int index)
+{
+	Assert(index >= 0);
+	Assert(index < MAX_VERT_COUNT);
+	return m_pVerts[index].m_vert_frozen_bool;
+}
+#endif
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CCoreDispInfo::SetElevation( float elevation )

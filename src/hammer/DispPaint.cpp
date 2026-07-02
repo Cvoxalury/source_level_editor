@@ -166,6 +166,13 @@ bool CDispPaintMgr::DoPaint( SpatialPaintData_t &spatialData )
 						break;
 					}
 #endif
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+					case DISPPAINT_EFFECT_FREEZE:
+					{
+						DoPaintFreezeVert(spatialData, pDisp);
+						break;
+					}
+#endif
 				}
 			}	                             
 		}
@@ -378,6 +385,34 @@ void CDispPaintMgr::DoPaintFreeDrag(SpatialPaintData_t &spatialData, CMapDisp *p
 			if ( spatialData.m_bNudgeInit )
 			{
 				NudgeAdd( pDisp, iVert );
+			}
+		}
+	}
+}
+#endif
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+void CDispPaintMgr::DoPaintFreezeVert(SpatialPaintData_t &spatialData, CMapDisp *pDisp)
+{
+	Vector vPaintPos, vVert;
+	float flDistance2;
+
+	int nVertCount = pDisp->GetSize();
+	for (int iVert = 0; iVert < nVertCount; iVert++)
+	{
+		// Get the current vert.
+		pDisp->GetVert(iVert, vVert);
+
+		if (IsInSphereRadius(spatialData.m_vCenter, spatialData.m_flRadius2, vVert, flDistance2))
+		{
+			float flValue = spatialData.m_flScalar;
+
+			if ( flValue > 0)
+			{
+				pDisp->SetVertFrozen(iVert, true);
+			}
+			else
+			{
+				pDisp->SetVertFrozen(iVert, false);
 			}
 		}
 	}

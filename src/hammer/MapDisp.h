@@ -230,7 +230,10 @@ public:
 #endif
 	// this is gone in m_CoreDispInfo.
     inline bool IsTriRemove( int iTri )                                                               { return m_CoreDispInfo.IsTriRemove( iTri ); }
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	inline void SetVertFrozen(int index, bool frozen);
+	inline bool IsVertFrozen(int index);
+#endif
 	int CollideWithDispTri( const Vector &rayStart, const Vector &rayEnd, float &flFraction, bool OneSided = false );
 
     //=========================================================================
@@ -442,6 +445,9 @@ private:
 
     void RenderDisAllowedVerts( CRender3D *pRender );
 
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+	void RenderFrozenVerts(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState);
+#endif
     void Render3DDebug( CRender3D *pRender, bool isSelected );
 
     //=========================================================================
@@ -701,7 +707,17 @@ inline float CMapDisp::GetAlpha( int index )
 {
     return m_CoreDispInfo.GetAlpha( index );
 }
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+inline void CMapDisp::SetVertFrozen(int index, bool frozen)
+{
+	m_CoreDispInfo.SetVertFrozen(index, frozen);
+}
 
+inline bool CMapDisp::IsVertFrozen(int index)
+{
+	return m_CoreDispInfo.IsVertFrozen(index);
+}
+#endif
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CMapDisp::GetFlatVert( int index, Vector& v )

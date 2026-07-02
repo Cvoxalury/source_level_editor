@@ -39,7 +39,9 @@ class CMapView3D;
 #ifdef SLE //// SLE NEW - disp free drag brush
 #define DISPPAINT_EFFECT_FREEDRAG	4
 #endif
-
+#ifdef SLE //// SLE NEW - add freezing for disp verts
+#define DISPPAINT_EFFECT_FREEZE		5
+#endif
 #define DISPPAINT_AXIS_X			0
 #define DISPPAINT_AXIS_Y			1
 #define DISPPAINT_AXIS_Z			2

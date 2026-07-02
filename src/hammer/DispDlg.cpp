@@ -204,6 +204,9 @@ BEGIN_MESSAGE_MAP(CDispPaintDistDlg, CDialog)
 #ifdef SLE //// SLE NEW - disp free drag brush
 	ON_BN_CLICKED( ID_DISP_PAINT_FREE_DRAG, OnEffectFreeDrag)
 #endif
+#ifdef SLE	//// SLE NEW - add freezing for disp verts
+	ON_BN_CLICKED( ID_DISP_FREEZE_VERTS, OnEffectFreezeVerts)
+#endif
 	ON_BN_CLICKED( ID_DISPPAINT_SOFTEDGE, OnBrushTypeSoftEdge )
 	ON_BN_CLICKED( ID_DISPPAINT_HARDEDGE, OnBrushTypeHardEdge )
 
@@ -818,6 +821,10 @@ void CDispPaintDistDlg::SetEffectButtonGeo( unsigned int nEffect )
 	radiobutton = ( CButton* )GetDlgItem( ID_DISP_PAINT_FREE_DRAG);
 	radiobutton->SetCheck( nEffect == DISPPAINT_EFFECT_FREEDRAG);
 #endif
+#ifdef SLE	//// SLE NEW - add freezing for disp verts
+	radiobutton = (CButton*)GetDlgItem(ID_DISP_FREEZE_VERTS);
+	radiobutton->SetCheck(nEffect == DISPPAINT_EFFECT_FREEZE);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -886,6 +893,20 @@ void CDispPaintDistDlg::OnEffectFreeDrag(void)
 		pTool->SetEffect( DISPPAINT_EFFECT_FREEDRAG );
 		SetEffectButtonGeo( DISPPAINT_EFFECT_FREEDRAG );
 		FilterComboBoxBrushGeo( DISPPAINT_EFFECT_FREEDRAG, false );
+		OnComboBoxBrushGeo();
+	}
+}
+#endif
+#ifdef SLE	//// SLE NEW - add freezing for disp verts
+void CDispPaintDistDlg::OnEffectFreezeVerts(void)
+{
+	// get the displacement tool
+	CToolDisplace *pTool = GetDisplacementTool();
+	if (pTool)
+	{
+		pTool->SetEffect(DISPPAINT_EFFECT_FREEZE);
+		SetEffectButtonGeo(DISPPAINT_EFFECT_FREEZE);
+		FilterComboBoxBrushGeo(DISPPAINT_EFFECT_FREEZE, false);
 		OnComboBoxBrushGeo();
 	}
 }
