@@ -1259,7 +1259,7 @@ bool CompareLightPreview_Lights(CLightPreview_Light const &a, CLightPreview_Ligh
 	return (a.m_flDistanceToEye > b.m_flDistanceToEye);
 }
 #ifdef SLE //// SLE CHANGE - bump up the lights count
-#define MAX_PREVIEW_LIGHTS 320 // max # of lights to process.
+#define MAX_PREVIEW_LIGHTS 32 // max # of lights to process.
 #else
 #define MAX_PREVIEW_LIGHTS 10 // max # of lights to process.
 #endif
