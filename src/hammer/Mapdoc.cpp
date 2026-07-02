@@ -13670,7 +13670,14 @@ bool CMapDoc::SaveVMF(const char *pszFileName, int saveFlags )
 		if (eResult == ChunkFile_Ok)
 		{
 #ifdef HAMMER2013_PORT_CORDONS
-			eResult = m_pWorld->SaveVMF(&File, &SaveInfo, saveFlags, m_bIsCordoning ? pCordonWorld->GetChildren() : nullptr);
+			if (saveFlags & SAVEFLAGS_LIGHTSONLY)
+			{
+				eResult = m_pWorld->SaveVMF(&File, &SaveInfo, saveFlags & SAVEFLAGS_LIGHTSONLY, nullptr);
+			}
+			else
+			{
+				eResult = m_pWorld->SaveVMF(&File, &SaveInfo, saveFlags, m_bIsCordoning ? pCordonWorld->GetChildren() : nullptr);
+			}
 #else
 			eResult = m_pWorld->SaveVMF(&File, &SaveInfo, saveFlags & SAVEFLAGS_LIGHTSONLY);
 #endif
