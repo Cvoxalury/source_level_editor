@@ -73,7 +73,7 @@ private:
 	const char *FindField( KeyValues *pSprinkleType, const char *pszClassname, const char *pszFieldName );
 	bool DoSizing( const Vector2D &vPoint );
 	void CalcGridInfo( KeyValues *pSprinkleType, float &flGridXSize, float &flGridYSize, float &flXSize, float &flYSize, Vector &vCenter );
-	void PerformSprinkle( bool bInitial );
+	void PerformSprinkle(CMapView3D *pView, bool bInitial );
 
 	Vector						m_vecPos;			// Current position of the marker.
 	CEntitySprinkleDlg			*pSprinkleDlg;

@@ -1,7 +1,14 @@
 //========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements the entity/prefab placement tool.
-//
+// //// SLE TODO:
+// 1) add a separate mode for specifying the target entity and keyvalues
+// in the window, not the text file
+// 1a) possibly add a mode that's based on picking an existing entity, a template
+// 2) figure out how to combine random angle and aligning to surface
+// 3) button for opening the script file in the preferred program/Explorer
+// 4) a way to load a different file, and possibly keep it stored in settings
+// 
 //=============================================================================//
 
 #include <stdafx.h>
@@ -268,7 +275,7 @@ bool CToolEntitySprinkle::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Ve
 		{
 			if ( m_InDrawMode == true )
 			{
-				PerformSprinkle( false );
+				PerformSprinkle(pView, false );
 			}
 		}
 	}
@@ -327,7 +334,7 @@ bool CToolEntitySprinkle::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const V
 	if ( FindWorldMousePoint( pView, vPoint ) == true && m_InSizingMode == false )
 	{
 		m_InDrawMode = true;
-		PerformSprinkle( true );
+		PerformSprinkle(pView, true );
 	}
 
 	return true;
@@ -957,8 +964,13 @@ void CToolEntitySprinkle::CalcGridInfo( KeyValues *pSprinkleType, float &flGridX
 // Input  : 
 // Output : 
 //-----------------------------------------------------------------------------
-void CToolEntitySprinkle::PerformSprinkle( bool bInitial )
+void CToolEntitySprinkle::PerformSprinkle(CMapView3D *pView, bool bInitial )
 {
+	if (!pView)
+	{
+		return;
+	}
+	
 	if ( m_bWorldValid == false )
 	{
 		return;
@@ -1021,8 +1033,32 @@ void CToolEntitySprinkle::PerformSprinkle( bool bInitial )
 					Vector vFinalStart, vFinalEnd;
 					Vector vHitPos, vHitNormal;
 
-					vStart = vOrigin - Vector(0.0f, 0.0f, 64.0f);
-					vEnd = vOrigin + Vector(0.0f, 0.0f, 64.0f);
+					if (m_pHitFace)
+					{
+						Vector faceDir;
+						m_pHitFace->GetFaceNormal(faceDir);
+						vStart = vOrigin + faceDir * 16;
+						vEnd = vOrigin - faceDir * 16;
+					}
+					else
+					{
+						if (pView->GetCamera())
+						{
+							// use the camera view, likely to hit as the user should be watching at the face
+							Vector viewDir;
+
+							pView->GetCamera()->GetViewForward(viewDir);
+							vStart = vOrigin - viewDir * 16;
+							vEnd = vOrigin + viewDir * 16;
+						}
+						else // shouldn't really happen...
+						{
+							vStart = vOrigin + Vector(0.0f, 0.0f, 64.0f);
+							vEnd = vOrigin - Vector(0.0f, 0.0f, 64.0f);
+						}
+					}
+					Vector viewPos;
+					
 					m_LocalMatrixNeg.V3Mul(vStart, vFinalStart);
 					m_LocalMatrixNeg.V3Mul(vEnd, vFinalEnd);
 
@@ -1069,8 +1105,30 @@ void CToolEntitySprinkle::PerformSprinkle( bool bInitial )
 						Vector vFinalStart, vFinalEnd;
 						Vector vHitPos, vHitNormal;
 
-						vStart = vOrigin - Vector(0.0f, 0.0f, 64.0f);
-						vEnd = vOrigin + Vector(0.0f, 0.0f, 64.0f);
+						if (m_pHitFace)
+						{
+							Vector faceDir;
+							m_pHitFace->GetFaceNormal(faceDir);
+							vStart = vOrigin + faceDir * 16;
+							vEnd = vOrigin - faceDir * 16;
+						}
+						else
+						{
+							if (pView->GetCamera())
+							{
+								// use the camera view, likely to hit as the user should be watching at the face
+								Vector viewDir;
+
+								pView->GetCamera()->GetViewForward(viewDir);
+								vStart = vOrigin - viewDir * 16;
+								vEnd = vOrigin + viewDir * 16;
+							}
+							else // shouldn't really happen...
+							{
+								vStart = vOrigin + Vector(0.0f, 0.0f, 64.0f);
+								vEnd = vOrigin - Vector(0.0f, 0.0f, 64.0f);
+							}
+						}
 						m_LocalMatrixNeg.V3Mul(vStart, vFinalStart);
 						m_LocalMatrixNeg.V3Mul(vEnd, vFinalEnd);
 
