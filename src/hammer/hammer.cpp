@@ -59,6 +59,9 @@
 #include "lpreview_thread.h"
 #include "inputsystem/iinputsystem.h"
 #include "datacache/idatacache.h"
+#ifdef HAMMER2013_DM // used by the grid model browser
+#include "datamodel/dmelementfactoryhelper.h"
+#endif
 #ifdef HAMMER2013_PORT_KEYBINDS
 #include "KeyBinds.h"
 #include "fmtstr.h"
@@ -513,6 +516,9 @@ bool CHammer::Connect( CreateInterfaceFn factory )
 //// taken from Hammer-2013
 	if( !g_pStudioDataCache )
 		return false;
+#endif
+#ifdef HAMMER2013_DM // used by the grid model browser
+	InstallDmElementFactories();
 #endif
 #ifdef SLE_WINTAB_ENABLE //// SLE NEW - Tablet support w/ Wintab
 	WinTab_Init();
