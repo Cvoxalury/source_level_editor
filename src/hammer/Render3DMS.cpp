@@ -833,7 +833,7 @@ void CRender3D::StartRenderFrame(void)
 		//
 		// Clear the frame buffer and Z buffer.
 		//
-#ifdef SLE //// SL NEW - customisable 3d background colour
+#ifdef SLE //// SLE NEW - customisable 3d background colour
 		int r, g, b; //// the colour is retrieved from registry-saved value.
 		r = GetRValue(Options.colors.clr3DBackground);
 		g = GetGValue(Options.colors.clr3DBackground);
