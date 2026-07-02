@@ -11939,28 +11939,62 @@ static BOOL SaveSMDModelsCollision(CMapEntity *pModel, ExportSMDInfo_s *pInfo)
 void CMapDoc::OnFileExportDXF(void)
 {
 	static CString str;
+#ifdef SLE //// SLE CHANGE - prompt for overwrite or warn about file protection
+	bool bSave = true;
 
-	if (str.IsEmpty())
+	do
 	{
-		int nDot;
-
-		// Replace the extension with DXF.
-		str = GetPathName();
-		if ((nDot = str.ReverseFind('.')) != -1)
+#endif
+		if (str.IsEmpty())
 		{
-			str = str.Left(nDot);
+			int nDot;
+
+			// Replace the extension with DXF.
+			str = GetPathName();
+			if ((nDot = str.ReverseFind('.')) != -1)
+			{
+				str = str.Left(nDot);
+			}
+			str += ".dxf";
 		}
-		str += ".dxf";
-	}
 
-	CExportDlg dlg(str, "dxf", "DXF files (*.dxf)|*.dxf||");
-	if(dlg.DoModal() == IDCANCEL)
-		return;
+		CExportDlg dlg(str, "dxf", "DXF files (*.dxf)|*.dxf||");
+		if (dlg.DoModal() == IDCANCEL)
+			return;
 
-	str = dlg.GetPathName();
-	if(str.ReverseFind('.') == -1)
-		str += ".dxf";
+		str = dlg.GetPathName();
+		if (str.ReverseFind('.') == -1)
+			str += ".dxf";
+#ifdef SLE //// SLE CHANGE - prompt for overwrite or warn about file protection
+		// check for existing files and/or read-only
+		if (access(str, 0) != -1)
+		{
+			// The file exists.
+			char szConfirm[_MAX_PATH];
+
+			if (access(str, 2) == -1)
+			{
+				// The file is read-only
+				wsprintf(szConfirm, "The file %s is read-only. You must change the file's attributes to overwrite it.", (const char*)str);
+				AfxMessageBox(szConfirm, MB_OK | MB_ICONEXCLAMATION);
+				bSave = false;
+			}
+			else
+			{
+				wsprintf(szConfirm, "Overwrite existing file %s?", (const char*)str);
+				if (AfxMessageBox(szConfirm, MB_YESNO | MB_ICONQUESTION) != IDYES)
+				{
+					bSave = false;
+				}
+				else
+					bSave = true;
+			}
+		}
+		//
+	} while (!bSave);
 	
+	if (!bSave) return;
+#endif
 	FILE *fp = fopen(str, "wb");
 
 	m_pWorld->CalcBounds(TRUE);
@@ -12026,27 +12060,59 @@ void CMapDoc::OnFileExportDXF(void)
 void CMapDoc::OnFileExportSMD(bool onlyCollisions) 
 {
 	static CString str;
+	bool bSave = true;
 
-	if (str.IsEmpty())
+	do
 	{
-		int nDot;
-
-		// Replace the extension with smd.
-		str = GetPathName();
-		if ((nDot = str.ReverseFind('.')) != -1)
+		if (str.IsEmpty())
 		{
-			str = str.Left(nDot);
+			int nDot;
+
+			// Replace the extension with smd.
+			str = GetPathName();
+			if ((nDot = str.ReverseFind('.')) != -1)
+			{
+				str = str.Left(nDot);
+			}
+			str += ".smd";
 		}
-		str += ".smd";
-	}
 
-	CExportDlg dlg(str, "smd", "SMD files (*.smd)|*.smd||");
-	if (dlg.DoModal() == IDCANCEL)
-		return;
+		CExportDlg dlg(str, "smd", "SMD files (*.smd)|*.smd||");
+		if (dlg.DoModal() == IDCANCEL)
+			return;
 
-	str = dlg.GetPathName();
-	if (str.ReverseFind('.') == -1)
-		str += ".smd";
+		str = dlg.GetPathName();
+		if (str.ReverseFind('.') == -1)
+			str += ".smd";
+
+		// check for existing files and/or read-only
+		if (access(str, 0) != -1)
+		{
+			// The file exists.
+			char szConfirm[_MAX_PATH];
+
+			if (access(str, 2) == -1)
+			{
+				// The file is read-only
+				wsprintf(szConfirm, "The file %s is read-only. You must change the file's attributes to overwrite it.", (const char*)str);
+				AfxMessageBox(szConfirm, MB_OK | MB_ICONEXCLAMATION);
+				bSave = false;
+			}
+			else
+			{
+				wsprintf(szConfirm, "Overwrite existing file %s?", (const char*)str);
+				if (AfxMessageBox(szConfirm, MB_YESNO | MB_ICONQUESTION) != IDYES)
+				{
+					bSave = false;
+				}
+				else
+					bSave = true;
+			}
+		}
+		//
+	} while (!bSave);
+	
+	if (!bSave) return;
 
 	FILE *fp = fopen(str, "wb");
 
@@ -12054,12 +12120,12 @@ void CMapDoc::OnFileExportSMD(bool onlyCollisions)
 
 	BoundBox box;
 	m_pWorld->GetRender2DBox(box.bmins, box.bmaxs);
-	
+
 	// export solids
 	BeginWaitCursor();
 
 	ExportSMDInfo_s info;
-//	info.bVisOnly = true;
+	//	info.bVisOnly = true;
 	info.nObject = 0;
 	info.pWorld = m_pWorld;
 	info.fp = fp;
@@ -12080,7 +12146,7 @@ void CMapDoc::OnFileExportSMD(bool onlyCollisions)
 
 	// make the objects save their triangles in order
 	m_pWorld->EnumChildren(ENUMMAPCHILDRENPROC(SaveSMDSolids), DWORD(&info), MAPCLASS_TYPE(CMapSolid));
-	if(!onlyCollisions)
+	if (!onlyCollisions)
 		m_pWorld->EnumChildren(ENUMMAPCHILDRENPROC(SaveSMDModels), DWORD(&info), MAPCLASS_TYPE(CMapEntity));
 	else
 		m_pWorld->EnumChildren(ENUMMAPCHILDRENPROC(SaveSMDModelsCollision), DWORD(&info), MAPCLASS_TYPE(CMapEntity));
@@ -12098,7 +12164,7 @@ void CMapDoc::OnFileExportSMDNoCollisions(void)
 }
 void CMapDoc::OnFileExportSMDCollisions(void)
 {
-	OnFileExportSMD(true); // false - not only collisions
+	OnFileExportSMD(true); // true - only collisions
 }
 #endif
 #ifdef SLE //// SLE NEW: add export to MAP to Tools->Export
