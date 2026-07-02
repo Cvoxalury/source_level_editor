@@ -178,7 +178,7 @@ Clipper3D::Clipper3D(void)
     m_ClipPlane.dist = 0.0f;
     m_ClipPoints[0].Init();
     m_ClipPoints[1].Init();
-#ifdef SLE /// SLE NEW - WIP 3-point clipping
+#ifdef SLE //// SLE NEW - WIP 3-point clipping
 	if ( Is3PointClipper() )
 	{
 		m_ClipPoints[ 2 ].Init();
