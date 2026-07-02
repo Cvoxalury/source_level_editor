@@ -10,6 +10,9 @@
 #include "MapDefs.h"
 #include "MapFace.h"
 #include "MapDisp.h"
+#ifdef SLE
+#include "MapSolid.h"
+#endif
 #include "MapWorld.h"
 #include "fgdlib/WCKeyValues.h"
 #include "GlobalFunctions.h"
@@ -1871,9 +1874,9 @@ void CMapFace::ComputeColor( CRender3D* pRender, bool bRenderAsSelected,
 			SelectFaceColor( pColor );
 		else
 			pColor.SetColor( 200,200,200,m_uchAlpha );
-									
+#ifndef SLE_FLAT_VIEW_OUTLINED				
 		Modulate( pColor, fShade );
-
+#endif
 		break;
 
 	case RENDER_MODE_WIREFRAME:
@@ -2035,6 +2038,9 @@ void CMapFace::DrawFace(Vector& ViewPoint, Color &pColor, EditorRenderMode_t mod
     
     meshBuilder.End();
 	pMesh->Draw();
+
+#ifdef SLE_FLAT_VIEW_OUTLINED	
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -2263,9 +2269,8 @@ void CMapFace::RenderFacesBatch( CMeshBuilder &meshBuilder, IMesh* pMesh, CRende
 	for ( int i = 0; i < nFaceCount; ++i )
 	{
 		CMapFace *pMapFace = ppFaces[i]->m_pMapFace;
-
 		pMapFace->AddFaceVertices( meshBuilder,	pRender, ppFaces[i]->m_RenderSelected, ppFaces[i]->m_FaceSelectionState );
-
+		
 		int nPoints = pMapFace->GetPointCount();
 
 		if ( bWireframe )
@@ -2307,6 +2312,7 @@ void CMapFace::RenderFaces( CRender3D* pRender, int nCount, MapFaceRender_t **pp
 #ifdef SLE //// used for see-thru solid edges
 	if (ppFaces[0]->m_RenderMode == RENDER_MODE_WIREFRAME_NOZ) bWireframe = true;
 #endif
+
 	if ( RenderingModeIsTextured(ppFaces[0]->m_RenderMode))
 	{
 		pRender->BindTexture( ppFaces[0]->m_pTexture );
@@ -2358,7 +2364,9 @@ void CMapFace::RenderFaces( CRender3D* pRender, int nCount, MapFaceRender_t **pp
 			// We have a full batch, render it.
 			
 			RenderFacesBatch( meshBuilder, pMesh, pRender, &ppFaces[nBatchStart], nFace - nBatchStart, nVertexCount, nIndexCount, bWireframe );
-
+#ifdef SLE_FLAT_VIEW_OUTLINED
+			RenderFacesOutlineBatch(meshBuilder, pMesh, pRender, &ppFaces[nBatchStart], nFace - nBatchStart, nVertexCount, nIndexCount);
+#endif
 			pRenderContext->GetMaxToRender( pMesh, false, &nMaxVerts, &nMaxIndices );
 
 			nBatchStart = nFace;
@@ -2372,7 +2380,9 @@ void CMapFace::RenderFaces( CRender3D* pRender, int nCount, MapFaceRender_t **pp
 
 	// Render whatever is left over.
 	RenderFacesBatch( meshBuilder, pMesh, pRender, &ppFaces[nBatchStart], nCount - nBatchStart, nVertexCount, nIndexCount, bWireframe );
-	
+#ifdef SLE_FLAT_VIEW_OUTLINED
+	RenderFacesOutlineBatch(meshBuilder, pMesh, pRender, &ppFaces[nBatchStart], nCount - nBatchStart, nVertexCount, nIndexCount);
+#endif
 	//render additional wireframe stuff
 	if ( bWireframe )
 	{
@@ -2408,22 +2418,87 @@ void CMapFace::RenderFace3D( CRender3D* pRender, Vector& viewPoint, EditorRender
 	if( renderMode == RENDER_MODE_WIREFRAME )
 #endif
 	{
+#ifndef SLE //// SLE CHANGE - want these helpers drawn all the time for selected faces
 		if (faceSelectionState != SELECT_NONE)
 			RenderTextureAxes(pRender);
-
+#endif
 		// Draw the grid
 		RenderGridIfCloseEnough( pRender );
 	} 
 	else if ( m_pDetailObjects && Options.general.bShowDetailObjects )
 	{
-
 		// Only draw the detailed objects if the displacement/face is not currently selected.
 		pRender->AddTranslucentDeferredRendering( m_pDetailObjects );
 	}
+#ifdef SLE
+#ifdef SLE_FLAT_VIEW_OUTLINED
+// Draw a second pass for each face, rendering them as a wired outline
+void CMapFace::RenderFaceOutline3D(CRender3D* pRender, Vector& viewPoint, EditorRenderMode_t renderMode, bool renderSelected, SelectionState_t faceSelectionState)
+{
+	pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+
+	CMeshBuilder meshBuilder;
+	CMatRenderContextPtr pRenderContext(MaterialSystemInterface());
+	IMesh *pMesh = pRenderContext->GetDynamicMesh();
+	meshBuilder.Begin(pMesh, MATERIAL_LINE_LOOP, nPoints);
+
+	Color pColor = Color(50, 50, 50);
+
+	for (int nPoint = 0; nPoint < nPoints; nPoint++)
+	{
+		meshBuilder.Color4ubv(&pColor[0]);
+		meshBuilder.Position3fv(Points[nPoint].Base());
+
+		meshBuilder.Normal3fv(plane.normal.Base());
+		meshBuilder.TangentS3fv(m_pTangentAxes[nPoint].tangent.Base());
+		meshBuilder.TangentT3fv(m_pTangentAxes[nPoint].binormal.Base());
+
+		meshBuilder.AdvanceVertex();
+	}
+
+	meshBuilder.End();
+	pMesh->Draw();
 
 	pRender->PopRenderMode();
 }
 
+void CMapFace::RenderFacesOutlineBatch(CMeshBuilder &meshBuilder, IMesh* pMesh, CRender3D* pRender, MapFaceRender_t **ppFaces, int nFaceCount, int nVertexCount, int nIndexCount)
+{
+	return; // todo - figure out the colour bug
+	pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+	pRender->SetDrawColor(Color(50, 50, 50));
+	meshBuilder.Begin(pMesh, MATERIAL_LINES, nVertexCount, nIndexCount);
+	
+	int nFirstVertex = 0;
+
+	for (int i = 0; i < nFaceCount; ++i)
+	{
+		CMapFace *pMapFace = ppFaces[i]->m_pMapFace;
+
+		pMapFace->AddFaceVertices(meshBuilder, pRender, ppFaces[i]->m_RenderSelected, ppFaces[i]->m_FaceSelectionState);
+
+		int nPoints = pMapFace->GetPointCount();
+
+		Color pColor = Color(50, 50, 50, 255);
+		meshBuilder.Color4ubv(&pColor[0]);
+		
+		meshBuilder.FastIndex(nFirstVertex);
+		for (int j = 1; j < nPoints; ++j)
+		{
+			meshBuilder.FastIndex(nFirstVertex + j);
+			meshBuilder.FastIndex(nFirstVertex + j);
+		}
+		meshBuilder.FastIndex(nFirstVertex);
+
+		nFirstVertex += nPoints;
+	}
+
+	meshBuilder.End();
+	pMesh->Draw();
+	pRender->PopRenderMode();
+}
+#endif
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : mode - 
@@ -2761,6 +2836,10 @@ void CMapFace::Render3D( CRender3D *pRender )
 			}
 		}
 	}
+#ifdef SLE_FLAT_VIEW_OUTLINED
+	if (eCurrentRenderMode == RENDER_MODE_FLAT && !HasDisp()) // disp wireframes are handled in MapDisp.cpp
+		RenderFaceOutline3D(pRender, ViewPoint, RENDER_MODE_SELECTION_OVERLAY, renderSelected, eFaceSelectionState);
+#endif
 }
 
 //-----------------------------------------------------------------------------

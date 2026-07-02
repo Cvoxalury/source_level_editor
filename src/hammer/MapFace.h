@@ -388,6 +388,12 @@ protected:
 #else
 	void RenderFace3D( CRender3D* pRender, EditorRenderMode_t renderMode, bool renderSelected, SelectionState_t faceSelectionState );
 #endif
+#ifdef SLE
+#ifdef SLE_FLAT_VIEW_OUTLINED
+	void RenderFaceOutline3D(CRender3D* pRender, Vector& viewPoint, EditorRenderMode_t renderMode, bool renderSelected, SelectionState_t faceSelectionState);
+	static void RenderFacesOutlineBatch(CMeshBuilder &MeshBuilder, IMesh* pMesh, CRender3D* pRender, MapFaceRender_t **ppFaces, int nFaceCount, int nVertexCount, int nIndexCount);
+#endif
+#endif
 	//
 	// Serialization (chunk handlers).
 	//

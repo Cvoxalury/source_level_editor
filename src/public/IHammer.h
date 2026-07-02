@@ -37,6 +37,7 @@ class IStudioDataCache;
 #define SLE_DARK_THEME_CLR_EDIT_BACK		RGB(96, 96, 96)
 #define SLE_DARK_THEME_CLR_EDIT_TEXT		RGB(245, 245, 245)
 #endif
+#define SLE_FLAT_VIEW_OUTLINED //// SLE NEW - instead of shaded brushes in flat view, show them unshaded but outlined w/ wireframe
 //#define HAMMER2013_DM //// SLE NEW - ported from sdk-2013-hammer - datamodel/dm/movieobjects/etc
 //-----------------------------------------------------------------------------
 // Return values for RequestNewConfig
