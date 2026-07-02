@@ -3962,3 +3962,9 @@ void CMapFace::GetAllAdjacentFaces(CMapFaceList &in, CMapFaceList &out)
 //	out = *list;
 }
 #endif //// SLE
+#ifdef SLE //// SLE TODO: SMD Export
+bool CMapFace::SaveSMD(ExportSMDInfo_s *pInfo)
+{
+	return true;
+}
+#endif
