@@ -10,6 +10,7 @@
 #include "ArchDlg.h"
 #ifdef SLE
 #include "mapdoc.h"
+#include "MainFrm.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -79,7 +80,7 @@ void CArchDlg::DoDataExchange(CDataExchange* pDX)
 	//// toggle stretch option from the dialogue
 	DDX_Check(pDX, IDC_STRETCH_ARCH, Options.general.bStretchArches);
 	//// changed the range
-	DDV_MinMaxInt(pDX, m_iSides, 2, 2048);
+	DDV_MinMaxInt(pDX, m_iSides, 1, 256); // change min so it's not complaining about typing figures that start with 1-2
 	DDV_MinMaxFloat(pDX, m_fAngle, -360.f, 360.f);
 #else
 	DDV_MinMaxInt(pDX, m_iSides, 3, 2048);
@@ -90,7 +91,11 @@ void CArchDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Text(pDX, IDC_ADDHEIGHT, m_iAddHeight);
 	DDX_Text(pDX, IDC_ARC, m_fArc);
-	DDV_MinMaxFloat(pDX, m_fArc, 8.f, 360.f);
+#ifdef SLE // change min so it's not complaining about typing figures that start with 1-2
+	DDV_MinMaxFloat(pDX, m_fArc, 1.0f, 360.f);
+#else
+	DDV_MinMaxFloat(pDX, m_fArc, 8.0f, 360.f);
+#endif
 	DDX_Text(pDX, IDC_ANGLE, m_fAngle);
 	//}}AFX_DATA_MAP
 }
@@ -132,6 +137,9 @@ void CArchDlg::OnUpdateSides()
 #ifdef SLE //// SLE NEW - preview arch immediately when changing settings
 	if( IsWindowVisible())
 		OnArchPreview();
+
+	// relay sides back to the main toolbar spinner, so it's remembered for the next arch	
+	GetMainWnd()->m_ObjectBar.SetBlockToolFaceCount(m_iSides);
 #endif
 }
 
@@ -166,7 +174,7 @@ BOOL CArchDlg::OnInitDialog()
 #ifdef SLE //// SLE NEW - arrows for Add Height control
 	m_cAddHeightSpin.SetRange(-8192, 8192);
 	//// changed the ranges
-	m_cSidesSpin.SetRange(2, 100);
+	m_cSidesSpin.SetRange(3, 256);
 	m_cStartAngleSpin.SetRange(-360, 360);
 #else
 	m_cSidesSpin.SetRange(3, 100);
@@ -259,8 +267,7 @@ void CArchDlg::DrawArch(CDC* pDC)
 	fStartAngle = m_fAngle;
 	iSides = m_iSides;
 	iWallWidth = m_iWallWidth;
-
-
+	
 	MakeArc(bmins[0], bmins[1],
 		bmaxs[0], bmaxs[1], iSides,
 		fStartAngle, fArc, fOuterPoints);

@@ -61,7 +61,7 @@ SolidTypeInfo_t SolidTypes[] =
 	{"cylinder", 12, 3, 64, true, true},
 	{"pyramid", 4, 3, 32, true, true}, // renamed for clarity
 	{"sphere", 8, 3, 16, true, true},
-	{"arch", 8, 3, 128, true, false},
+	{"arch", 8, 1, 128, true, false}, // change min so it's not complaining about typing figures that start with 1-2
 	{"torus", 0, 4, 128, false, false},
 };
 #else
