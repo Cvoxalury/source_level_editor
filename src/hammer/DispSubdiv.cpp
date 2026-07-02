@@ -1020,7 +1020,16 @@ void CEditDispSubdivMesh::CatmullClarkSubdivision( void )
 
 			if ( !bHasNeighbors || ( sharpCount >= sharpThreshold ) )
 			{
-				pPoint->m_uType = SUBDIV_POINTCORNER;
+#ifdef SLE // SLE CHANGE - allow subdividing lone disps
+				if (!bHasNeighbors)
+				{
+					pPoint->m_uType = SUBDIV_POINTCREASE;
+				}
+				else
+#endif
+				{
+					pPoint->m_uType = SUBDIV_POINTCORNER;
+				}
 			}
 			else if( sharpCount > 1 )
 			{
