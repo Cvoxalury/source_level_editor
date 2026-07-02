@@ -523,7 +523,11 @@ void CToolOverlay::OnDrag( Vector const &vecRayStart, Vector const &vecRayEnd, b
 		pFace = pOverlay->GetFace( iFace );
 		if ( pFace )
 		{
+#ifdef SLE //// SLE CHANGE - allow overlays to trace handle dragging outside faces as well, makes working easier
+			if (pFace->TraceLine(vecImpact, vecImpactNormal, vecRayStart, vecRayEnd))
+#else
 			if ( pFace->TraceLineInside( vecImpact, vecImpactNormal, vecRayStart, vecRayEnd ) )
+#endif
 				break;
 		}
 	}
