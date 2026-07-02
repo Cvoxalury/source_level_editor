@@ -1227,6 +1227,7 @@
 #define ID_VIEW_PROPERTIES              32818
 #define ID_EDIT_PROPERTIES              32819
 #define ID_VIEW_MESSAGES                32820
+#define ID_SHOW_MESSAGES_ON_STARTUP		32821
 #define ID_HELP_BRUSHEDITOR             32822
 #define ID_VIEW_4VIEWS                  32823
 #define ID_VIEW_AUTOSIZE4               32824
