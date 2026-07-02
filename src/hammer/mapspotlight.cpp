@@ -359,9 +359,9 @@ void CSpotlightHelper::Render3D( CRender3D* pRender )
 #if 1
 	float fcolor[3];
 
-	fcolor[0] = m_RenderColor.r * (64 / 255);
-	fcolor[1] = m_RenderColor.g * (64 / 255);
-	fcolor[2] = m_RenderColor.b * (64 / 255);
+	fcolor[0] = m_RenderColor.r * (1 / 255);
+	fcolor[1] = m_RenderColor.g * (1 / 255);
+	fcolor[2] = m_RenderColor.b * (1 / 255);
 	
 	Vector start = (cornerVerts[0] + cornerVerts[1]) / 2;
 	Vector end = (cornerVerts[2] + cornerVerts[3]) / 2;
