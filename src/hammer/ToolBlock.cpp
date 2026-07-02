@@ -2,7 +2,7 @@
 //
 // Purpose: 
 ////// SLE TODO: add switching to other types in context menu
-// 4) using arrow keys to move the creation box 5) preview of objects that'll be created before creating them// 
+// 5) preview of objects that'll be created before creating them// 
 // 7) set initial rotation of cylinders or spikes 8) type out the block type above the box in 2d
 // $NoKeywords: $
 //=============================================================================//
@@ -853,12 +853,15 @@ void CToolBlock::PreviewBlockOrCylinder(CRender2D *pRender2D, CRender3D *pRender
 	if ( !do2D && !do3D ) return;
 
 	if( do3D && isBlock) return; // no need to preview it in 3d, it simply matches the bound box
-		
+			
 	float fWidth = float(bmaxs[ 0 ] - bmins[ 0 ]) / 2;
 	float fDepth = float(bmaxs[ 1 ] - bmins[ 1 ]) / 2;
 	float fHeight = float(bmaxs[ 2 ] - bmins[ 2 ]) / 2;
 
 	int nSides = isBlock ? 4 : GetMainWnd()->m_ObjectBar.GetBlockToolFaceCount();
+#ifdef SLE // safety measure
+	if (nSides > 64) nSides = 64;
+#endif
 	float startAngle = GetMainWnd()->m_ObjectBar.GetBlockToolStartAngle();
 
 	if( fWidth <= 0 || fDepth <= 0 || fHeight <= 0) return;
@@ -868,8 +871,8 @@ void CToolBlock::PreviewBlockOrCylinder(CRender2D *pRender2D, CRender3D *pRender
 
 	Vector pmPointsTop[ 65 ]; // (65 is max cylinder sides (64) + 1)
 	Vector pmPointsBot[ 65 ]; // (65 is max cylinder sides (64) + 1)
-	polyMake(origin[ 0 ] - fWidth, origin[ 1 ] - fDepth, origin[ 0 ] + fWidth, origin[ 1 ] + fDepth, nSides, startAngle, pmPointsTop);
-		
+	polyMake(origin[0] - fWidth, origin[1] - fDepth, origin[0] + fWidth, origin[1] + fDepth, nSides, startAngle, pmPointsTop);
+
 	if ( isBlock )
 	{
 		pmPointsTop[ 0 ][ 0 ] = bmins[ 0 ];
@@ -938,6 +941,9 @@ void CToolBlock::PreviewPyramid(CRender2D *pRender2D, CRender3D *pRender3D)
 	float fHeight = float(bmaxs[ 2 ] - bmins[ 2 ]) / 2;
 
 	int nSides = GetMainWnd()->m_ObjectBar.GetBlockToolFaceCount();
+#ifdef SLE // safety measure
+	if (nSides > 256) nSides = 256;
+#endif
 
 	float startAngle = GetMainWnd()->m_ObjectBar.GetBlockToolStartAngle();
 
@@ -992,6 +998,9 @@ void CToolBlock::PreviewSphere(CRender2D *pRender2D, CRender3D *pRender3D)
 	float fHeight = float(bmaxs[ 2 ] - bmins[ 2 ]) / 2;
 
 	int nSides = GetMainWnd()->m_ObjectBar.GetBlockToolFaceCount();
+#ifdef SLE // safety measure
+	if (nSides > 256) nSides = 256;
+#endif
 
 	float startAngle = GetMainWnd()->m_ObjectBar.GetBlockToolStartAngle();
 
@@ -1123,7 +1132,9 @@ void CToolBlock::PreviewArch(CRender2D *pRender2D, CRender3D *pRender3D)
 	float fHeight = float(bmaxs[ 2 ] - bmins[ 2 ]) / 2;
 
 	int nSides = GetMainWnd()->m_ObjectBar.GetBlockToolFaceCount();
-
+#ifdef SLE // safety measure
+	if (nSides > 256) nSides = 256;
+#endif
 	if( fWidth <= 0 || fDepth <= 0 || fHeight <= 0) return;
 
 	CString str;
@@ -1131,6 +1142,9 @@ void CToolBlock::PreviewArch(CRender2D *pRender2D, CRender3D *pRender3D)
 	str = AfxGetApp()->GetProfileString("Arch", "Arc_", "180");
 	float arc = atof(str);
 	nSides = AfxGetApp()->GetProfileInt("Arch", "Sides", 8);
+#ifdef SLE // safety measure
+	if (nSides > 256) nSides = 256;
+#endif
 	str = AfxGetApp()->GetProfileString("Arch", "Start Angle_", "0");
 	float angle = atof(str);
 	int addHeight = AfxGetApp()->GetProfileInt("Arch", "Add Height", 0);
@@ -1589,6 +1603,9 @@ void CToolBlock::PreviewTorus(CRender2D *pRender2D, CRender3D *pRender3D)
 	float fHeight = float(bmaxs[ 2 ] - bmins[ 2 ]) / 2;
 
 	int nSides = GetMainWnd()->m_ObjectBar.GetBlockToolFaceCount();
+#ifdef SLE // safety measure
+	if (nSides > 256) nSides = 256;
+#endif
 
 	if( fWidth <= 0 || fDepth <= 0 || fHeight <= 0) return;
 
