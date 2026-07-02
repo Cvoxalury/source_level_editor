@@ -48,7 +48,6 @@ using namespace vgui;
 //
 //-----------------------------------------------------------------------------
 
-
 //-----------------------------------------------------------------------------
 // Sort by MDL name
 //-----------------------------------------------------------------------------
@@ -58,7 +57,6 @@ static int __cdecl MDLBrowserSortFunc( vgui::ListPanel *pPanel, const ListPanelI
 	const char *string2 = item2.kv->GetString("mdl");
 	return stricmp( string1, string2 );
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
@@ -141,7 +139,7 @@ CMDLPicker::CMDLPicker( vgui::Panel *pParent, int nFlags ) :
 		s2->AddPanel(new vgui::CheckButton(m_pRenderPage, "LockView", "Lock View"), vgui::SizerAddArgs_t().Padding(0));
 
 		s3->AddSpacer(vgui::SizerAddArgs_t().Padding(2));
-		s3->AddPanel(new vgui::CheckButton(m_pRenderPage, "LookAtCamera", "Look At Camera"), vgui::SizerAddArgs_t().Padding(0));
+	//	s3->AddPanel(new vgui::CheckButton(m_pRenderPage, "LookAtCamera", "Look At Camera"), vgui::SizerAddArgs_t().Padding(0));
 		s3->AddPanel(new vgui::Button(m_pRenderPage, "ChooseLightProbe", "&Select Light Probe", this, "ChooseLightProbe"), vgui::SizerAddArgs_t().Padding(0));
 
 		s->AddSizer(s2, vgui::SizerAddArgs_t().Padding(0));
@@ -877,6 +875,14 @@ void CMDLPicker::UpdateInfoTab()
 	char massBuff[10];
 	Q_snprintf( massBuff, 10, "%d", nMass );
 	((vgui::Label *)pTempPanel)->SetText( massBuff );
+//#ifdef SLE //// SLE NEW - add tri count and surfaceprop readouts to the Info tab
+//	int nTris = 0;
+
+	char surfaceProp[64];
+	Q_snprintf(surfaceProp, 64, "%s", hdr->pszSurfaceProp());
+	Panel *pSurfacePropPanel = m_pInfoPage->FindChildByName("SurfacePropValue");
+	((vgui::Label *)pSurfacePropPanel)->SetText(surfaceProp);
+//#endif
 	bool bIsStatic = hdr->flags & STUDIOHDR_FLAGS_STATIC_PROP;
 	bool bIsPhysics = false;
 	const char* buf = hdr->KeyValueText();
