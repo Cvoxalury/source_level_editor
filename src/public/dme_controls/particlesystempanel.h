@@ -5,8 +5,8 @@
 // $NoKeywords: $
 //===========================================================================//
 
-#ifndef DMEPARTICLEPANELV2_H
-#define DMEPARTICLEPANELV2_H
+#ifndef DMEPARTICLEPanel_H
+#define DMEPARTICLEPanel_H
 
 #ifdef _WIN32
 #pragma once
@@ -46,14 +46,14 @@ namespace vgui
 //-----------------------------------------------------------------------------
 // Particle System Viewer Panel
 //-----------------------------------------------------------------------------
-class CParticleSystemPanelV2 : public CPotteryWheelPanel
+class CParticleSystemPanel : public CPotteryWheelPanel
 {
-	DECLARE_CLASS_SIMPLE(CParticleSystemPanelV2, CPotteryWheelPanel);
+	DECLARE_CLASS_SIMPLE(CParticleSystemPanel, CPotteryWheelPanel);
 
 public:
 	// constructor, destructor
-	CParticleSystemPanelV2(vgui::Panel *pParent, const char *pName);
-	virtual ~CParticleSystemPanelV2();
+	CParticleSystemPanel(vgui::Panel *pParent, const char *pName);
+	virtual ~CParticleSystemPanel();
 
 	// Set the particle system to draw
 	void SetParticleSystem(CDmeParticleSystemDefinition *pDef);
@@ -153,12 +153,12 @@ private:
 //-----------------------------------------------------------------------------
 // Accessor for control point values
 //-----------------------------------------------------------------------------
-inline const Vector& CParticleSystemPanelV2::GetControlPointValue(int nControlPoint) const
+inline const Vector& CParticleSystemPanel::GetControlPointValue(int nControlPoint) const
 {
 	return m_pControlPointValue[nControlPoint];
 }
 
-inline void CParticleSystemPanelV2::SetControlPointValue(int nControlPoint, const Vector &value)
+inline void CParticleSystemPanel::SetControlPointValue(int nControlPoint, const Vector &value)
 {
 	m_pControlPointValue[nControlPoint] = value;
 }
@@ -167,14 +167,14 @@ inline void CParticleSystemPanelV2::SetControlPointValue(int nControlPoint, cons
 //-----------------------------------------------------------------------------
 // This panel has a particle system viewer as well as controls
 //-----------------------------------------------------------------------------
-class CParticleSystemPreviewPanelV2 : public vgui::EditablePanel
+class CParticleSystemPreviewPanel : public vgui::EditablePanel
 {
-	DECLARE_CLASS_SIMPLE(CParticleSystemPreviewPanelV2, vgui::EditablePanel);
+	DECLARE_CLASS_SIMPLE(CParticleSystemPreviewPanel, vgui::EditablePanel);
 
 public:
 	// constructor, destructor
-	CParticleSystemPreviewPanelV2(vgui::Panel *pParent, const char *pName);
-	virtual ~CParticleSystemPreviewPanelV2();
+	CParticleSystemPreviewPanel(vgui::Panel *pParent, const char *pName);
+	virtual ~CParticleSystemPreviewPanel();
 
 	// Set the material to draw
 	void SetParticleSystem(CDmeParticleSystemDefinition *pDef, bool bOverrideLock);
@@ -197,7 +197,7 @@ private:
 	MESSAGE_FUNC(OnParticleSystemReconstructed, "ParticleSystemReconstructed");
 
 	vgui::Splitter *m_Splitter;
-	CParticleSystemPanelV2 *m_pParticleSystemPanel;
+	CParticleSystemPanel *m_pParticleSystemPanel;
 	vgui::PropertySheet *m_pControlSheet;
 	vgui::PropertyPage *m_pRenderPage;
 	CControlPointPage *m_pControlPointPage;
@@ -217,5 +217,5 @@ private:
 
 
 
-#endif // DMEPARTICLEPANELV2_H
+#endif // DMEPARTICLEPanel_H
 

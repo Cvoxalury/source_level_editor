@@ -80,7 +80,7 @@
     <ClInclude Include="..\..\public\matsys_controls\vtfpreviewpanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\public\dme_controls\particlesystempanel.h">
+    <ClInclude Include="..\..\public\matsys_controls\particlepicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -153,12 +153,6 @@
     </ClCompile>
     <ClCompile Include="particlepicker.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dme_controls\particlesystempanel.cpp">
-      <Filter>Source Files\particles_new</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dme_controls\dmepanel.cpp">
-      <Filter>Source Files\particles_new</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

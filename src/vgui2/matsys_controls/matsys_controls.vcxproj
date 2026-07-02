@@ -279,7 +279,6 @@ if ERRORLEVEL 1 exit /b 1
     <Library Include="..\..\lib\public\bitmap.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\public\dme_controls\particlesystempanel.h" />
     <ClInclude Include="..\..\public\matsys_controls\assetpicker.h" />
     <ClInclude Include="..\..\public\matsys_controls\baseassetpicker.h" />
     <ClInclude Include="..\..\public\matsys_controls\colorpickerpanel.h" />
@@ -289,6 +288,7 @@ if ERRORLEVEL 1 exit /b 1
     <ClInclude Include="..\..\public\matsys_controls\mdlpanel.h" />
     <ClInclude Include="..\..\public\matsys_controls\mdlpicker.h" />
     <ClInclude Include="..\..\public\matsys_controls\mdlsequencepicker.h" />
+    <ClInclude Include="..\..\public\matsys_controls\particlepicker.h" />
     <ClInclude Include="..\..\public\matsys_controls\picker.h" />
     <ClInclude Include="..\..\public\matsys_controls\potterywheelpanel.h" />
     <ClInclude Include="..\..\public\matsys_controls\proceduraltexturepanel.h" />
@@ -302,8 +302,6 @@ if ERRORLEVEL 1 exit /b 1
     <ClInclude Include="..\..\public\matsys_controls\vtfpreviewpanel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\dme_controls\dmepanel.cpp" />
-    <ClCompile Include="..\dme_controls\particlesystempanel.cpp" />
     <ClCompile Include="assetpicker.cpp" />
     <ClCompile Include="baseassetpicker.cpp" />
     <ClCompile Include="colorpickerpanel.cpp" />

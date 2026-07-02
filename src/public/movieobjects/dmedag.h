@@ -78,7 +78,6 @@ public:
 	// Transform from DME to engine coordinates
 	static void DmeToEngineMatrix( matrix3x4_t& dmeToEngine );
 	static void EngineToDmeMatrix( matrix3x4_t& engineToDme );
-
 protected:
 	void GetBoundingSphere( Vector &center, float &radius, const matrix3x4_t &pMat ) const;
 

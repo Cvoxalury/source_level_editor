@@ -74,6 +74,13 @@ private:
 
 	CMDL m_MDL;
 	bool m_bDrawInEngine;
+
+#if 1 /// Hammer-2013 DME
+	// Addref/Release the MDL handle
+	void ReferenceMDL(const char *pMDLName);
+	void UnreferenceMDL();
+	MDLHandle_t m_MDLHandle;
+#endif
 };
 
 #endif // DMEMDL_H

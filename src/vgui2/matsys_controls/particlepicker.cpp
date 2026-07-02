@@ -31,11 +31,13 @@
 #include "dmxloader/dmxloader.h"
 #include "particles/particles.h"
 #include "utlbuffer.h"
-
+#if 1
+#include "dme_controls/particlesystempanel.h"
+#endif
 //#include "vstdlib/jobthread.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
-//#include "tier0/memdbgon.h"
+#include "tier0/memdbgon.h"
 
 using namespace vgui;
 
@@ -90,7 +92,7 @@ public:
 	void UpdateRelatives( IImage *pIcon, CUtlVector<CParticleSnapshotGrid::PSysRelativeInfo_t>& sysParents, CUtlVector<CParticleSnapshotGrid::PSysRelativeInfo_t>& sysChildren );
 
 protected:
-	CParticleSystemPanelV2 *m_pParticlePanel;
+	CParticleSystemPanel *m_pParticlePanel;
 	MenuButton *m_pParentsButton;
 	MenuButton *m_pChildrenButton;
 	vgui::Label *m_pLabel;
@@ -110,7 +112,7 @@ CParticleSnapshotPanel::CParticleSnapshotPanel( vgui::Panel *pParent, const char
 	m_bSelected = false;
 	m_bPreviewEnabled = true;
 
-	m_pParticlePanel = new CParticleSystemPanelV2( this, pName );
+	m_pParticlePanel = new CParticleSystemPanel( this, pName );
 	m_pParticlePanel->SetSelfSimulation(false);
 	m_pParticlePanel->SetGridColor( 128, 128, 128 );
 	m_pParticlePanel->RenderGrid(true);
@@ -388,9 +390,6 @@ bool CParticleSnapshotPanel::IsSelected( )
 	return m_bSelected;
 }
 
-
-
-
 //-----------------------------------------------------------------------------
 //
 // Particle Snapshot Grid
@@ -524,7 +523,6 @@ void CParticleSnapshotGrid::MapSystemRelatives( )
 		}
 	}
 }
-
 
 void CParticleSnapshotGrid::UpdatePanelRelatives( int nIndex )
 {
@@ -1069,7 +1067,6 @@ CParticlePicker::~CParticlePicker()
 {
 }
 
-
 //-----------------------------------------------------------------------------
 // Performs layout
 //-----------------------------------------------------------------------------
@@ -1085,7 +1082,6 @@ void CParticlePicker::PerformLayout()
 	// Layout the mdl splitter
 	m_pFileBrowserSplitter->SetBounds( 0, 0, w, h );
 }
-
 
 //-----------------------------------------------------------------------------
 // Buttons on various pages
@@ -1107,7 +1103,6 @@ void CParticlePicker::OnSelectedAssetPicked( const char *pParticleSysName )
 	if (requestFocus)
 		m_pFilter->RequestFocus();
 }
-
 
 void CParticlePicker::OnMousePressed(MouseCode code)
 {
@@ -1340,7 +1335,6 @@ bool CParticlePicker::BeginCacheAssets( bool bForceRecache )
 	return false;
 }
 
-
 bool CParticlePicker::IncrementalCacheAssets( float flTimeAllowed )
 {
 	float flStartTime = Plat_FloatTime();
@@ -1381,7 +1375,6 @@ CUtlString CParticlePicker::GetSelectedAssetFullPath( int nSelectionIndex )
 
 	return CUtlString(pBuf);
 }
-
 
 //-----------------------------------------------------------------------------
 //

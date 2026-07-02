@@ -14,7 +14,7 @@
 #include "vgui_controls/Frame.h"
 #include "matsys_controls/baseassetpicker.h"
 //#include "datacache/imdlcache.h"
-#include "dme_controls\particlesystempanel.h"
+//#include "dme_controls\particlesystempanel.h"
 
 //-----------------------------------------------------------------------------
 // Forward declarations
@@ -28,7 +28,7 @@ namespace vgui
 //	class IImage;
 }
 
-class CParticleSystemPanelV2;
+class CParticleSystemPanel;
 class CParticleSnapshotPanel;
 class CParticleCollection;
 

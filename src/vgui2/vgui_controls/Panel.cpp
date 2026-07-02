@@ -596,6 +596,9 @@ DECLARE_BUILD_FACTORY( Panel );
 Panel::Panel()
 {
 	Init(0, 0, 64, 24);
+
+	//// SLE NEW
+	m_pSizer = NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -3689,7 +3692,7 @@ CSizerBase* Panel::GetSizer()
 
 void Panel::SetSizer(CSizerBase* pSizer)
 {
-	delete m_pSizer;
+	if( m_pSizer) delete m_pSizer;
 	m_pSizer = pSizer;
 }
 
