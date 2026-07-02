@@ -424,13 +424,14 @@ BEGIN
     END
     POPUP "&Map"
     BEGIN
-	//	POPUP "&Light Preview"						//// SLE NEW: BSP Lighting // we're not ready yet
-	//	BEGIN
-	//	MENUITEM "Enable BSP Lighting Preview", ID_MAP_ENABLELIGHTPREVIEW // x
-	//	MENUITEM "Disable BSP Lighting Preview", ID_MAP_DISABLELIGHTPREVIEW // x
-	//	MENUITEM "&Update BSP Lighting Preview", ID_MAP_UPDATELIGHTPREVIEW // x
-	//	END	
-	//	MENUITEM SEPARATOR
+		POPUP "&Light Preview"						//// SLE NEW: BSP Lighting // we're not ready yet
+		BEGIN
+		MENUITEM "Enable BSP Lighting Preview", ID_MAP_ENABLELIGHTPREVIEW
+		MENUITEM "Disable BSP Lighting Preview", ID_MAP_DISABLELIGHTPREVIEW
+		MENUITEM "&Update BSP Lighting Preview", ID_MAP_UPDATELIGHTPREVIEW
+		MENUITEM "&Abort BSP Lighting Calculation", ID_MAP_ABORTLIGHTCALCULATION
+		END	
+		MENUITEM SEPARATOR
         MENUITEM "&Snap to Grid",				ID_MAP_SNAPTOGRID // x
         MENUITEM "Sho&w Grid\tShift+R",         ID_VIEW_GRID
 		MENUITEM "Sho&w Grid in 3D",			ID_TOGGLE_3D_GRID
@@ -867,12 +868,12 @@ BEGIN
 		MENUITEM SEPARATOR
         MENUITEM "3D &Lightmap Grid\t[F5]",           ID_VIEW_3DLIGHTMAP_GRID // x
         MENUITEM "3D &Smooth",                  ID_VIEW_3DSMOOTH
-//		MENUITEM SEPARATOR
-//		MENUITEM "3D &BSP Lighting",			ID_VIEW_LIGHTINGPREVIEW // the bsp lighting, not raytraced
-//		MENUITEM "3D &Realtime Lighting",		ID_VIEW_LIGHTINGPREVIEW2 // rendertarget lighting
-//		MENUITEM "3D &Ray-traced Preview",      ID_VIEW_LIGHTINGPREVIEW_RAYTRACED
-//		MENUITEM SEPARATOR
-//		MENUITEM "Map Logic Tree", ID_VIEW_2DLOGICAL //// SLE NEW: Restored Entity Connections/Logical view. //// SLE FIXME - logical view is currently broken, patch it out
+		MENUITEM SEPARATOR
+		MENUITEM "3D &BSP Lighting",			ID_VIEW_LIGHTINGPREVIEW // the bsp lighting, not raytraced
+		MENUITEM "3D &Realtime Lighting",		ID_VIEW_LIGHTINGPREVIEW2 // rendertarget lighting
+		MENUITEM "3D &Ray-traced Preview",      ID_VIEW_LIGHTINGPREVIEW_RAYTRACED
+		MENUITEM SEPARATOR
+		MENUITEM "Map Logic Tree", ID_VIEW_2DLOGICAL //// SLE NEW: Restored Entity Connections/Logical view. //// SLE FIXME - logical view is currently broken, patch it out
 		MENUITEM SEPARATOR
 		MENUITEM "Change 3D Background Color...",		IDC_COLOR_3DBACKGROUND
 		MENUITEM "Change 3D Selection Color...",		IDC_COLOR_3DSELECTION
