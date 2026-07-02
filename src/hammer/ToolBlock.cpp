@@ -36,6 +36,9 @@ class CToolBlockMessageWnd : public CWnd
 	protected:
 		//{{AFX_MSG_MAP(CToolBlockMessageWnd)
 		afx_msg void OnCreateObject();
+#ifdef SLE //// SLE NEW - add Cancel option to the context window
+		afx_msg void OnCancelObject();
+#endif
 		//}}AFX_MSG
 	
 		DECLARE_MESSAGE_MAP()
@@ -54,6 +57,9 @@ static const char *g_pszClassName = "ValveEditor_BlockToolWnd";
 BEGIN_MESSAGE_MAP(CToolBlockMessageWnd, CWnd)
 	//{{AFX_MSG_MAP(CToolMessageWnd)
 	ON_COMMAND(ID_CREATEOBJECT, OnCreateObject)
+#ifdef SLE //// SLE NEW - add Cancel option to the context window
+	ON_COMMAND(ID_CANCELOBJECT, OnCancelObject)
+#endif
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -110,6 +116,12 @@ void CToolBlockMessageWnd::OnCreateObject()
 	m_pToolBlock->CreateMapObject(m_pView3D);
 #endif
 }
+#ifdef SLE //// SLE NEW - add Cancel option to the context window
+void CToolBlockMessageWnd::OnCancelObject()
+{
+	m_pToolBlock->OnEscape();
+}
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------

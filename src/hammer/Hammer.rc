@@ -814,6 +814,7 @@ BEGIN
     POPUP "Create object"
     BEGIN
         MENUITEM "&Create Object",              ID_CREATEOBJECT
+		MENUITEM "&Cancel",						ID_CANCELOBJECT
     END
     POPUP "2D View"
     BEGIN

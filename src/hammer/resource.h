@@ -1287,6 +1287,7 @@
 #define ID_VIEW_SKYCAMERA				32898 //// SLE NEW - Ctrl + Shift + Home cycles you through sky cameras starting with lowest id
 #define ID_CREATEOBJECT                 32899
 #define ID_FILE_EXPORT                  32900
+#define ID_CANCELOBJECT                 32901
 #define ID_EDIT_MAPPROPERTIES           32902
 #define ID_FILE_RUNMAP                  32903
 #define ID_TOOLS_SHOWITEMS              32906
