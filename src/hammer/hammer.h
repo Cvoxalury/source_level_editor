@@ -127,6 +127,9 @@ public:
 
 	void BeginImportWCSettings();
 	void BeginImportVHESettings();
+#ifdef SLE //// SLE NEW - look up residual Hammer 4.1 settings
+	void BeginImportHammerSettings();
+#endif
 	void EndImportSettings();
 
 	void BeginClosing();

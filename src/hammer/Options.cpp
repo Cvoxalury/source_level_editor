@@ -15,6 +15,9 @@
 #include "CustomMessages.h"
 #include "OptionProperties.h"
 #include <process.h>
+#ifdef SLE_USE_INI
+#include "icommandline.h"
+#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -348,14 +351,14 @@ COptions::COptions(void)
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Looks for the Valve Hammer Editor registry settings and returns whether
+// Purpose: Looks for the Source Level Editor registry settings and returns whether
 //			they were found.
 //-----------------------------------------------------------------------------
-static bool HammerSettingsFound(void)
+#ifdef SLE //// SLE CHANGE: Changed registry paths to differentiate from original program.
+static bool SLESettingsFound(void)
 {
 	bool bFound = false;
 	HKEY hkeySoftware; 
-#ifdef SLE //// SLE CHANGE: Changed registry paths to differentiate from original program.
 	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
 	{
 		HKEY hkeyValve;
@@ -376,7 +379,17 @@ static bool HammerSettingsFound(void)
 		}
 		RegCloseKey(hkeySoftware);
 	}
-#else
+	return bFound;
+}
+#endif
+//-----------------------------------------------------------------------------
+// Purpose: Looks for the Hammer 4.1 registry settings and returns whether
+//			they were found.
+//-----------------------------------------------------------------------------
+static bool HammerSettingsFound(void)
+{
+	bool bFound = false;
+	HKEY hkeySoftware;
 	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
 	{
 		HKEY hkeyValve;
@@ -397,7 +410,7 @@ static bool HammerSettingsFound(void)
 		}
 		RegCloseKey(hkeySoftware);
 	}
-#endif
+
 	return bFound;
 }
 
@@ -409,28 +422,6 @@ static bool ValveHammerEditorSettingsFound(void)
 {
 	bool bFound = false;
 	HKEY hkeySoftware;
-#ifdef SLE //// SLE CHANGE: Changed registry paths to differentiate from original program.
-	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
-	{
-		HKEY hkeyValve;
-		if (RegOpenKeyEx(hkeySoftware, "Source Level Editor", 0, KEY_READ | KEY_WRITE, &hkeyValve) == ERROR_SUCCESS)
-		{
-			HKEY hkeyHammer;
-			if (RegOpenKeyEx(hkeyValve, "Editor", 0, KEY_READ | KEY_WRITE, &hkeyHammer) == ERROR_SUCCESS)
-			{
-				HKEY hkeyConfigured;
-				if (RegOpenKeyEx(hkeyHammer, "Configured", 0, KEY_READ | KEY_WRITE, &hkeyConfigured) == ERROR_SUCCESS)
-				{
-					bFound = true;
-					RegCloseKey(hkeyConfigured);
-				}
-				RegCloseKey(hkeyHammer);
-			}
-			RegCloseKey(hkeyValve);
-		}
-		RegCloseKey(hkeySoftware);
-	}
-#else
 	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
 	{
 		HKEY hkeyValve;
@@ -451,7 +442,6 @@ static bool ValveHammerEditorSettingsFound(void)
 		}
 		RegCloseKey(hkeySoftware);
 	}
-#endif
 	return bFound;
 }
 
@@ -463,23 +453,6 @@ static bool WorldcraftSettingsFound(void)
 {
 	bool bFound = false;
 	HKEY hkeySoftware;
-#ifdef SLE //// SLE CHANGE: Changed registry paths to differentiate from original program.
-	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
-	{
-		HKEY hkeyValve;
-		if (RegOpenKeyEx(hkeySoftware, "Source Level Editor", 0, KEY_READ | KEY_WRITE, &hkeyValve) == ERROR_SUCCESS)
-		{
-			HKEY hkeyWorldcraft;
-			if (RegOpenKeyEx(hkeyValve, "Editor_Old", 0, KEY_READ | KEY_WRITE, &hkeyWorldcraft) == ERROR_SUCCESS)
-			{
-				bFound = true;
-				RegCloseKey(hkeyWorldcraft);
-			}
-			RegCloseKey(hkeyValve);
-		}
-		RegCloseKey(hkeySoftware);
-	}
-#else
 	if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software", 0, KEY_READ | KEY_WRITE, &hkeySoftware) == ERROR_SUCCESS)
 	{
 		HKEY hkeyValve;
@@ -495,7 +468,6 @@ static bool WorldcraftSettingsFound(void)
 		}
 		RegCloseKey(hkeySoftware);
 	}
-#endif
 	return bFound;
 }
 
@@ -505,42 +477,77 @@ static bool WorldcraftSettingsFound(void)
 bool COptions::Init(void)
 {
 	//
-	// If the we have no registry settings and the "Valve Hammer Editor" registry tree exists,
-	// import settings from there. If that isn't found, try "Worldcraft".
+	// If we use the registry but have no registry settings and the "Hammer" registry tree exists,
+	// import settings from there. If that isn't found, try "Valve Hammer Editor".
+	// If that isn't found either, try "Worldcraft".
 	//
+#ifdef SLE //// SLE NEW - look up residual Hammer 4.1 settings
+	bool bHammerSettingsFound = false;
+#endif
 	bool bWCSettingsFound = false;
 	bool bVHESettingsFound = false;
-
-	if (!HammerSettingsFound())
+#ifdef SLE_USE_INI
+	if (CommandLine()->FindParm("-useregistry"))
+#endif
 	{
-		bVHESettingsFound = ValveHammerEditorSettingsFound();
-		if (!bVHESettingsFound)
+#ifdef SLE //// SLE CHANGE - our own registry
+		if (!SLESettingsFound())
+#else
+		if (!HammerSettingsFound())
+#endif
 		{
-			bWCSettingsFound = WorldcraftSettingsFound();
+#ifdef SLE //// SLE NEW - look up residual Hammer 4.1 settings
+			bHammerSettingsFound = HammerSettingsFound();
+			if (!bHammerSettingsFound)
+			{
+				bVHESettingsFound = ValveHammerEditorSettingsFound();
+				if (!bVHESettingsFound)
+				{
+					bWCSettingsFound = WorldcraftSettingsFound();
+				}
+			}
+#else
+			bVHESettingsFound = ValveHammerEditorSettingsFound();
+			if (!bVHESettingsFound)
+			{
+				bWCSettingsFound = WorldcraftSettingsFound();
+			}
+#endif
+		}
+#ifdef SLE //// SLE NEW - look up residual Hammer 4.1 settings
+		if (bHammerSettingsFound)
+		{
+			APP()->BeginImportHammerSettings();
+		}
+#endif
+		if (bVHESettingsFound)
+		{
+			APP()->BeginImportVHESettings();
+		}
+		else if (bWCSettingsFound)
+		{
+			APP()->BeginImportWCSettings();
 		}
 	}
-
-	if (bVHESettingsFound)
-	{
-		APP()->BeginImportVHESettings();
-	}
-	else if (bWCSettingsFound)
-	{
-		APP()->BeginImportWCSettings();
-	}
-
 	SetDefaults();
-	
+
 	if (!Read())
 	{
 		return false;
 	}
-
-	if (bVHESettingsFound || bWCSettingsFound)
+#ifdef SLE_USE_INI
+	if (CommandLine()->FindParm("-useregistry"))
+#endif
 	{
-		APP()->EndImportSettings();
+#ifdef SLE //// SLE NEW - look up residual Hammer 4.1 settings
+		if (bHammerSettingsFound || bVHESettingsFound || bWCSettingsFound)
+#else
+		if (bVHESettingsFound || bWCSettingsFound)
+#endif
+		{
+			APP()->EndImportSettings();
+		}
 	}
-
 	//
 	// Notify appropriate windows of new settings.
 	// dvs: is all this necessary?
@@ -1409,7 +1416,7 @@ void COptions::SetDefaults(void)
 	view3d.bMissingMatAsError = FALSE; //// SLE NEW - ported from sdk-2013-hammer - display missing texture as emo checkerboard
 	view3d.bAnimateModelsToggle = TRUE;
 	view3d.nLOD = -1;
-	view3d.bSolidsEdgesNoZ = TRUE;	//// SLE NEW - option to render selected solids' edges in wireframe noz
+	view3d.bSolidsEdgesNoZ = TRUE;	//// SLE NEW - option to render selected solids' edges in wireframe noz // 
 	view3d.iMaterialCacheSize = 128; //// SLE NEW - customisable material cache size for the mat browser
 	view3d.bShowCullBoxes = FALSE; //// SLE NEW - toggle cullbox display // this isn't saved to ini or registry, no need to keep between sessions
 #endif

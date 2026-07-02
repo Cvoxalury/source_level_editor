@@ -25,7 +25,7 @@ class COptionsGeneral
 public:
 	int nMaxCameras;
 	int iUndoLevels;
-	BOOL bLockingTextures;
+	bool bLockingTextures;
 	BOOL bScaleLockingTextures;
 	TextureAlignment_t eTextureAlignment;
 	BOOL bLoadwinpos;
