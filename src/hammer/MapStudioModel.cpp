@@ -852,8 +852,9 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 		{
 			pRender->TransformInstanceVector( m_Origin, Origin );
 		}
-#ifdef SLE //// SLE NEW - optimise; when picking, drastically reduce render distance (helps speed up selection a lot) // unused at the moment
-		float fRenderDist = /*(pRender->IsPicking()) ? (fRenderDist = min(m_fRenderDistance, 2000)) :*/ m_fRenderDistance;
+#ifdef SLE //// SLE NEW - optimise; when picking, drastically reduce render distance (helps speed up selection)
+		// If already selected, always render; 8000 is a magic number - picked based on practicality of selecting from afar
+		float fRenderDist = IsSelected() ? COORD_EXTENT : ((pRender->IsPicking()) ? (fRenderDist = min(m_fRenderDistance, 8000)) : m_fRenderDistance);
 #else
 		float fRenderDist = m_fRenderDistance;
 #endif
