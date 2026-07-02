@@ -568,6 +568,7 @@ void CRender::StartRenderFrame()
 	{
 		LightDesc_t desc;
 		desc.m_Type = MATERIAL_LIGHT_DISABLE;
+		
 		pRenderContext->SetLight( i, desc );
 	}
 
@@ -1369,44 +1370,23 @@ void CRender::DrawDisplacement( CCoreDispInfo *pMapDisp )
 }
 #ifdef SLE
 void CRender::DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, const Vector &vOrigin, float fAlpha, bool bWireFrame, const Color &color)
-#else
-void CRender::DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, const Vector &vOrigin, float fAlpha, bool bWireFrame )
-#endif
 {
-	UpdateStudioRenderConfig( true, bWireFrame );
-		
-	g_pStudioRender->SetAlphaModulation( fAlpha );
+	UpdateStudioRenderConfig(true, bWireFrame);
 
-	Vector viewOrigin;
-	GetCamera()->GetViewPoint( viewOrigin );
+	g_pStudioRender->SetAlphaModulation(fAlpha);
 
-	g_pStudioRender->SetEyeViewTarget( pInfo->m_pStudioHdr, pInfo->m_Body, viewOrigin );
-	
-	g_pStudioRender->DrawModel( NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL );	
-#ifdef SLE
-	g_pStudioRender->SetAlphaModulation( fAlpha );
-#else
-	g_pStudioRender->SetAlphaModulation( 1.0f );
-#endif
-#ifdef SLE
 	float col[3];
 	col[0] = color.r() / 255.0f;
 	col[1] = color.g() / 255.0f;
 	col[2] = color.b() / 255.0f;
 	g_pStudioRender->SetColorModulation(col);
-	
-	if (0)
-	{
-		IMaterial *pMat = MaterialSystemInterface()->FindMaterial("custom_uni/glow_color", TEXTURE_GROUP_OTHER);
-		g_pStudioRender->ForcedMaterialOverride(pMat, OVERRIDE_NORMAL);
-		g_pStudioRender->SetAlphaModulation(0.3f);
 
-		g_pStudioRender->DrawModel(NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL);
-
-		g_pStudioRender->SetAlphaModulation(1);
-		g_pStudioRender->ForcedMaterialOverride(NULL, OVERRIDE_NORMAL);
-	}
-	else
+	//// SLE NOTE - this may help with perf but probably won't. // seems crashy, investigate later
+//	if (pInfo->m_pStudioHdr && pInfo->m_pStudioHdr->flags & STUDIOHDR_FLAGS_STATIC_PROP)
+//	{
+//		g_pStudioRender->DrawModelStaticProp(*pInfo, *pBoneToWorld);
+//	}
+//	else
 	{
 		g_pStudioRender->DrawModel(NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL);
 	}
@@ -1414,11 +1394,30 @@ void CRender::DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, cons
 	g_pStudioRender->SetAlphaModulation(1.0f);
 	col[0] = col[1] = col[2] = 1.0f;
 	g_pStudioRender->SetColorModulation(col);
-#endif
-	// force rendermode reset
-	SetRenderMode( RENDER_MODE_CURRENT, true );
-}
 
+	// force rendermode reset
+	SetRenderMode(RENDER_MODE_CURRENT, true);
+}
+#else
+void CRender::DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, const Vector &vOrigin, float fAlpha, bool bWireFrame )
+{
+	UpdateStudioRenderConfig(true, bWireFrame);
+
+	g_pStudioRender->SetAlphaModulation(fAlpha);
+
+	Vector viewOrigin;
+	GetCamera()->GetViewPoint(viewOrigin);
+
+	g_pStudioRender->SetEyeViewTarget(pInfo->m_pStudioHdr, pInfo->m_Body, viewOrigin);
+
+	g_pStudioRender->DrawModel(NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL);
+
+	g_pStudioRender->SetAlphaModulation(1.0f);
+
+	// force rendermode reset
+	SetRenderMode(RENDER_MODE_CURRENT, true);
+}
+#endif
 void CRender::DrawCollisionModel( MDLHandle_t mdlHandle, const VMatrix &mViewMatrix )
 {
 	vcollide_t *pCollide =g_pMDLCache->GetVCollide( mdlHandle );
