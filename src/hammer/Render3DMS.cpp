@@ -1840,7 +1840,8 @@ void CRender3D::EndRenderFrame(void)
 						// model point as a spot with infinite inner radius
 						SetNamedMaterialVar(src_mat, "$C0_W", 0.5);
 						SetNamedMaterialVar(src_mat, "$C1_W", 1.0e10);
-					} else
+					}
+					else
 					{
 						SetNamedMaterialVar(src_mat, "$C0_W", light.m_ThetaDot);
 						SetNamedMaterialVar(src_mat, "$C1_W", light.m_PhiDot);
