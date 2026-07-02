@@ -414,19 +414,19 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 				if ( i == 0 ) // o1 to m_LinePoints[i]
 				{
 					DrawSegs(pRender, 2, noise, cacheTextureName, 1, kRenderNormal, 
-						o1, ( m_LinePoints[ i ] - o1 ), cacheRopeWidth, cacheRopeWidth, 
+						o1, ( m_LinePoints[ i ] - o1 ), cacheRopeWidth / 2, cacheRopeWidth / 2, 
 						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 				else if ( i == MAX_LINE_POINTS && o2 != Vector(0, 0, 0) ) // m_LinePoints[i] to o2
 				{
 					DrawSegs(pRender, 2, noise, cacheTextureName, 1, kRenderNormal, 
-						m_LinePoints[ i ], ( o2 - m_LinePoints[ i ] ), cacheRopeWidth, cacheRopeWidth, 
+						m_LinePoints[ i ], ( o2 - m_LinePoints[ i ] ), cacheRopeWidth / 2, cacheRopeWidth / 2, 
 						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 				else // m_LinePoints[i-1] to m_LinePoints[i]
 				{
 					DrawSegs(pRender, 10, noise, cacheTextureName, 1, kRenderNormal, 
-						m_LinePoints[ i-1 ], ( m_LinePoints[ i ] - m_LinePoints[ i-1 ] ), cacheRopeWidth, cacheRopeWidth, 
+						m_LinePoints[ i-1 ], ( m_LinePoints[ i ] - m_LinePoints[ i-1 ] ), cacheRopeWidth / 2, cacheRopeWidth / 2, 
 						1, 1, 30, 2, FBEAM_SOLID | FBEAM_NOTILE, fcolor, 0);
 				}
 			}
