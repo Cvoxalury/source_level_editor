@@ -2255,6 +2255,15 @@ void CMapFace::RenderWireframeFaces( CRender3D* pRender, int nCount, MapFaceRend
 //-----------------------------------------------------------------------------
 void CMapFace::RenderFacesBatch( CMeshBuilder &meshBuilder, IMesh* pMesh, CRender3D* pRender, MapFaceRender_t **ppFaces, int nFaceCount, int nVertexCount, int nIndexCount, bool bWireframe )
 {
+#ifdef SLE //// SLE CHANGE - want these helpers drawn all the time for selected faces
+	for (int i = 0; i < nFaceCount; ++i)
+	{
+		CMapFace *pMapFace = ppFaces[i]->m_pMapFace;
+
+		if (ppFaces[i]->m_FaceSelectionState != SELECT_NONE)
+			pMapFace->RenderTextureAxes(pRender);
+	}
+#endif
 	if ( bWireframe )
 	{
 		meshBuilder.Begin( pMesh, MATERIAL_LINES, nVertexCount, nIndexCount );
@@ -2430,6 +2439,12 @@ void CMapFace::RenderFace3D( CRender3D* pRender, Vector& viewPoint, EditorRender
 		// Only draw the detailed objects if the displacement/face is not currently selected.
 		pRender->AddTranslucentDeferredRendering( m_pDetailObjects );
 	}
+#ifdef SLE //// SLE CHANGE - want these helpers drawn all the time for selected faces
+	if (faceSelectionState != SELECT_NONE)
+		RenderTextureAxes(pRender);
+#endif
+	pRender->PopRenderMode();
+}
 #ifdef SLE
 #ifdef SLE_FLAT_VIEW_OUTLINED
 // Draw a second pass for each face, rendering them as a wired outline
